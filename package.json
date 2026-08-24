@@ -8,6 +8,8 @@
     "fetch-catalog": "node src/fetchCatalog.js",
     "build-menu": "node src/buildMenu.js",
     "build-menu-sheets": "node src/buildMenuFromSheets.js",
+    "fetch-inventory": "node src/fetchInventory.js",
+    "patch-inventory": "node src/patchMenuInventory.js",
     "preview": "serve . -p 3000 --no-clipboard"
   },
   "dependencies": {
