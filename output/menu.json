@@ -1,7 +1,7 @@
 {
   "location_id": "12th South",
   "location_name": "12th South",
-  "generated_at": "2026-08-27T18:11:59.237Z",
+  "generated_at": "2026-08-27T18:17:08.329Z",
   "section_count": 7,
   "item_count": 34,
   "sections": [
@@ -13,7 +13,7 @@
           "name": "Vanilla Cream",
           "image_url": "https://www.dropbox.com/s/4o583r65pyk0ib5/vanilla%20cream.jpg?dl=0",
           "price": "$5.35",
-          "sold_out": false
+          "sold_out": true
         },
         {
           "item_id": "01002",
