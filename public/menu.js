@@ -11,7 +11,7 @@
 
   // ── Config ────────────────────────────────────────────────────────────────
 
-  const MENU_JSON_PATH   = "../output/menu.json";
+  const MENU_JSON_PATH   = "./menu.json";
   const REFRESH_INTERVAL = 60 * 1000; // 60 seconds
 
   // ── Element refs ──────────────────────────────────────────────────────────
