@@ -1,51 +1,73 @@
 #!/bin/zsh
 # refresh-inventory.sh
-# Fetches Square inventory counts, patches menu.json sold_out flags, and syncs
-# both files to the portrait display project.
+# Fetches Square inventory counts for each active display location, patches
+# their menu JSON, and pushes to GitHub only when sold_out status changes.
 # Runs every 2 minutes via launchd (com.fivedaughters.inventory-sync).
-# Pushes to GitHub only when sold_out status actually changes.
-#
-# Square Location IDs (update when display location changes):
-#   The Factory:      ECE7YC9G73NXK
-#   5th & Broadway:   L862ACB6EPKVT
-#   The Gulch:        L4CQJADFVPZC9
-#   12th South:       AX2YMJVN8QJ7C
-#   East:             FXG8HKPA0CFDV
-#   L&L Market:       KT6WPWXNTSBB8
-#   Ponce City Market:L3VJ4QYD3NCPK
-#   The Fountains:    LFCKHR2CKGE9X
-#   Westside Provisions: L1ZBPSYJ6T2Y3
-#   Avalon:           LCEVX3XQTM8WP
 
 set -e
 
 REPO="/Users/openclaw-user/.openclaw/workspace/square-digital-menu-poc"
 PORTRAIT="/Users/openclaw-user/.openclaw/workspace/square-digital-menu-poc-portrait"
 LOG="$REPO/logs/inventory.log"
-GITHUB_TOKEN=$(python3 -c "import json; print(json.load(open('/Users/openclaw-user/.openclaw/secrets/menu-refresh.json'))['github_token'])" 2>/dev/null || echo "")
-
-# Primary location for inventory check (portrait screens are at The Factory)
-SQUARE_LOCATION_ID="ECE7YC9G73NXK"
+GITHUB_TOKEN=*** -c "import json; print(json.load(open('/Users/openclaw-user/.openclaw/secrets/menu-refresh.json'))['github_token'])" 2>/dev/null || echo "")
 
 mkdir -p "$(dirname "$LOG")"
-echo "[$(date '+%Y-%m-%d %H:%M:%S')] Inventory sync start (location: $SQUARE_LOCATION_ID)..." >> "$LOG"
-
 cd "$REPO"
 export PATH="/opt/homebrew/opt/node@22/bin:/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin"
 
-# 1. Fetch live inventory from Square → output/inventory.json
-SQUARE_LOCATION_ID="$SQUARE_LOCATION_ID" \
-node src/fetchInventory.js >> "$LOG" 2>&1
+echo "[$(date '+%Y-%m-%d %H:%M:%S')] Inventory sync start..." >> "$LOG"
 
-# 2. Patch sold_out flags in output/menu.json
-node src/patchMenuInventory.js >> "$LOG" 2>&1
+# ── Active display locations ─────────────────────────────────────────────────
+# Format: "slug:SquareLocationID"
+LOCATIONS=(
+  "the-factory:ECE7YC9G73NXK"
+  "the-gulch:L4CQJADFVPZC9"
+  "5th-broad:L862ACB6EPKVT"
+)
 
-# 3. Push to GitHub only if sold_out status changed
-git add output/menu.json
+for entry in "${LOCATIONS[@]}"; do
+  SLUG="${entry%%:*}"
+  LOCATION_ID="${entry##*:}"
+
+  MENU_FILE="$REPO/output/data/${SLUG}.json"
+  INVENTORY_FILE="$REPO/output/inventory-${SLUG}.json"
+
+  # Skip if no menu file exists yet (first run before rebuild)
+  if [[ ! -f "$MENU_FILE" ]]; then
+    echo "[$(date '+%Y-%m-%d %H:%M:%S')] Skipping ${SLUG} — menu file not found yet." >> "$LOG"
+    continue
+  fi
+
+  echo "[$(date '+%Y-%m-%d %H:%M:%S')] Checking ${SLUG} (location: ${LOCATION_ID})..." >> "$LOG"
+
+  # 1. Fetch live inventory for this location
+  SQUARE_LOCATION_ID="$LOCATION_ID" \
+  INVENTORY_OUTPUT="$INVENTORY_FILE" \
+  node src/fetchInventory.js >> "$LOG" 2>&1
+
+  # 2. Patch sold_out flags in this location's menu.json
+  MENU_FILE="$MENU_FILE" \
+  INVENTORY_FILE="$INVENTORY_FILE" \
+  node src/patchMenuInventory.js >> "$LOG" 2>&1
+done
+
+# ── Sync portrait project (still uses the-factory data) ─────────────────────
+FACTORY_MENU="$REPO/output/data/the-factory.json"
+FACTORY_INV="$REPO/output/inventory-the-factory.json"
+
+cp "$FACTORY_MENU" "$PORTRAIT/output/menu.json" 2>/dev/null && \
+  echo "[$(date '+%Y-%m-%d %H:%M:%S')] ✓ factory menu.json → portrait" >> "$LOG" || \
+  echo "[$(date '+%Y-%m-%d %H:%M:%S')] WARNING: failed to sync to portrait" >> "$LOG"
+
+cp "$FACTORY_INV" "$PORTRAIT/output/inventory.json" 2>/dev/null && \
+  echo "[$(date '+%Y-%m-%d %H:%M:%S')] ✓ factory inventory.json → portrait" >> "$LOG" || \
+  echo "[$(date '+%Y-%m-%d %H:%M:%S')] WARNING: failed to sync inventory to portrait" >> "$LOG"
+
+# ── Push to GitHub if any sold_out status changed ────────────────────────────
+git add output/data/*.json
 if git diff --cached --quiet; then
   echo "[$(date '+%Y-%m-%d %H:%M:%S')] No sold_out changes — skipping push." >> "$LOG"
 else
-  # Pull first to avoid non-fast-forward conflicts with the 10-min rebuild
   GIT_ASKPASS='' git -c credential.helper='' \
     pull --rebase "https://${GITHUB_TOKEN}@github.com/jwal7000/menu-display-horizontal.git" main >> "$LOG" 2>&1
 
@@ -56,16 +78,7 @@ else
   GIT_ASKPASS='' git -c credential.helper='' \
     push "https://${GITHUB_TOKEN}@github.com/jwal7000/menu-display-horizontal.git" main >> "$LOG" 2>&1
 
-  echo "[$(date '+%Y-%m-%d %H:%M:%S')] Pushed sold_out update." >> "$LOG"
+  echo "[$(date '+%Y-%m-%d %H:%M:%S')] Pushed sold_out updates." >> "$LOG"
 fi
-
-# 4. Sync both files to portrait project so its server always has fresh data
-cp "$REPO/output/menu.json"      "$PORTRAIT/output/menu.json" 2>/dev/null && \
-  echo "[$(date '+%Y-%m-%d %H:%M:%S')] ✓ menu.json → portrait" >> "$LOG" || \
-  echo "[$(date '+%Y-%m-%d %H:%M:%S')] WARNING: failed to sync menu.json" >> "$LOG"
-
-cp "$REPO/output/inventory.json" "$PORTRAIT/output/inventory.json" 2>/dev/null && \
-  echo "[$(date '+%Y-%m-%d %H:%M:%S')] ✓ inventory.json → portrait" >> "$LOG" || \
-  echo "[$(date '+%Y-%m-%d %H:%M:%S')] WARNING: failed to sync inventory.json" >> "$LOG"
 
 echo "[$(date '+%Y-%m-%d %H:%M:%S')] Done." >> "$LOG"

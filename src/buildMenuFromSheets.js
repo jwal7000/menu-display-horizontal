@@ -403,7 +403,13 @@ async function buildMenuFromSheets() {
       }
     }
 
-    // 5. Write menu.json
+    // 5. Write output/data/{slug}.json
+    const slug = locationName
+      .toLowerCase()
+      .replace(/\s*&\s*/g, "-")
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/^-|-$/g, "");
+
     const menu = {
       location_id:       locationName,
       location_name:     locationName,
@@ -413,13 +419,16 @@ async function buildMenuFromSheets() {
       sections:          builtSections,
     };
 
-    writeFileSync(resolve(OUTPUT_DIR, "menu.json"), JSON.stringify(menu, null, 2));
+    const dataDir = resolve(OUTPUT_DIR, "data");
+    mkdirSync(dataDir, { recursive: true });
+    const outPath = resolve(dataDir, `${slug}.json`);
+    writeFileSync(outPath, JSON.stringify(menu, null, 2));
 
     console.log(`✅  Done — ${builtSections.length} sections, ${totalItems} items, ${soldOutCount} sold out`);
     if (squareOverrideCount > 0) {
       console.log(`🟦  Square overrode sold-out for ${squareOverrideCount} variation(s)`);
     }
-    console.log(`📄  Saved → output/menu.json`);
+    console.log(`📄  Saved → output/data/${slug}.json`);
     console.log();
     builtSections.forEach((s) => {
       const so = s.items.filter((i) => i.sold_out).length;

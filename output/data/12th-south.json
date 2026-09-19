@@ -1,7 +1,7 @@
 {
   "location_id": "12th South",
   "location_name": "12th South",
-  "generated_at": "2026-09-19T03:20:48.166Z",
+  "generated_at": "2026-09-19T03:22:25.611Z",
   "section_count": 7,
   "item_count": 34,
   "sections": [
@@ -278,6 +278,5 @@
         }
       ]
     }
-  ],
-  "inventory_patched_at": "2026-09-19T03:20:51.738Z"
+  ]
 }

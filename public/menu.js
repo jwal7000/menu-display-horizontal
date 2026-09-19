@@ -11,7 +11,9 @@
 
   // ── Config ────────────────────────────────────────────────────────────────
 
-  const MENU_JSON_PATH   = "./menu.json";
+  const params         = new URLSearchParams(window.location.search);
+  const LOC            = params.get("loc") || "the-factory";
+  const MENU_JSON_PATH = `./data/${LOC}.json`;
   const REFRESH_INTERVAL = 60 * 1000; // 60 seconds
 
   // ── Element refs ──────────────────────────────────────────────────────────

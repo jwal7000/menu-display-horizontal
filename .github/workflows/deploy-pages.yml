@@ -24,8 +24,10 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Copy menu.json into public
-        run: cp output/menu.json public/menu.json
+      - name: Copy per-location data files into public/data
+        run: |
+          mkdir -p public/data
+          cp output/data/*.json public/data/
 
       - name: Setup Pages
         uses: actions/configure-pages@v5

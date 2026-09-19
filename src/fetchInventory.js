@@ -91,8 +91,9 @@ async function fetchInventory() {
     // full count map — { catalog_object_id: qty }
     counts,
   };
-  writeFileSync(resolve(OUTPUT_DIR, "inventory.json"), JSON.stringify(out, null, 2));
-  console.log(`✅  inventory.json — ${lowStock.length} low-stock, ${Object.keys(counts).length} tracked`);
+  const outFile = process.env.INVENTORY_OUTPUT || resolve(OUTPUT_DIR, "inventory.json");
+  writeFileSync(outFile, JSON.stringify(out, null, 2));
+  console.log(`✅  ${outFile} — ${lowStock.length} low-stock, ${Object.keys(counts).length} tracked`);
 }
 
 fetchInventory().catch(err => {

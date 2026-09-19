@@ -17,8 +17,8 @@ const __dirname  = dirname(fileURLToPath(import.meta.url));
 const OUTPUT_DIR = resolve(__dirname, "../output");
 
 function patchMenuInventory() {
-  const menuPath      = resolve(OUTPUT_DIR, "menu.json");
-  const inventoryPath = resolve(OUTPUT_DIR, "inventory.json");
+  const menuPath      = process.env.MENU_FILE      ? resolve(process.env.MENU_FILE)      : resolve(OUTPUT_DIR, "menu.json");
+  const inventoryPath = process.env.INVENTORY_FILE  ? resolve(process.env.INVENTORY_FILE)  : resolve(OUTPUT_DIR, "inventory.json");
 
   let menu, inventory;
   try {
