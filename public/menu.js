@@ -329,12 +329,45 @@
     }
   }
 
+  // ── Promo Panel ───────────────────────────────────────────────────────────
+
+  const promoPanel  = document.getElementById("promo-panel");
+  const PROMO_PATH  = `./data/${LOC}-promo.json`;
+
+  function renderPromo(data) {
+    if (!promoPanel) return;
+    const active = data && data.type && data.type !== "hidden";
+    document.body.classList.toggle("has-promo", active);
+    promoPanel.innerHTML = "";
+    if (!active) return;
+
+    if (data.type === "image" && data.image_url) {
+      const img = document.createElement("img");
+      img.src = data.image_url;
+      img.alt = data.alt || "";
+      promoPanel.appendChild(img);
+    } else if (data.type === "html" && data.content) {
+      const div = document.createElement("div");
+      div.className = "promo-html";
+      div.innerHTML = data.content; // trusted — our own JSON
+      promoPanel.appendChild(div);
+    } else {
+      document.body.classList.remove("has-promo");
+    }
+  }
+
+  async function fetchPromo() {
+    try {
+      const res = await fetch(PROMO_PATH + "?t=" + Date.now());
+      if (res.ok) renderPromo(await res.json());
+    } catch (_) { /* silently keep existing panel on error */ }
+  }
+
   // ── Boot ──────────────────────────────────────────────────────────────────
 
-  // Initial load
   fetchMenu();
-
-  // Refresh on interval
-  setInterval(fetchMenu, REFRESH_INTERVAL);
+  fetchPromo();
+  setInterval(fetchMenu,  REFRESH_INTERVAL);
+  setInterval(fetchPromo, REFRESH_INTERVAL);
 
 })();

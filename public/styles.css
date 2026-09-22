@@ -495,3 +495,56 @@ body.refreshing .footer-updated {
   .connection-warning { transition: none; }
   .menu-root, .header { transition: none; }
 }
+
+/* ── Promo / Combo Panel (right sidebar, horizontal layout) ─────────────── */
+
+/* When promo is active, push menu content left to make room */
+body.has-promo .menu-root {
+  right: 28vw;
+}
+
+.promo-panel {
+  position: fixed;
+  top: var(--header-h);
+  right: 0;
+  width: 28vw;
+  bottom: var(--footer-h);
+  background: var(--off-white);
+  border-left: 3px solid var(--pink);
+  display: none;           /* hidden until has-promo toggled on */
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  transition: top 0.35s ease;
+}
+
+/* Shift panel down with the warning banner if it appears */
+body.has-warning .promo-panel {
+  top: calc(var(--header-h) + var(--warn-h));
+}
+
+/* Show panel when promo content is loaded */
+body.has-promo .promo-panel {
+  display: flex;
+}
+
+/* Image fills the panel, letterboxed */
+.promo-panel img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* Arbitrary HTML content (LTO items, text, etc.) */
+.promo-panel .promo-html {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2vh 1.5vw;
+  box-sizing: border-box;
+  overflow: hidden;
+}
