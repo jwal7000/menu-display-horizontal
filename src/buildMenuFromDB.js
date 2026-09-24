@@ -39,10 +39,11 @@ const SECTION_CONFIG = {
 };
 
 // Physical display locations
+// dbName must match the Location field in FlavorSchedule_Exclusions exactly.
 const DISPLAY_LOCATIONS = [
-  { slug: 'the-factory', name: 'The Factory',    sqId: 'ECE7YC9G73NXK' },
-  { slug: 'the-gulch',   name: 'The Gulch',       sqId: 'L4CQJADFVPZC9' },
-  { slug: '5th-broad',   name: '5th & Broadway',  sqId: 'L862ACB6EPKVT' },
+  { slug: 'the-factory', name: 'The Factory',    sqId: 'ECE7YC9G73NXK', dbName: 'The Factory' },
+  { slug: 'the-gulch',   name: 'The Gulch',       sqId: 'L4CQJADFVPZC9', dbName: 'The Gulch' },
+  { slug: '5th-broad',   name: '5th & Broadway',  sqId: 'L862ACB6EPKVT', dbName: '5th & Broad' },
 ];
 
 // ── Helpers ──────────────────────────────────────────────────────────────────
@@ -62,6 +63,52 @@ function todayCST() {
 }
 
 // ── MySQL: FlavorSchedule ────────────────────────────────────────────────────
+
+/**
+ * Loads all exclusion rules for the current month.
+ * Returns an array of { Exclusion_Type, Item_Category, SKU, Location, DaysOfWeek }.
+ */
+async function fetchExclusions(conn, year, month) {
+  const [rows] = await conn.query(`
+    SELECT Exclusion_Type, Item_Category, SKU, Location, DaysOfWeek
+    FROM   FlavorSchedule_Exclusions
+    WHERE  Sales_Year = ? AND Sales_Month = ?
+  `, [year, month]);
+  return rows;
+}
+
+/**
+ * Returns true if the item should be excluded for this location today.
+ *
+ * DaysOfWeek values observed:
+ *   'All'      — exclude every day
+ *   'Weekdays' — exclude Monday–Friday only
+ *   'Weekends' — exclude Saturday–Sunday only
+ *   null/''    — treated as 'All'
+ *
+ * @param {object} item       - FlavorSchedule row
+ * @param {string} dbName     - Location name as stored in FlavorSchedule_Exclusions
+ * @param {Array}  exclusions - Rows from fetchExclusions()
+ * @param {number} dow        - Day of week: 0=Sun, 1=Mon, … 6=Sat (Central time)
+ */
+function isExcluded(item, dbName, exclusions, dow) {
+  const isWeekday = dow >= 1 && dow <= 5;
+  const isWeekend = dow === 0 || dow === 6;
+
+  for (const ex of exclusions) {
+    if (ex.Location !== dbName) continue;
+
+    // Check whether the exclusion applies today
+    const scope = (ex.DaysOfWeek || 'All').toLowerCase();
+    if (scope === 'weekdays' && isWeekend) continue;  // rule only applies weekdays
+    if (scope === 'weekends' && isWeekday) continue;  // rule only applies weekends
+    // 'all' or unrecognised → always applies
+
+    if (ex.Exclusion_Type === 'Category' && ex.Item_Category === item.Item_Category) return true;
+    if (ex.Exclusion_Type === 'SKU'      && ex.SKU            === item.SKU)           return true;
+  }
+  return false;
+}
 
 async function fetchScheduledItems(conn, today) {
   const [year, month] = today.split('-');
@@ -274,13 +321,18 @@ async function buildMenuFromDB() {
 
   const today = todayCST();
   const [yr, mo] = today.split('-');
-  console.log(`\n📅  Building menu — ${today} (month ${mo}/${yr})`);
+  // Day of week in Central time (0=Sun … 6=Sat) — used for day-scoped exclusions
+  const dow = new Date().toLocaleDateString('en-US', { timeZone: 'America/Chicago', weekday: 'short' });
+  const DOW = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'].indexOf(dow);
+  console.log(`\n📅  Building menu — ${today} (${dow}, month ${mo}/${yr})`);
 
-  // 1. FlavorSchedule items for today
+  // 1. FlavorSchedule items + exclusion rules for this month
   console.log('📋  Querying FlavorSchedule...');
-  const items = await fetchScheduledItems(conn, today);
+  const items      = await fetchScheduledItems(conn, today);
+  const exclusions = await fetchExclusions(conn, parseInt(yr, 10), parseInt(mo, 10));
   await conn.end();
   console.log(`    ${items.length} items on schedule today`);
+  console.log(`    ${exclusions.length} exclusion rules for ${mo}/${yr}`);
 
   const variationIds = [...new Set(items.map(i => i.square_variation_id).filter(Boolean))];
   console.log(`    ${variationIds.length} mapped to Square variation IDs`);
@@ -296,11 +348,18 @@ async function buildMenuFromDB() {
   for (const loc of DISPLAY_LOCATIONS) {
     console.log(`\n📍  ${loc.name}`);
 
-    const inventoryCounts = await fetchInventoryCounts(client, loc.sqId, variationIds);
+    // Apply location + day-of-week exclusions before building the menu
+    const locItems = items.filter(item => !isExcluded(item, loc.dbName, exclusions, DOW));
+    const excluded = items.length - locItems.length;
+    if (excluded > 0) console.log(`    Excluded: ${excluded} item(s) via FlavorSchedule_Exclusions`);
+
+    // Only fetch inventory for variations that survived the exclusion filter
+    const locVarIds = [...new Set(locItems.map(i => i.square_variation_id).filter(Boolean))];
+    const inventoryCounts = await fetchInventoryCounts(client, loc.sqId, locVarIds);
     const soldOutCount    = [...inventoryCounts.values()].filter(q => q <= SOLD_OUT_THRESHOLD).length;
     console.log(`    Inventory: ${inventoryCounts.size} tracked, ${soldOutCount} sold out`);
 
-    const sections  = buildSections(items, priceMap, inventoryCounts);
+    const sections  = buildSections(locItems, priceMap, inventoryCounts);
     const itemCount = sections.reduce((n, s) => n + s.items.length, 0);
 
     const menu = {
