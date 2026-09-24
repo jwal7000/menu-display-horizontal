@@ -1,7 +1,7 @@
 {
   "location_id": "ECE7YC9G73NXK",
   "location_name": "The Factory",
-  "generated_at": "2026-09-24T17:07:17.229Z",
+  "generated_at": "2026-09-24T17:17:20.992Z",
   "source": "FlavorSchedule+Square",
   "section_count": 8,
   "item_count": 36,
@@ -175,7 +175,7 @@
           "item_id": "03004",
           "name": "Yeast Raised - Boston Cream (Filled)",
           "price": "$4.25",
-          "sold_out": false,
+          "sold_out": true,
           "preorder_only": false
         },
         {
@@ -286,7 +286,7 @@
           "item_id": "06002",
           "name": "Cookie - Snowcap (GF)",
           "price": "$3.50",
-          "sold_out": false,
+          "sold_out": true,
           "preorder_only": false
         },
         {
