@@ -1,228 +1,243 @@
 {
   "location_id": "L4CQJADFVPZC9",
   "location_name": "The Gulch",
-  "generated_at": "2026-09-24T16:27:02.062Z",
-  "section_count": 7,
-  "item_count": 34,
+  "generated_at": "2026-09-24T16:29:49.248Z",
+  "source": "FlavorSchedule+Square",
+  "section_count": 8,
+  "item_count": 36,
   "sections": [
     {
-      "name": "Hundred Layer Donuts - Staple Flavors",
+      "name": "Hundred Layer Donuts",
       "items": [
         {
           "item_id": "01001",
           "name": "Vanilla Cream",
-          "image_url": "https://www.dropbox.com/s/4o583r65pyk0ib5/vanilla%20cream.jpg?dl=0",
           "price": "$5.35",
-          "sold_out": false
+          "sold_out": false,
+          "preorder_only": false
         },
         {
           "item_id": "01002",
           "name": "The Purist",
-          "image_url": "https://www.dropbox.com/s/2bxvijk55qerto6/purist.jpg?dl=0",
           "price": "$4.75",
-          "sold_out": false
+          "sold_out": false,
+          "preorder_only": false
         },
         {
           "item_id": "01003",
           "name": "Chocolate Sea Salt",
-          "image_url": "https://www.dropbox.com/s/px5webqh05kukxc/chocolate%20sea%20salt.jpg?dl=0",
           "price": "$5.35",
-          "sold_out": false
+          "sold_out": true,
+          "preorder_only": false
         },
         {
           "item_id": "01004",
           "name": "Maple Glaze",
-          "image_url": "https://www.dropbox.com/s/27vtwcy4ggee1om/maple%20glaze.jpg?dl=0",
           "price": "$5.35",
-          "sold_out": false
+          "sold_out": true,
+          "preorder_only": false
         },
         {
           "item_id": "01005",
           "name": "King Kong",
-          "image_url": "https://www.dropbox.com/s/em3bx20y9q4lnzg/king%20kong.jpg?dl=0",
           "price": "$5.70",
-          "sold_out": false
+          "sold_out": true,
+          "preorder_only": false
         },
         {
           "item_id": "01006",
           "name": "Milk Chocolate Sprinkles",
-          "image_url": "https://www.dropbox.com/s/xr1080ojw9tx6ji/milk%20chocolate%20sprinkles.jpg?dl=0",
           "price": "$5.10",
-          "sold_out": false
-        }
-      ]
-    },
-    {
-      "name": "Hundred Layer Donuts - Seasonal Flavors",
-      "items": [
-        {
-          "item_id": "01035",
-          "name": "Lemon Icebox",
-          "image_url": "https://www.dropbox.com/s/a1d5t7txbuacuj1/lemon%20icebox.jpg?dl=0",
-          "price": "$5.35",
-          "sold_out": false
+          "sold_out": false,
+          "preorder_only": false
         },
         {
-          "item_id": "01084",
-          "name": "Cherry Cheesecake",
-          "image_url": "https://www.dropbox.com/s/5c0qzma15en1lms/cherrycheesecake.JPG?dl=0",
+          "item_id": "01009",
+          "name": "Salted Caramel Apple",
+          "price": "$5.35",
+          "sold_out": true,
+          "preorder_only": false
+        },
+        {
+          "item_id": "01018",
+          "name": "Blueberry Lavender",
+          "price": "$5.35",
+          "sold_out": false,
+          "preorder_only": false
+        },
+        {
+          "item_id": "01019",
+          "name": "Cinnamon Crispy Crunch",
+          "price": "$5.35",
+          "sold_out": false,
+          "preorder_only": false
+        },
+        {
+          "item_id": "01026",
+          "name": "Brownie Batter",
           "price": "$5.70",
-          "sold_out": false
+          "sold_out": false,
+          "preorder_only": false
         },
         {
-          "item_id": "01010",
-          "name": "Cinnamon Cream Cheese",
-          "image_url": "https://www.dropbox.com/s/jb0om3ytmw6931p/cinnamon%20cream%20cheese.jpg?dl=0",
+          "item_id": "01053",
+          "name": "Strawberry Fields",
           "price": "$5.35",
-          "sold_out": false
-        },
-        {
-          "item_id": "01234",
-          "name": "Affogato",
-          "image_url": "https://www.dropbox.com/scl/fi/svrewttq7tfeyfin9c6gv/affogato.png?rlkey=dn3laiwd9mw7tbfn4f2gjijrz&st=neo0cuml&dl=0",
-          "price": "$5.35",
-          "sold_out": false
-        },
-        {
-          "item_id": "01017",
-          "name": "Samoa",
-          "image_url": "https://www.dropbox.com/s/3laa372jmbjaeqd/samoa.jpg?dl=0",
-          "price": "$5.35",
-          "sold_out": false
+          "sold_out": false,
+          "preorder_only": false
         }
       ]
     },
     {
-      "name": "Mini Hundred Layer Donuts",
+      "name": "Mini Donuts",
       "items": [
         {
           "item_id": "02001",
           "name": "Mini Purist",
-          "image_url": "https://www.dropbox.com/s/77ctufdzwjflmv3/mini_purist.jpg?dl=0",
           "price": "$2.75",
-          "sold_out": false
+          "sold_out": true,
+          "preorder_only": false
         },
         {
           "item_id": "02002",
           "name": "Mini Milk Chocolate Sprinkles",
-          "image_url": "https://www.dropbox.com/s/w63tbkfkuf5lwfc/mini_milk%20chocolate%20sprinkles.jpg?dl=0",
           "price": "$2.75",
-          "sold_out": false
+          "sold_out": false,
+          "preorder_only": false
+        },
+        {
+          "item_id": "02014",
+          "name": "Mini Strawberry Fields",
+          "price": "$2.75",
+          "sold_out": false,
+          "preorder_only": false
+        },
+        {
+          "item_id": "02024",
+          "name": "Mini Cinnamon Crispy Crunch",
+          "price": "$3.00",
+          "sold_out": false,
+          "preorder_only": false
+        },
+        {
+          "item_id": "02027",
+          "name": "Mini Brownie Batter",
+          "price": "$3.25",
+          "sold_out": false,
+          "preorder_only": false
         },
         {
           "item_id": "02065",
           "name": "Mini Vanilla Cream",
-          "image_url": "https://www.dropbox.com/scl/fi/yshir0wz6vthyftw68dj0/mini_vanillacream.jpg?rlkey=wuemimr2xq93n2ubg3zqsg5ve&st=2daloyl3&dl=0",
           "price": "$3.00",
-          "sold_out": false
-        },
-        {
-          "item_id": "02029",
-          "name": "Mini Samoa",
-          "image_url": "https://www.dropbox.com/s/o4xh79cubywyio3/minisamoa.JPG?dl=0",
-          "price": "$3.00",
-          "sold_out": false
-        },
-        {
-          "item_id": "02004",
-          "name": "Mini Cinnamon Sugar",
-          "image_url": "https://www.dropbox.com/s/3axhjk0654enkf7/minicinnamonsugar%28new%29.JPG?dl=0",
-          "price": "$2.75",
-          "sold_out": false
-        },
-        {
-          "item_id": "02050",
-          "name": "Mini Cherry Glaze",
-          "image_url": "https://www.dropbox.com/s/phrpk2cplbro4aj/minicherryglaze.JPG?dl=0",
-          "price": "$2.75",
-          "sold_out": false
+          "sold_out": false,
+          "preorder_only": false
         }
       ]
     },
     {
-      "name": "Yeast-Raised Donuts",
+      "name": "Paleo Donuts",
       "items": [
         {
-          "item_id": "03001",
-          "name": "Purist",
-          "image_url": "https://www.dropbox.com/s/o66v9gdbys90y2v/YR_Purist.jpg?dl=0",
-          "price": "$3.00",
-          "sold_out": false
+          "item_id": "04001",
+          "name": "Paleo - Chocolate Chip Sea Salt",
+          "price": "$4.75",
+          "sold_out": true,
+          "preorder_only": false
         },
         {
+          "item_id": "04053",
+          "name": "Paleo - Salted Caramel Apple",
+          "price": "$4.75",
+          "sold_out": true,
+          "preorder_only": false
+        }
+      ]
+    },
+    {
+      "name": "Yeast Raised",
+      "items": [
+        {
           "item_id": "03002",
-          "name": "Milk Chocolate Sprinkles",
-          "image_url": "https://www.dropbox.com/s/2k3kanh5waj7217/YR_milk%20chocolate%20sprinkles.jpg?dl=0",
+          "name": "Yeast Raised - Purist",
+          "price": "$3.00",
+          "sold_out": false,
+          "preorder_only": false
+        },
+        {
+          "item_id": "03003",
+          "name": "Yeast Raised - Milk Chocolate Sprinkles",
           "price": "$3.25",
-          "sold_out": false
+          "sold_out": false,
+          "preorder_only": false
         },
         {
           "item_id": "03004",
-          "name": "Boston Cream",
-          "image_url": "https://www.dropbox.com/s/ism7jadcxczkplb/YR_boston%20cream.jpg?dl=0",
+          "name": "Yeast Raised - Boston Cream (Filled)",
           "price": "$4.25",
-          "sold_out": false
+          "sold_out": true,
+          "preorder_only": false
+        },
+        {
+          "item_id": "03015",
+          "name": "Yeast Raised - Strawberry Fields",
+          "price": "$3.25",
+          "sold_out": false,
+          "preorder_only": false
+        },
+        {
+          "item_id": "03034",
+          "name": "Yeast Raised - Blueberry Lavender Glaze",
+          "price": "$3.25",
+          "sold_out": false,
+          "preorder_only": false
+        },
+        {
+          "item_id": "03037",
+          "name": "Yeast Raised - Salted Caramel Apple",
+          "price": "$3.25",
+          "sold_out": false,
+          "preorder_only": false
         },
         {
           "item_id": "03999",
-          "name": "Apple Fritter",
-          "image_url": "https://www.dropbox.com/s/xks9du1xap2iryw/YR_apple%20fritter.jpg?dl=0",
+          "name": "Yeast Raised - Apple Fritter",
           "price": "$4.00",
-          "sold_out": false
-        },
-        {
-          "item_id": "03008",
-          "name": "Cinnamon Sugar Toast",
-          "image_url": "https://www.dropbox.com/scl/fi/9jmcikibwkzpj7k7jv3ky/cinnamonsugartoast.JPG?rlkey=enfox8b1ay3tkiou5j56gewxl&dl=0",
-          "price": "$3.25",
-          "sold_out": false
-        },
-        {
-          "item_id": "03072",
-          "name": "Cherry Cheesecake",
-          "image_url": "https://www.dropbox.com/scl/fi/ilb0c3p60xues7uee06fo/YR_Cherry-Cheesecake.jpg?rlkey=999evi05tebppfsm0qtze0idv&st=5bogh9gp&dl=0",
-          "price": "$4.25",
-          "sold_out": false
-        },
-        {
-          "item_id": "03084",
-          "name": "Samoa",
-          "image_url": "https://www.dropbox.com/scl/fi/wg6xe2q4a9i9c8a9y7pyv/samoa.JPG?rlkey=281m3lgk4beukzg1eh2fj86m2&dl=0",
-          "price": "$3.50",
-          "sold_out": false
+          "sold_out": true,
+          "preorder_only": false
         }
       ]
     },
     {
-      "name": "Rolls",
+      "name": "Cinnamon Rolls",
       "items": [
         {
           "item_id": "17001",
-          "name": "Cinnamon Cream Cheese Roll",
-          "image_url": "https://www.dropbox.com/scl/fi/3uq3aj0x14eoluzhkkspg/cinnamon-glaze-roll.jpg?rlkey=06jj9w33aa5fa4qpee4onmrzn&st=uy2nepn0&dl=0",
+          "name": "Roll - Cinnamon Cream Cheese",
           "price": "$6.00",
-          "sold_out": false
+          "sold_out": true,
+          "preorder_only": false
         },
         {
           "item_id": "17002",
-          "name": "Cinnamon Glaze Roll",
-          "image_url": "https://www.dropbox.com/scl/fi/bfziaju09nxzz4ue3adzb/cinnamon-cream-cheese-roll.jpg?rlkey=lia8k64miaoqf5n60zqx6sp2z&st=j8oftaij&dl=0",
+          "name": "Roll - Cinnamon Glaze",
           "price": "$6.00",
-          "sold_out": false
+          "sold_out": true,
+          "preorder_only": false
         },
         {
-          "item_id": "17004",
-          "name": "Raspberry Lemon Roll",
-          "image_url": "https://www.dropbox.com/scl/fi/i1ej9fy314erhvc4k7p2e/raspberry-lemon-roll.jpg?rlkey=ci1fajjwaqzfts81uf0r8zxqu&st=danytmbq&dl=0",
+          "item_id": "17006",
+          "name": "Roll - Apple Pie",
           "price": "$7.00",
-          "sold_out": false
+          "sold_out": true,
+          "preorder_only": false
         },
         {
-          "item_id": "17008",
-          "name": "Blueberry Lemon Roll",
-          "image_url": "https://www.dropbox.com/scl/fi/33s0b2mlz354sgee23mnz/blueberry-lemon-roll.jpg?rlkey=6ummg5zblmwjb7268rugusprb&st=dvtpezph&dl=0",
+          "item_id": "17009",
+          "name": "Roll - Vanilla Chai",
           "price": "$7.00",
-          "sold_out": false
+          "sold_out": true,
+          "preorder_only": false
         }
       ]
     },
@@ -230,51 +245,56 @@
       "name": "Pastries",
       "items": [
         {
-          "item_id": "06001",
-          "name": "Chocolate Chip Cookie",
-          "image_url": "https://www.dropbox.com/s/76kayr5jbrzez62/chocolate%20chip%20cookie.jpg?dl=0",
-          "price": "$3.50",
-          "sold_out": false
-        },
-        {
-          "item_id": "06002",
-          "name": "Snowcap Cookie",
-          "image_url": "https://www.dropbox.com/s/h2c6cpvvm5w5g4v/snowcap%20cookie.jpg?dl=0",
-          "price": "$3.50",
-          "sold_out": false
-        },
-        {
-          "item_id": "06003",
-          "name": "My Sister's Sugar Cookie",
-          "image_url": "https://www.dropbox.com/s/zzl5rmb7e8km8l9/sugar%20cookie.jpg?dl=0",
-          "price": "$3.50",
-          "sold_out": false
-        },
-        {
           "item_id": "05005",
-          "name": "Donut Holes (8 ct)",
-          "image_url": "https://www.dropbox.com/scl/fi/ooysw0e6uq1m1ia2fbgo9/donutholes-new.JPG?rlkey=cm0rrrwshri7lxni612ot6cgq&dl=0",
+          "name": "Donut Holes (8 ct.)",
           "price": "$4.70",
-          "sold_out": false
+          "sold_out": true,
+          "preorder_only": false
         }
       ]
     },
     {
-      "name": "Paleo",
+      "name": "Breakfast",
       "items": [
         {
-          "item_id": "04001",
-          "name": "Chocolate Chip Sea Salt",
-          "image_url": "https://www.dropbox.com/s/j4fopqsvi9djcno/paleo_chocolate%20chip%20sea%20salt.jpg?dl=0",
-          "price": "$4.75",
-          "sold_out": false
+          "item_id": "05008",
+          "name": "Biscuit - Bacon Egg & Cheese",
+          "price": "$7.00",
+          "sold_out": true,
+          "preorder_only": false
         },
         {
-          "item_id": "04011",
-          "name": "Samoa",
-          "image_url": "https://www.dropbox.com/s/wq3d5woh0nen5i9/paleo_samoa.jpg?dl=0",
-          "price": "$4.75",
-          "sold_out": false
+          "item_id": "05009",
+          "name": "Biscuit - Egg & Cheese",
+          "price": "$5.00",
+          "sold_out": true,
+          "preorder_only": false
+        }
+      ]
+    },
+    {
+      "name": "Cookies",
+      "items": [
+        {
+          "item_id": "06001",
+          "name": "Cookie - Chocolate Chip",
+          "price": "$3.50",
+          "sold_out": true,
+          "preorder_only": false
+        },
+        {
+          "item_id": "06002",
+          "name": "Cookie - Snowcap (GF)",
+          "price": "$3.50",
+          "sold_out": true,
+          "preorder_only": false
+        },
+        {
+          "item_id": "06003",
+          "name": "Cookie - My Sister's Sugar Cookie",
+          "price": "$3.50",
+          "sold_out": true,
+          "preorder_only": false
         }
       ]
     }

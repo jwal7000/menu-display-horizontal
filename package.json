@@ -10,11 +10,13 @@
     "build-menu-sheets": "node src/buildMenuFromSheets.js",
     "fetch-inventory": "node src/fetchInventory.js",
     "patch-inventory": "node src/patchMenuInventory.js",
-    "preview": "serve . -p 3000 --no-clipboard"
+    "preview": "serve . -p 3000 --no-clipboard",
+    "build-menu-db": "node src/buildMenuFromDB.js"
   },
   "dependencies": {
     "dotenv": "^16.4.5",
     "googleapis": "^139.0.0",
+    "mysql2": "^3.24.4",
     "square": "^44.2.0"
   },
   "devDependencies": {

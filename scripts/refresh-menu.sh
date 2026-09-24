@@ -26,45 +26,20 @@ echo "[$(date '+%Y-%m-%d %H:%M:%S')] Starting menu refresh..." >> "$LOG"
 cd "$REPO_H"
 export PATH="/opt/homebrew/opt/node@22/bin:/opt/homebrew/bin:/usr/local/bin:$PATH"
 
-# 1. Build canonical menu from Google Sheets → output/data/12th-south.json (+ any sheet locations)
-GOOGLE_SHEETS_ID="$GOOGLE_SHEETS_ID" \
-SQUARE_ACCESS_TOKEN="$SQUARE_TOKEN" \
-npm run build-menu-sheets >> "$LOG" 2>&1
+# Build menu from AppSheet/SQL FlavorSchedule + Square catalog prices + Square inventory
+# This replaces the Google Sheets pipeline — no spreadsheet required.
+npm run build-menu-db >> "$LOG" 2>&1
+echo "[$(date '+%Y-%m-%d %H:%M:%S')] DB build complete." >> "$LOG"
 
-# 2. Replicate canonical to horizontal displays (The Gulch)
-node -e "
-  const fs = require('fs'), path = require('path');
-  const src = JSON.parse(fs.readFileSync('output/data/12th-south.json', 'utf8'));
-  const locs = [
-    { slug: 'the-gulch', name: 'The Gulch', sqId: 'L4CQJADFVPZC9' },
-  ];
-  for (const loc of locs) {
-    const m = JSON.parse(JSON.stringify(src));
-    m.location_id = loc.sqId; m.location_name = loc.name; m.generated_at = new Date().toISOString();
-    fs.writeFileSync(path.resolve('output/data', loc.slug + '.json'), JSON.stringify(m, null, 2));
-    console.log('Replicated (horizontal):', loc.slug);
-  }
-" >> "$LOG" 2>&1
-
-# 3. Replicate canonical to portrait displays (The Factory, 5th & Broadway)
-node -e "
-  const fs = require('fs'), path = require('path');
-  const src = JSON.parse(fs.readFileSync('output/data/12th-south.json', 'utf8'));
-  const repoP = '$REPO_P';
-  const locs = [
-    { slug: 'the-factory', name: 'The Factory',    sqId: 'ECE7YC9G73NXK' },
-    { slug: '5th-broad',   name: '5th & Broadway', sqId: 'L862ACB6EPKVT' },
-  ];
-  fs.mkdirSync(path.join(repoP, 'output/data'), { recursive: true });
-  for (const loc of locs) {
-    const m = JSON.parse(JSON.stringify(src));
-    m.location_id = loc.sqId; m.location_name = loc.name; m.generated_at = new Date().toISOString();
-    fs.writeFileSync(path.join(repoP, 'output/data', loc.slug + '.json'), JSON.stringify(m, null, 2));
-    console.log('Replicated (portrait):', loc.slug);
-  }
-" >> "$LOG" 2>&1
-
-echo "[$(date '+%Y-%m-%d %H:%M:%S')] Replication done." >> "$LOG"
+# Copy portrait locations to the portrait repo
+for loc in the-factory 5th-broad; do
+  src="$REPO_H/output/data/${loc}.json"
+  dst="$REPO_P/output/data/${loc}.json"
+  if [[ -f "$src" ]]; then
+    cp "$src" "$dst"
+    echo "[$(date '+%Y-%m-%d %H:%M:%S')] Copied ${loc}.json → portrait repo." >> "$LOG"
+  fi
+done
 
 # 4. Push horizontal repo (The Gulch)
 git -C "$REPO_H" add output/data/*.json
