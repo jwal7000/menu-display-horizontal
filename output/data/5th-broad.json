@@ -1,7 +1,7 @@
 {
   "location_id": "L862ACB6EPKVT",
   "location_name": "5th & Broadway",
-  "generated_at": "2026-09-24T19:48:23.362Z",
+  "generated_at": "2026-09-24T19:58:27.584Z",
   "source": "FlavorSchedule+Square",
   "section_count": 8,
   "item_count": 36,
@@ -69,7 +69,7 @@
           "item_id": "01019",
           "name": "Cinnamon Crispy Crunch",
           "price": "$5.35",
-          "sold_out": false,
+          "sold_out": true,
           "preorder_only": false
         },
         {
@@ -83,7 +83,7 @@
           "item_id": "01053",
           "name": "Strawberry Fields",
           "price": "$5.35",
-          "sold_out": false,
+          "sold_out": true,
           "preorder_only": false
         }
       ]
