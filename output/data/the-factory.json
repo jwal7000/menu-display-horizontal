@@ -1,7 +1,7 @@
 {
   "location_id": "ECE7YC9G73NXK",
   "location_name": "The Factory",
-  "generated_at": "2026-09-25T20:18:04.207Z",
+  "generated_at": "2026-09-25T20:28:08.170Z",
   "source": "FlavorSchedule+Square",
   "section_count": 8,
   "item_count": 36,
@@ -13,7 +13,7 @@
           "item_id": "01001",
           "name": "Vanilla Cream",
           "price": "$5.35",
-          "sold_out": false,
+          "sold_out": true,
           "preorder_only": false
         },
         {
@@ -182,7 +182,7 @@
           "item_id": "03015",
           "name": "Yeast Raised - Strawberry Fields",
           "price": "$3.25",
-          "sold_out": false,
+          "sold_out": true,
           "preorder_only": false
         },
         {
