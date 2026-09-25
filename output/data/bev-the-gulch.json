@@ -1,0 +1,210 @@
+{
+  "location_name": "The Gulch",
+  "generated_at": "2026-09-25T04:55:25.091Z",
+  "source": "bev-items-config",
+  "item_count": 32,
+  "unavailable": 0,
+  "sections": [
+    {
+      "name": "ESPRESSO",
+      "temp_label": "HOT OR ICED",
+      "items": [
+        {
+          "name": "Espresso",
+          "price": "$3.50",
+          "available": true
+        },
+        {
+          "name": "Americano",
+          "price": "$4.00",
+          "available": true
+        },
+        {
+          "name": "Cappuccino",
+          "price": "$5.00",
+          "available": true
+        },
+        {
+          "name": "Latte",
+          "price": "$5.50",
+          "available": true
+        },
+        {
+          "name": "Vanilla Latte",
+          "price": "$5.75",
+          "available": true
+        },
+        {
+          "name": "Caramel Latte",
+          "price": "$6.00",
+          "available": true
+        },
+        {
+          "name": "Honey Latte",
+          "price": "$6.00",
+          "available": true
+        },
+        {
+          "name": "Mocha Latte",
+          "price": "$6.00",
+          "available": true
+        }
+      ]
+    },
+    {
+      "name": "COFFEE + NITRO",
+      "items": [
+        {
+          "name": "Drip Coffee",
+          "price": "$3.50",
+          "available": true
+        },
+        {
+          "name": "Iced Coffee",
+          "price": "$4.00",
+          "available": true
+        },
+        {
+          "name": "Cold Brew",
+          "price": "$4.50",
+          "available": true
+        },
+        {
+          "name": "Canned Iced Nitro",
+          "price": "$4.50",
+          "available": true
+        },
+        {
+          "name": "Canned Oat Nitro",
+          "price": "$4.50",
+          "available": true
+        },
+        {
+          "name": "Canned Chocolate Oat Nitro",
+          "price": "$4.50",
+          "available": true
+        }
+      ]
+    },
+    {
+      "name": "NON ESPRESSO",
+      "sub_sections": [
+        {
+          "temp_label": "HOT OR ICED",
+          "items": [
+            {
+              "name": "Matcha Latte",
+              "price": "$5.50",
+              "available": true
+            },
+            {
+              "name": "Chai Tea Latte",
+              "price": "$5.00",
+              "available": true
+            }
+          ]
+        },
+        {
+          "temp_label": "HOT ONLY",
+          "items": [
+            {
+              "name": "Hot Chocolate",
+              "price": "$5.00",
+              "available": true
+            },
+            {
+              "name": "Steamer",
+              "price": "$2.00",
+              "available": true
+            },
+            {
+              "name": "Green Tea",
+              "price": "$3.50",
+              "available": true
+            },
+            {
+              "name": "Black Tea",
+              "price": "$3.50",
+              "available": true
+            },
+            {
+              "name": "Peppermint Tea",
+              "price": "$3.50",
+              "available": true
+            },
+            {
+              "name": "Chamomile Citron Tea",
+              "price": "$3.50",
+              "available": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "SEASONAL DRINKS",
+      "items": [
+        {
+          "name": "Fallin' for Toffee Latte",
+          "price": "$6.50",
+          "available": true
+        },
+        {
+          "name": "Pumpkin Spice Latte",
+          "price": "$6.50",
+          "available": true
+        }
+      ]
+    },
+    {
+      "name": "OTHER DRINKS",
+      "items": [
+        {
+          "name": "Bottled Water",
+          "price": "$1.00",
+          "available": true
+        },
+        {
+          "name": "Horizon White Milk",
+          "price": "$2.50",
+          "available": true
+        },
+        {
+          "name": "Horizon Chocolate Milk",
+          "price": "$2.50",
+          "available": true
+        },
+        {
+          "name": "Spindrift Sparkling Water",
+          "price": "$2.00",
+          "available": true
+        },
+        {
+          "name": "Poppi Soda",
+          "price": "$3.50",
+          "available": true
+        }
+      ]
+    },
+    {
+      "name": "JUICES (12oz)",
+      "items": [
+        {
+          "name": "Orange Juice",
+          "price": "$3.75",
+          "available": true
+        },
+        {
+          "name": "Lemonade",
+          "price": "$3.75",
+          "available": true
+        },
+        {
+          "name": "Strawberry Lemonade",
+          "price": "$3.75",
+          "available": true
+        }
+      ]
+    }
+  ]
+}
