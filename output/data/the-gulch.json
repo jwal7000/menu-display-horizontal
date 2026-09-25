@@ -1,7 +1,7 @@
 {
   "location_id": "L4CQJADFVPZC9",
   "location_name": "The Gulch",
-  "generated_at": "2026-09-25T13:15:14.205Z",
+  "generated_at": "2026-09-25T13:25:18.220Z",
   "source": "FlavorSchedule+Square",
   "section_count": 8,
   "item_count": 36,
@@ -229,7 +229,7 @@
           "item_id": "17006",
           "name": "Roll - Apple Pie",
           "price": "$7.00",
-          "sold_out": false,
+          "sold_out": true,
           "preorder_only": false
         },
         {
