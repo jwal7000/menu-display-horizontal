@@ -1,7 +1,7 @@
 {
   "location_id": "L4CQJADFVPZC9",
   "location_name": "The Gulch",
-  "generated_at": "2026-09-25T22:18:51.610Z",
+  "generated_at": "2026-09-25T22:28:55.463Z",
   "source": "FlavorSchedule+Square",
   "section_count": 8,
   "item_count": 36,
@@ -149,7 +149,7 @@
           "item_id": "04053",
           "name": "Paleo - Salted Caramel Apple",
           "price": "$4.75",
-          "sold_out": false,
+          "sold_out": true,
           "preorder_only": false
         }
       ]
