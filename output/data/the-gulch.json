@@ -1,7 +1,7 @@
 {
   "location_id": "L4CQJADFVPZC9",
   "location_name": "The Gulch",
-  "generated_at": "2026-09-25T22:49:03.105Z",
+  "generated_at": "2026-09-25T22:59:06.930Z",
   "source": "FlavorSchedule+Square",
   "section_count": 8,
   "item_count": 36,
@@ -41,7 +41,7 @@
           "item_id": "01005",
           "name": "King Kong",
           "price": "$5.70",
-          "sold_out": false,
+          "sold_out": true,
           "preorder_only": false
         },
         {
@@ -76,7 +76,7 @@
           "item_id": "01026",
           "name": "Brownie Batter",
           "price": "$5.70",
-          "sold_out": false,
+          "sold_out": true,
           "preorder_only": false
         },
         {
