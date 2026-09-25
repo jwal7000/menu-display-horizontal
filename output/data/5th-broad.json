@@ -1,7 +1,7 @@
 {
   "location_id": "L862ACB6EPKVT",
   "location_name": "5th & Broadway",
-  "generated_at": "2026-09-25T21:18:28.272Z",
+  "generated_at": "2026-09-25T21:28:32.404Z",
   "source": "FlavorSchedule+Square",
   "section_count": 8,
   "item_count": 36,
@@ -62,7 +62,7 @@
           "item_id": "01018",
           "name": "Blueberry Lavender",
           "price": "$5.35",
-          "sold_out": false,
+          "sold_out": true,
           "preorder_only": false
         },
         {
