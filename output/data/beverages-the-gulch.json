@@ -1,0 +1,45 @@
+{
+  "location_name": "The Gulch",
+  "menu_name": "September Menu",
+  "generated_at": "2026-09-25T04:41:06.157Z",
+  "source": "Square+catalog",
+  "item_count": 4,
+  "sections": [
+    {
+      "name": "NON ESPRESSO",
+      "items": [
+        {
+          "name": "Milk, Chocolate, Single (Horizon)",
+          "price": "$2.50",
+          "available": true,
+          "temp": "hot-only"
+        }
+      ]
+    },
+    {
+      "name": "OTHER DRINKS",
+      "items": [
+        {
+          "name": "Boylan Cola",
+          "price": "$3.00",
+          "available": true
+        },
+        {
+          "name": "La Colombe",
+          "price": "$3.75",
+          "available": true
+        }
+      ]
+    },
+    {
+      "name": "JUICES",
+      "items": [
+        {
+          "name": "Juice, Lemonade, 12oz",
+          "price": "$3.50",
+          "available": true
+        }
+      ]
+    }
+  ]
+}
