@@ -1,7 +1,7 @@
 {
   "location_id": "L4CQJADFVPZC9",
   "location_name": "The Gulch",
-  "generated_at": "2026-09-25T16:16:27.063Z",
+  "generated_at": "2026-09-25T16:26:30.892Z",
   "source": "FlavorSchedule+Square",
   "section_count": 8,
   "item_count": 36,
@@ -69,7 +69,7 @@
           "item_id": "01019",
           "name": "Cinnamon Crispy Crunch",
           "price": "$5.35",
-          "sold_out": false,
+          "sold_out": true,
           "preorder_only": false
         },
         {
