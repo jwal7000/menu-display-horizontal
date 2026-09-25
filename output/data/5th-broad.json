@@ -1,7 +1,7 @@
 {
   "location_id": "L862ACB6EPKVT",
   "location_name": "5th & Broadway",
-  "generated_at": "2026-09-25T20:28:08.569Z",
+  "generated_at": "2026-09-25T20:38:12.428Z",
   "source": "FlavorSchedule+Square",
   "section_count": 8,
   "item_count": 36,
@@ -27,7 +27,7 @@
           "item_id": "01003",
           "name": "Chocolate Sea Salt",
           "price": "$5.35",
-          "sold_out": false,
+          "sold_out": true,
           "preorder_only": false
         },
         {
@@ -109,7 +109,7 @@
           "item_id": "02014",
           "name": "Mini Strawberry Fields",
           "price": "$2.75",
-          "sold_out": false,
+          "sold_out": true,
           "preorder_only": false
         },
         {
@@ -123,7 +123,7 @@
           "item_id": "02027",
           "name": "Mini Brownie Batter",
           "price": "$3.25",
-          "sold_out": false,
+          "sold_out": true,
           "preorder_only": false
         },
         {

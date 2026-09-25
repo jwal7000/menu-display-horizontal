@@ -1,7 +1,7 @@
 {
   "location_id": "ECE7YC9G73NXK",
   "location_name": "The Factory",
-  "generated_at": "2026-09-25T20:28:08.170Z",
+  "generated_at": "2026-09-25T20:38:12.042Z",
   "source": "FlavorSchedule+Square",
   "section_count": 8,
   "item_count": 36,
@@ -279,14 +279,14 @@
           "item_id": "06001",
           "name": "Cookie - Chocolate Chip",
           "price": "$3.50",
-          "sold_out": false,
+          "sold_out": true,
           "preorder_only": false
         },
         {
           "item_id": "06002",
           "name": "Cookie - Snowcap (GF)",
           "price": "$3.50",
-          "sold_out": false,
+          "sold_out": true,
           "preorder_only": false
         },
         {
