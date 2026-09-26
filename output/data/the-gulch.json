@@ -1,7 +1,7 @@
 {
   "location_id": "L4CQJADFVPZC9",
   "location_name": "The Gulch",
-  "generated_at": "2026-09-26T19:36:53.016Z",
+  "generated_at": "2026-09-26T19:46:56.671Z",
   "source": "FlavorSchedule+Square",
   "section_count": 8,
   "item_count": 36,
@@ -109,7 +109,7 @@
           "item_id": "02014",
           "name": "Mini Strawberry Fields",
           "price": "$2.75",
-          "sold_out": false,
+          "sold_out": true,
           "preorder_only": false
         },
         {
