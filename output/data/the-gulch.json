@@ -1,7 +1,7 @@
 {
   "location_id": "L4CQJADFVPZC9",
   "location_name": "The Gulch",
-  "generated_at": "2026-09-26T16:05:32.206Z",
+  "generated_at": "2026-09-26T16:15:35.992Z",
   "source": "FlavorSchedule+Square",
   "section_count": 8,
   "item_count": 36,
@@ -175,7 +175,7 @@
           "item_id": "03004",
           "name": "Yeast Raised - Boston Cream (Filled)",
           "price": "$4.25",
-          "sold_out": false,
+          "sold_out": true,
           "preorder_only": false
         },
         {
@@ -248,7 +248,7 @@
           "item_id": "05005",
           "name": "Donut Holes (8 ct.)",
           "price": "$4.70",
-          "sold_out": false,
+          "sold_out": true,
           "preorder_only": false
         }
       ]
