@@ -1,7 +1,7 @@
 {
   "location_id": "L862ACB6EPKVT",
   "location_name": "5th & Broadway",
-  "generated_at": "2026-09-26T18:16:21.648Z",
+  "generated_at": "2026-09-26T18:26:25.467Z",
   "source": "FlavorSchedule+Square",
   "section_count": 8,
   "item_count": 36,
@@ -149,7 +149,7 @@
           "item_id": "04053",
           "name": "Paleo - Salted Caramel Apple",
           "price": "$4.75",
-          "sold_out": false,
+          "sold_out": true,
           "preorder_only": false
         }
       ]
