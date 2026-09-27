@@ -1,7 +1,7 @@
 {
   "location_id": "L862ACB6EPKVT",
   "location_name": "5th & Broadway",
-  "generated_at": "2026-09-27T19:45:56.531Z",
+  "generated_at": "2026-09-27T19:56:00.302Z",
   "source": "FlavorSchedule+Square",
   "section_count": 8,
   "item_count": 36,
@@ -95,7 +95,7 @@
           "item_id": "02001",
           "name": "Mini Purist",
           "price": "$2.75",
-          "sold_out": false,
+          "sold_out": true,
           "preorder_only": false
         },
         {
