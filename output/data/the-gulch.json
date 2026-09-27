@@ -1,7 +1,7 @@
 {
   "location_id": "L4CQJADFVPZC9",
   "location_name": "The Gulch",
-  "generated_at": "2026-09-27T00:08:35.067Z",
+  "generated_at": "2026-09-27T00:18:38.743Z",
   "source": "FlavorSchedule+Square",
   "section_count": 8,
   "item_count": 36,
@@ -189,7 +189,7 @@
           "item_id": "03034",
           "name": "Yeast Raised - Blueberry Lavender Glaze",
           "price": "$3.25",
-          "sold_out": false,
+          "sold_out": true,
           "preorder_only": false
         },
         {
