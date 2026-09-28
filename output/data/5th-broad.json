@@ -1,7 +1,7 @@
 {
   "location_id": "L862ACB6EPKVT",
   "location_name": "5th & Broadway",
-  "generated_at": "2026-09-28T18:24:44.957Z",
+  "generated_at": "2026-09-28T18:34:49.004Z",
   "source": "FlavorSchedule+Square",
   "section_count": 8,
   "item_count": 36,
@@ -20,14 +20,14 @@
           "item_id": "01002",
           "name": "The Purist",
           "price": "$4.75",
-          "sold_out": false,
+          "sold_out": true,
           "preorder_only": false
         },
         {
           "item_id": "01003",
           "name": "Chocolate Sea Salt",
           "price": "$5.35",
-          "sold_out": false,
+          "sold_out": true,
           "preorder_only": false
         },
         {
@@ -109,7 +109,7 @@
           "item_id": "02014",
           "name": "Mini Strawberry Fields",
           "price": "$2.75",
-          "sold_out": false,
+          "sold_out": true,
           "preorder_only": false
         },
         {
@@ -123,7 +123,7 @@
           "item_id": "02027",
           "name": "Mini Brownie Batter",
           "price": "$3.25",
-          "sold_out": false,
+          "sold_out": true,
           "preorder_only": false
         },
         {
@@ -175,7 +175,7 @@
           "item_id": "03004",
           "name": "Yeast Raised - Boston Cream (Filled)",
           "price": "$4.25",
-          "sold_out": false,
+          "sold_out": true,
           "preorder_only": false
         },
         {
