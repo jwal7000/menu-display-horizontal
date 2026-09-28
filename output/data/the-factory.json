@@ -1,7 +1,7 @@
 {
   "location_id": "ECE7YC9G73NXK",
   "location_name": "The Factory",
-  "generated_at": "2026-09-28T19:15:04.139Z",
+  "generated_at": "2026-09-28T19:25:08.167Z",
   "source": "FlavorSchedule+Square",
   "section_count": 8,
   "item_count": 36,
@@ -130,7 +130,7 @@
           "item_id": "02065",
           "name": "Mini Vanilla Cream",
           "price": "$3.00",
-          "sold_out": false,
+          "sold_out": true,
           "preorder_only": false
         }
       ]
