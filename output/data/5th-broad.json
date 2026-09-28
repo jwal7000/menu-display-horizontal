@@ -1,7 +1,7 @@
 {
   "location_id": "L862ACB6EPKVT",
   "location_name": "5th & Broadway",
-  "generated_at": "2026-09-28T22:06:12.350Z",
+  "generated_at": "2026-09-28T22:16:16.351Z",
   "source": "FlavorSchedule+Square",
   "section_count": 8,
   "item_count": 36,
@@ -48,7 +48,7 @@
           "item_id": "01006",
           "name": "Milk Chocolate Sprinkles",
           "price": "$5.10",
-          "sold_out": true,
+          "sold_out": false,
           "preorder_only": false
         },
         {
@@ -189,14 +189,14 @@
           "item_id": "03034",
           "name": "Yeast Raised - Blueberry Lavender Glaze",
           "price": "$3.25",
-          "sold_out": true,
+          "sold_out": false,
           "preorder_only": false
         },
         {
           "item_id": "03037",
           "name": "Yeast Raised - Salted Caramel Apple",
           "price": "$3.25",
-          "sold_out": true,
+          "sold_out": false,
           "preorder_only": false
         },
         {
