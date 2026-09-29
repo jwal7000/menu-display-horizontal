@@ -1,7 +1,7 @@
 {
   "location_id": "ECE7YC9G73NXK",
   "location_name": "The Factory",
-  "generated_at": "2026-09-29T03:08:07.857Z",
+  "generated_at": "2026-09-29T03:18:11.603Z",
   "source": "FlavorSchedule+Square",
   "section_count": 8,
   "item_count": 36,
@@ -20,21 +20,21 @@
           "item_id": "01002",
           "name": "The Purist",
           "price": "$4.75",
-          "sold_out": true,
+          "sold_out": false,
           "preorder_only": false
         },
         {
           "item_id": "01003",
           "name": "Chocolate Sea Salt",
           "price": "$5.35",
-          "sold_out": true,
+          "sold_out": false,
           "preorder_only": false
         },
         {
           "item_id": "01004",
           "name": "Maple Glaze",
           "price": "$5.35",
-          "sold_out": true,
+          "sold_out": false,
           "preorder_only": false
         },
         {
@@ -48,7 +48,7 @@
           "item_id": "01006",
           "name": "Milk Chocolate Sprinkles",
           "price": "$5.10",
-          "sold_out": true,
+          "sold_out": false,
           "preorder_only": false
         },
         {
@@ -83,7 +83,7 @@
           "item_id": "01053",
           "name": "Strawberry Fields",
           "price": "$5.35",
-          "sold_out": true,
+          "sold_out": false,
           "preorder_only": false
         }
       ]
@@ -95,28 +95,28 @@
           "item_id": "02001",
           "name": "Mini Purist",
           "price": "$2.75",
-          "sold_out": true,
+          "sold_out": false,
           "preorder_only": false
         },
         {
           "item_id": "02002",
           "name": "Mini Milk Chocolate Sprinkles",
           "price": "$2.75",
-          "sold_out": true,
+          "sold_out": false,
           "preorder_only": false
         },
         {
           "item_id": "02014",
           "name": "Mini Strawberry Fields",
           "price": "$2.75",
-          "sold_out": true,
+          "sold_out": false,
           "preorder_only": false
         },
         {
           "item_id": "02024",
           "name": "Mini Cinnamon Crispy Crunch",
           "price": "$3.00",
-          "sold_out": true,
+          "sold_out": false,
           "preorder_only": false
         },
         {
@@ -130,7 +130,7 @@
           "item_id": "02065",
           "name": "Mini Vanilla Cream",
           "price": "$3.00",
-          "sold_out": true,
+          "sold_out": false,
           "preorder_only": false
         }
       ]
@@ -142,14 +142,14 @@
           "item_id": "04001",
           "name": "Paleo - Chocolate Chip Sea Salt",
           "price": "$4.75",
-          "sold_out": true,
+          "sold_out": false,
           "preorder_only": false
         },
         {
           "item_id": "04053",
           "name": "Paleo - Salted Caramel Apple",
           "price": "$4.75",
-          "sold_out": true,
+          "sold_out": false,
           "preorder_only": false
         }
       ]
@@ -161,28 +161,28 @@
           "item_id": "03002",
           "name": "Yeast Raised - Purist",
           "price": "$3.00",
-          "sold_out": true,
+          "sold_out": false,
           "preorder_only": false
         },
         {
           "item_id": "03003",
           "name": "Yeast Raised - Milk Chocolate Sprinkles",
           "price": "$3.25",
-          "sold_out": true,
+          "sold_out": false,
           "preorder_only": false
         },
         {
           "item_id": "03004",
           "name": "Yeast Raised - Boston Cream (Filled)",
           "price": "$4.25",
-          "sold_out": true,
+          "sold_out": false,
           "preorder_only": false
         },
         {
           "item_id": "03015",
           "name": "Yeast Raised - Strawberry Fields",
           "price": "$3.25",
-          "sold_out": true,
+          "sold_out": false,
           "preorder_only": false
         },
         {
@@ -203,7 +203,7 @@
           "item_id": "03999",
           "name": "Yeast Raised - Apple Fritter",
           "price": "$4.00",
-          "sold_out": true,
+          "sold_out": false,
           "preorder_only": false
         }
       ]
@@ -248,7 +248,7 @@
           "item_id": "05005",
           "name": "Donut Holes (8 ct.)",
           "price": "$4.70",
-          "sold_out": true,
+          "sold_out": false,
           "preorder_only": false
         }
       ]
@@ -260,7 +260,7 @@
           "item_id": "05008",
           "name": "Biscuit - Bacon Egg & Cheese",
           "price": "$7.00",
-          "sold_out": false,
+          "sold_out": true,
           "preorder_only": false
         },
         {
@@ -279,7 +279,7 @@
           "item_id": "06001",
           "name": "Cookie - Chocolate Chip",
           "price": "$3.50",
-          "sold_out": true,
+          "sold_out": false,
           "preorder_only": false
         },
         {
@@ -293,7 +293,7 @@
           "item_id": "06003",
           "name": "Cookie - My Sister's Sugar Cookie",
           "price": "$3.50",
-          "sold_out": true,
+          "sold_out": false,
           "preorder_only": false
         }
       ]
