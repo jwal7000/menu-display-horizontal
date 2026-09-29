@@ -7,7 +7,7 @@
 /* ── Custom Fonts ── */
 @font-face {
   font-family: 'Neutraface 2 Display';
-  src: url('/fonts/Neutra2Display-Medium.otf') format('opentype');
+  src: url('fonts/Neutra2Display-Medium.otf') format('opentype');
   font-weight: 500;
   font-style: normal;
 }
