@@ -1,7 +1,7 @@
 {
   "location_id": "L862ACB6EPKVT",
   "location_name": "5th & Broadway",
-  "generated_at": "2026-09-29T22:05:42.286Z",
+  "generated_at": "2026-09-29T22:15:46.079Z",
   "source": "FlavorSchedule+Square",
   "section_count": 8,
   "item_count": 36,
@@ -95,14 +95,14 @@
           "item_id": "02001",
           "name": "Mini Purist",
           "price": "$2.75",
-          "sold_out": false,
+          "sold_out": true,
           "preorder_only": false
         },
         {
           "item_id": "02002",
           "name": "Mini Milk Chocolate Sprinkles",
           "price": "$2.75",
-          "sold_out": false,
+          "sold_out": true,
           "preorder_only": false
         },
         {
