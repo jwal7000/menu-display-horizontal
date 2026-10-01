@@ -1,7 +1,7 @@
 {
   "location_id": "L862ACB6EPKVT",
   "location_name": "5th & Broadway",
-  "generated_at": "2026-10-01T22:44:30.199Z",
+  "generated_at": "2026-10-01T22:54:33.951Z",
   "source": "FlavorSchedule+Square",
   "section_count": 8,
   "item_count": 36,
@@ -222,7 +222,7 @@
           "item_id": "17002",
           "name": "Roll - Cinnamon Glaze",
           "price": "$6.00",
-          "sold_out": true,
+          "sold_out": false,
           "preorder_only": false
         },
         {
@@ -293,7 +293,7 @@
           "item_id": "06003",
           "name": "Cookie - My Sister's Sugar Cookie",
           "price": "$3.50",
-          "sold_out": true,
+          "sold_out": false,
           "preorder_only": false
         }
       ]
