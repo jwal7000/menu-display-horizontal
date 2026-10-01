@@ -1,7 +1,7 @@
 {
   "location_id": "L862ACB6EPKVT",
   "location_name": "5th & Broadway",
-  "generated_at": "2026-10-01T20:33:40.073Z",
+  "generated_at": "2026-10-01T20:43:44.447Z",
   "source": "FlavorSchedule+Square",
   "section_count": 8,
   "item_count": 36,
@@ -13,7 +13,7 @@
           "item_id": "01001",
           "name": "Vanilla Cream",
           "price": "$5.35",
-          "sold_out": false,
+          "sold_out": true,
           "preorder_only": false
         },
         {
@@ -76,7 +76,7 @@
           "item_id": "01039",
           "name": "Cinnamon Sugar Toast",
           "price": "$5.35",
-          "sold_out": false,
+          "sold_out": true,
           "preorder_only": false
         },
         {
