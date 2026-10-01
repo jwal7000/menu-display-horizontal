@@ -1,7 +1,7 @@
 {
   "location_id": "L862ACB6EPKVT",
   "location_name": "5th & Broadway",
-  "generated_at": "2026-10-01T19:13:07.956Z",
+  "generated_at": "2026-10-01T19:23:12.214Z",
   "source": "FlavorSchedule+Square",
   "section_count": 8,
   "item_count": 36,
@@ -62,7 +62,7 @@
           "item_id": "01033",
           "name": "Pumpkin Spice Latte",
           "price": "$5.70",
-          "sold_out": false,
+          "sold_out": true,
           "preorder_only": false
         },
         {
@@ -175,7 +175,7 @@
           "item_id": "03004",
           "name": "Yeast Raised - Boston Cream (Filled)",
           "price": "$4.25",
-          "sold_out": false,
+          "sold_out": true,
           "preorder_only": false
         },
         {
