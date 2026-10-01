@@ -1,7 +1,7 @@
 {
   "location_id": "L4CQJADFVPZC9",
   "location_name": "The Gulch",
-  "generated_at": "2026-10-01T04:57:43.534Z",
+  "generated_at": "2026-10-01T05:07:47.077Z",
   "source": "FlavorSchedule+Square",
   "section_count": 8,
   "item_count": 36,
@@ -59,24 +59,24 @@
           "preorder_only": false
         },
         {
-          "item_id": "01018",
-          "name": "Blueberry Lavender",
-          "price": "$5.35",
-          "sold_out": true,
-          "preorder_only": false
-        },
-        {
-          "item_id": "01019",
-          "name": "Cinnamon Crispy Crunch",
-          "price": "$5.35",
-          "sold_out": true,
-          "preorder_only": false
-        },
-        {
-          "item_id": "01026",
-          "name": "Brownie Batter",
+          "item_id": "01033",
+          "name": "Pumpkin Spice Latte",
           "price": "$5.70",
-          "sold_out": true,
+          "sold_out": false,
+          "preorder_only": false
+        },
+        {
+          "item_id": "01036",
+          "name": "S'mores",
+          "price": "$5.70",
+          "sold_out": false,
+          "preorder_only": false
+        },
+        {
+          "item_id": "01039",
+          "name": "Cinnamon Sugar Toast",
+          "price": "$5.35",
+          "sold_out": false,
           "preorder_only": false
         },
         {
@@ -106,24 +106,24 @@
           "preorder_only": false
         },
         {
-          "item_id": "02014",
-          "name": "Mini Strawberry Fields",
-          "price": "$2.75",
-          "sold_out": true,
-          "preorder_only": false
-        },
-        {
-          "item_id": "02024",
-          "name": "Mini Cinnamon Crispy Crunch",
+          "item_id": "02005",
+          "name": "Mini Pumpkin Spice Latte",
           "price": "$3.00",
-          "sold_out": true,
+          "sold_out": false,
           "preorder_only": false
         },
         {
-          "item_id": "02027",
-          "name": "Mini Brownie Batter",
-          "price": "$3.25",
-          "sold_out": true,
+          "item_id": "02018",
+          "name": "Mini Cinnamon Sugar Toast",
+          "price": "$2.75",
+          "sold_out": false,
+          "preorder_only": false
+        },
+        {
+          "item_id": "02025",
+          "name": "Mini Spiced Apple Glaze",
+          "price": "$2.75",
+          "sold_out": false,
           "preorder_only": false
         },
         {
@@ -146,10 +146,10 @@
           "preorder_only": false
         },
         {
-          "item_id": "04053",
-          "name": "Paleo - Salted Caramel Apple",
+          "item_id": "04042",
+          "name": "Paleo - S'mores",
           "price": "$4.75",
-          "sold_out": true,
+          "sold_out": false,
           "preorder_only": false
         }
       ]
@@ -186,17 +186,17 @@
           "preorder_only": false
         },
         {
-          "item_id": "03034",
-          "name": "Yeast Raised - Blueberry Lavender Glaze",
-          "price": "$3.25",
-          "sold_out": true,
+          "item_id": "03078",
+          "name": "Yeast Raised - Pumpkin Spice Latte (Filled)",
+          "price": "$4.25",
+          "sold_out": false,
           "preorder_only": false
         },
         {
-          "item_id": "03037",
-          "name": "Yeast Raised - Salted Caramel Apple",
+          "item_id": "03131",
+          "name": "Yeast Raised - Apple Cider Glaze",
           "price": "$3.25",
-          "sold_out": true,
+          "sold_out": false,
           "preorder_only": false
         },
         {
