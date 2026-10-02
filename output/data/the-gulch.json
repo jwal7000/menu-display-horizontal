@@ -1,7 +1,7 @@
 {
   "location_id": "L4CQJADFVPZC9",
   "location_name": "The Gulch",
-  "generated_at": "2026-10-02T14:00:03.626Z",
+  "generated_at": "2026-10-02T14:10:08.106Z",
   "source": "FlavorSchedule+Square",
   "section_count": 8,
   "item_count": 37,
@@ -229,7 +229,7 @@
           "item_id": "17002",
           "name": "Roll - Cinnamon Glaze",
           "price": "$6.00",
-          "sold_out": false,
+          "sold_out": true,
           "preorder_only": false
         },
         {
