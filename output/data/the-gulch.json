@@ -1,10 +1,10 @@
 {
   "location_id": "L4CQJADFVPZC9",
   "location_name": "The Gulch",
-  "generated_at": "2026-10-02T20:52:44.042Z",
+  "generated_at": "2026-10-02T21:02:47.867Z",
   "source": "FlavorSchedule+Square",
   "section_count": 8,
-  "item_count": 37,
+  "item_count": 36,
   "sections": [
     {
       "name": "Hundred Layer Donuts",
@@ -175,13 +175,6 @@
           "item_id": "03003",
           "name": "Yeast Raised - Milk Chocolate Sprinkles",
           "price": "$3.25",
-          "sold_out": true,
-          "preorder_only": false
-        },
-        {
-          "item_id": "03004",
-          "name": "Yeast Raised - Boston Cream (Filled)",
-          "price": "$4.25",
           "sold_out": true,
           "preorder_only": false
         },

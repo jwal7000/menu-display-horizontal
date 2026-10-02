@@ -1,10 +1,10 @@
 {
   "location_id": "L862ACB6EPKVT",
   "location_name": "5th & Broadway",
-  "generated_at": "2026-10-02T20:52:44.281Z",
+  "generated_at": "2026-10-02T21:02:48.079Z",
   "source": "FlavorSchedule+Square",
   "section_count": 8,
-  "item_count": 37,
+  "item_count": 36,
   "sections": [
     {
       "name": "Hundred Layer Donuts",
@@ -176,13 +176,6 @@
           "name": "Yeast Raised - Milk Chocolate Sprinkles",
           "price": "$3.25",
           "sold_out": false,
-          "preorder_only": false
-        },
-        {
-          "item_id": "03004",
-          "name": "Yeast Raised - Boston Cream (Filled)",
-          "price": "$4.25",
-          "sold_out": true,
           "preorder_only": false
         },
         {
