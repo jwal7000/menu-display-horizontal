@@ -1,7 +1,7 @@
 {
   "location_id": "L862ACB6EPKVT",
   "location_name": "5th & Broadway",
-  "generated_at": "2026-10-02T19:32:14.215Z",
+  "generated_at": "2026-10-02T19:42:17.981Z",
   "source": "FlavorSchedule+Square",
   "section_count": 8,
   "item_count": 37,
@@ -168,7 +168,7 @@
           "item_id": "03002",
           "name": "Yeast Raised - Purist",
           "price": "$3.00",
-          "sold_out": false,
+          "sold_out": true,
           "preorder_only": false
         },
         {
