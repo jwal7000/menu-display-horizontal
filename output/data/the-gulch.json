@@ -1,7 +1,7 @@
 {
   "location_id": "L4CQJADFVPZC9",
   "location_name": "The Gulch",
-  "generated_at": "2026-10-02T14:50:23.195Z",
+  "generated_at": "2026-10-02T15:00:27.214Z",
   "source": "FlavorSchedule+Square",
   "section_count": 8,
   "item_count": 37,
@@ -55,7 +55,7 @@
           "item_id": "01009",
           "name": "Salted Caramel Apple",
           "price": "$5.35",
-          "sold_out": false,
+          "sold_out": true,
           "preorder_only": false
         },
         {
@@ -123,7 +123,7 @@
           "item_id": "02018",
           "name": "Mini Cinnamon Sugar Toast",
           "price": "$2.75",
-          "sold_out": false,
+          "sold_out": true,
           "preorder_only": false
         },
         {
