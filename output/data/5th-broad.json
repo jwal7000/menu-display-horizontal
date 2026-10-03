@@ -1,7 +1,7 @@
 {
   "location_id": "L862ACB6EPKVT",
   "location_name": "5th & Broadway",
-  "generated_at": "2026-10-03T00:03:57.859Z",
+  "generated_at": "2026-10-03T00:14:01.578Z",
   "source": "FlavorSchedule+Square",
   "section_count": 8,
   "item_count": 36,
@@ -149,7 +149,7 @@
           "item_id": "04001",
           "name": "Paleo - Chocolate Chip Sea Salt",
           "price": "$4.75",
-          "sold_out": false,
+          "sold_out": true,
           "preorder_only": false
         },
         {
@@ -189,7 +189,7 @@
           "item_id": "03078",
           "name": "Yeast Raised - Pumpkin Spice Latte (Filled)",
           "price": "$4.25",
-          "sold_out": false,
+          "sold_out": true,
           "preorder_only": false
         },
         {
