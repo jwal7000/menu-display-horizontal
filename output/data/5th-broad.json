@@ -1,7 +1,7 @@
 {
   "location_id": "L862ACB6EPKVT",
   "location_name": "5th & Broadway",
-  "generated_at": "2026-10-04T17:09:02.987Z",
+  "generated_at": "2026-10-04T17:19:06.652Z",
   "source": "FlavorSchedule+Square",
   "section_count": 8,
   "item_count": 36,
@@ -83,7 +83,7 @@
           "item_id": "01039",
           "name": "Cinnamon Sugar Toast",
           "price": "$5.35",
-          "sold_out": false,
+          "sold_out": true,
           "preorder_only": false
         },
         {
