@@ -44,6 +44,7 @@ const DISPLAY_LOCATIONS = [
   { slug: 'the-factory', name: 'The Factory',    sqId: 'ECE7YC9G73NXK', dbName: 'The Factory' },
   { slug: 'the-gulch',   name: 'The Gulch',       sqId: 'L4CQJADFVPZC9', dbName: 'The Gulch' },
   { slug: '5th-broad',   name: '5th & Broadway',  sqId: 'L862ACB6EPKVT', dbName: '5th & Broad' },
+  { slug: 'medley',      name: 'Medley',           sqId: 'LDR9H5M3GQKXF', dbName: 'Medley' },
 ];
 
 // ── Helpers ──────────────────────────────────────────────────────────────────

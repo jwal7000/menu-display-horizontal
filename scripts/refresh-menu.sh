@@ -13,6 +13,7 @@ set -e
 
 REPO_H="/Users/openclaw-user/.openclaw/workspace/square-digital-menu-poc"
 REPO_P="/Users/openclaw-user/.openclaw/workspace/square-digital-menu-poc-portrait"
+REPO_B="/Users/openclaw-user/.openclaw/workspace/menu-display-beverages"
 LOG="$REPO_H/logs/refresh.log"
 
 GITHUB_TOKEN=$(cat /tmp/ghtoken.txt 2>/dev/null || \
@@ -26,10 +27,18 @@ echo "[$(date '+%Y-%m-%d %H:%M:%S')] Starting menu refresh..." >> "$LOG"
 cd "$REPO_H"
 export PATH="/opt/homebrew/opt/node@22/bin:/opt/homebrew/bin:/usr/local/bin:$PATH"
 
-# Build menu from AppSheet/SQL FlavorSchedule + Square catalog prices + Square inventory
-# This replaces the Google Sheets pipeline — no spreadsheet required.
+# Build pastry menu from AppSheet/SQL FlavorSchedule + Square catalog prices + Square inventory
 npm run build-menu-db >> "$LOG" 2>&1
-echo "[$(date '+%Y-%m-%d %H:%M:%S')] DB build complete." >> "$LOG"
+echo "[$(date '+%Y-%m-%d %H:%M:%S')] Pastry build complete." >> "$LOG"
+
+# Build beverage menu and copy data to beverages repo
+npm run build-bev >> "$LOG" 2>&1
+echo "[$(date '+%Y-%m-%d %H:%M:%S')] Bev build complete." >> "$LOG"
+mkdir -p "$REPO_B/public/data"
+for f in "$REPO_H/output/data/bev-"*.json; do
+  [[ -f "$f" ]] && cp "$f" "$REPO_B/public/data/"
+done
+echo "[$(date '+%Y-%m-%d %H:%M:%S')] Bev data copied to beverages repo." >> "$LOG"
 
 # Copy portrait locations to the portrait repo
 for loc in the-factory 5th-broad; do
@@ -65,6 +74,19 @@ else
   GIT_ASKPASS='' git -C "$REPO_P" -c credential.helper='' push \
     "https://${GITHUB_TOKEN}@github.com/jwal7000/menu-display-portrait.git" main >> "$LOG" 2>&1
   echo "[$(date '+%Y-%m-%d %H:%M:%S')] Portrait: pushed." >> "$LOG"
+fi
+
+# 6. Push beverages repo (The Gulch, Medley)
+git -C "$REPO_B" add public/data/bev-*.json 2>/dev/null || true
+if git -C "$REPO_B" diff --cached --quiet; then
+  echo "[$(date '+%Y-%m-%d %H:%M:%S')] Beverages: no changes." >> "$LOG"
+else
+  git -C "$REPO_B" -c user.name="menu-refresh[bot]" \
+      -c user.email="menu-refresh@fivedaughtersbakery.com" \
+      commit -m "chore: auto-refresh bev data [$(date '+%H:%M')]" >> "$LOG" 2>&1
+  GIT_ASKPASS='' git -C "$REPO_B" -c credential.helper='' push \
+    "https://${GITHUB_TOKEN}@github.com/jwal7000/menu-display-beverages.git" main >> "$LOG" 2>&1
+  echo "[$(date '+%Y-%m-%d %H:%M:%S')] Beverages: pushed." >> "$LOG"
 fi
 
 echo "[$(date '+%Y-%m-%d %H:%M:%S')] Done." >> "$LOG"

@@ -21,7 +21,7 @@ const OUTPUT_DIR = resolve(ROOT_DIR, 'output');
 // Type 2 stores that have a beverage display (horizontal)
 const BEV_LOCATIONS = [
   { slug: 'the-gulch', name: 'The Gulch', sqId: 'L4CQJADFVPZC9' },
-  // Add Medley when it comes online
+  { slug: 'medley',    name: 'Medley',    sqId: 'LDR9H5M3GQKXF' },
 ];
 
 function expandPath(p) { return p.startsWith('~') ? p.replace('~', process.env.HOME||'') : p; }
