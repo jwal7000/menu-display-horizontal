@@ -1,7 +1,7 @@
 {
   "location_id": "L862ACB6EPKVT",
   "location_name": "5th & Broadway",
-  "generated_at": "2026-10-05T14:47:02.795Z",
+  "generated_at": "2026-10-05T14:57:06.952Z",
   "source": "FlavorSchedule+Square",
   "section_count": 8,
   "item_count": 36,
@@ -123,7 +123,7 @@
           "item_id": "02018",
           "name": "Mini Cinnamon Sugar Toast",
           "price": "$2.75",
-          "sold_out": false,
+          "sold_out": true,
           "preorder_only": false
         },
         {
@@ -279,7 +279,7 @@
           "item_id": "06001",
           "name": "Cookie - Chocolate Chip",
           "price": "$3.50",
-          "sold_out": false,
+          "sold_out": true,
           "preorder_only": false
         },
         {
