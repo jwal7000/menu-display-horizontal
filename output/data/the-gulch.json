@@ -1,7 +1,7 @@
 {
   "location_id": "L4CQJADFVPZC9",
   "location_name": "The Gulch",
-  "generated_at": "2026-10-05T17:28:09.023Z",
+  "generated_at": "2026-10-05T17:38:12.870Z",
   "source": "FlavorSchedule+Square",
   "section_count": 8,
   "item_count": 36,
@@ -69,7 +69,7 @@
           "item_id": "01033",
           "name": "Pumpkin Spice Latte",
           "price": "$5.70",
-          "sold_out": false,
+          "sold_out": true,
           "preorder_only": false
         },
         {

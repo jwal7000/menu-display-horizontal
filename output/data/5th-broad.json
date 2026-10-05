@@ -1,7 +1,7 @@
 {
   "location_id": "L862ACB6EPKVT",
   "location_name": "5th & Broadway",
-  "generated_at": "2026-10-05T17:28:09.224Z",
+  "generated_at": "2026-10-05T17:38:13.067Z",
   "source": "FlavorSchedule+Square",
   "section_count": 8,
   "item_count": 36,
@@ -116,7 +116,7 @@
           "item_id": "02005",
           "name": "Mini Pumpkin Spice Latte",
           "price": "$3.00",
-          "sold_out": true,
+          "sold_out": false,
           "preorder_only": false
         },
         {
@@ -137,7 +137,7 @@
           "item_id": "02065",
           "name": "Mini Vanilla Cream",
           "price": "$3.00",
-          "sold_out": true,
+          "sold_out": false,
           "preorder_only": false
         }
       ]
