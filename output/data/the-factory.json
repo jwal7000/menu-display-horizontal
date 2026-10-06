@@ -1,7 +1,7 @@
 {
   "location_id": "ECE7YC9G73NXK",
   "location_name": "The Factory",
-  "generated_at": "2026-10-06T19:00:01.498Z",
+  "generated_at": "2026-10-06T19:10:06.511Z",
   "source": "FlavorSchedule+Square",
   "section_count": 8,
   "item_count": 36,
@@ -27,7 +27,7 @@
           "item_id": "01003",
           "name": "Chocolate Sea Salt",
           "price": "$5.35",
-          "sold_out": false,
+          "sold_out": true,
           "preorder_only": false
         },
         {
