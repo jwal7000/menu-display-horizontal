@@ -1,7 +1,7 @@
 {
   "location_id": "L4CQJADFVPZC9",
   "location_name": "The Gulch",
-  "generated_at": "2026-10-06T14:37:43.313Z",
+  "generated_at": "2026-10-06T14:47:54.924Z",
   "source": "FlavorSchedule+Square",
   "section_count": 8,
   "item_count": 36,
@@ -156,7 +156,7 @@
           "item_id": "04042",
           "name": "Paleo - S'mores",
           "price": "$4.75",
-          "sold_out": false,
+          "sold_out": true,
           "preorder_only": false
         }
       ]
@@ -298,6 +298,5 @@
         }
       ]
     }
-  ],
-  "inventory_patched_at": "2026-10-06T14:37:47.919Z"
+  ]
 }
