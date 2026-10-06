@@ -1,7 +1,7 @@
 {
   "location_id": "ECE7YC9G73NXK",
   "location_name": "The Factory",
-  "generated_at": "2026-10-06T16:08:35.059Z",
+  "generated_at": "2026-10-06T16:18:42.664Z",
   "source": "FlavorSchedule+Square",
   "section_count": 8,
   "item_count": 36,
@@ -168,7 +168,7 @@
           "item_id": "03002",
           "name": "Yeast Raised - Purist",
           "price": "$3.00",
-          "sold_out": false,
+          "sold_out": true,
           "preorder_only": false
         },
         {
