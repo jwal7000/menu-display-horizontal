@@ -1,7 +1,7 @@
 {
   "location_id": "ECE7YC9G73NXK",
   "location_name": "The Factory",
-  "generated_at": "2026-10-06T03:12:18.406Z",
+  "generated_at": "2026-10-06T03:22:22.781Z",
   "source": "FlavorSchedule+Square",
   "section_count": 8,
   "item_count": 36,
@@ -13,28 +13,28 @@
           "item_id": "01001",
           "name": "Vanilla Cream",
           "price": "$5.35",
-          "sold_out": true,
+          "sold_out": false,
           "preorder_only": false
         },
         {
           "item_id": "01002",
           "name": "The Purist",
           "price": "$4.75",
-          "sold_out": true,
+          "sold_out": false,
           "preorder_only": false
         },
         {
           "item_id": "01003",
           "name": "Chocolate Sea Salt",
           "price": "$5.35",
-          "sold_out": true,
+          "sold_out": false,
           "preorder_only": false
         },
         {
           "item_id": "01004",
           "name": "Maple Glaze",
           "price": "$5.35",
-          "sold_out": true,
+          "sold_out": false,
           "preorder_only": false
         },
         {
@@ -48,49 +48,49 @@
           "item_id": "01006",
           "name": "Milk Chocolate Sprinkles",
           "price": "$5.10",
-          "sold_out": true,
+          "sold_out": false,
           "preorder_only": false
         },
         {
           "item_id": "01009",
           "name": "Salted Caramel Apple",
           "price": "$5.35",
-          "sold_out": true,
+          "sold_out": false,
           "preorder_only": false
         },
         {
           "item_id": "01018",
           "name": "Blueberry Lavender",
           "price": "$5.35",
-          "sold_out": true,
+          "sold_out": false,
           "preorder_only": false
         },
         {
           "item_id": "01033",
           "name": "Pumpkin Spice Latte",
           "price": "$5.70",
-          "sold_out": true,
+          "sold_out": false,
           "preorder_only": false
         },
         {
           "item_id": "01036",
           "name": "S'mores",
           "price": "$5.70",
-          "sold_out": true,
+          "sold_out": false,
           "preorder_only": false
         },
         {
           "item_id": "01039",
           "name": "Cinnamon Sugar Toast",
           "price": "$5.35",
-          "sold_out": true,
+          "sold_out": false,
           "preorder_only": false
         },
         {
           "item_id": "01053",
           "name": "Strawberry Fields",
           "price": "$5.35",
-          "sold_out": true,
+          "sold_out": false,
           "preorder_only": false
         }
       ]
@@ -102,42 +102,42 @@
           "item_id": "02001",
           "name": "Mini Purist",
           "price": "$2.75",
-          "sold_out": true,
+          "sold_out": false,
           "preorder_only": false
         },
         {
           "item_id": "02002",
           "name": "Mini Milk Chocolate Sprinkles",
           "price": "$2.75",
-          "sold_out": true,
+          "sold_out": false,
           "preorder_only": false
         },
         {
           "item_id": "02005",
           "name": "Mini Pumpkin Spice Latte",
           "price": "$3.00",
-          "sold_out": true,
+          "sold_out": false,
           "preorder_only": false
         },
         {
           "item_id": "02018",
           "name": "Mini Cinnamon Sugar Toast",
           "price": "$2.75",
-          "sold_out": true,
+          "sold_out": false,
           "preorder_only": false
         },
         {
           "item_id": "02025",
           "name": "Mini Spiced Apple Glaze",
           "price": "$2.75",
-          "sold_out": true,
+          "sold_out": false,
           "preorder_only": false
         },
         {
           "item_id": "02065",
           "name": "Mini Vanilla Cream",
           "price": "$3.00",
-          "sold_out": true,
+          "sold_out": false,
           "preorder_only": false
         }
       ]
@@ -156,7 +156,7 @@
           "item_id": "04042",
           "name": "Paleo - S'mores",
           "price": "$4.75",
-          "sold_out": true,
+          "sold_out": false,
           "preorder_only": false
         }
       ]
@@ -168,21 +168,21 @@
           "item_id": "03002",
           "name": "Yeast Raised - Purist",
           "price": "$3.00",
-          "sold_out": true,
+          "sold_out": false,
           "preorder_only": false
         },
         {
           "item_id": "03003",
           "name": "Yeast Raised - Milk Chocolate Sprinkles",
           "price": "$3.25",
-          "sold_out": true,
+          "sold_out": false,
           "preorder_only": false
         },
         {
           "item_id": "03015",
           "name": "Yeast Raised - Strawberry Fields",
           "price": "$3.25",
-          "sold_out": true,
+          "sold_out": false,
           "preorder_only": false
         },
         {
@@ -196,14 +196,14 @@
           "item_id": "03131",
           "name": "Yeast Raised - Apple Cider Glaze",
           "price": "$3.25",
-          "sold_out": true,
+          "sold_out": false,
           "preorder_only": false
         },
         {
           "item_id": "03999",
           "name": "Yeast Raised - Apple Fritter",
           "price": "$4.00",
-          "sold_out": true,
+          "sold_out": false,
           "preorder_only": false
         }
       ]
@@ -248,7 +248,7 @@
           "item_id": "05005",
           "name": "Donut Holes (8 ct.)",
           "price": "$4.70",
-          "sold_out": true,
+          "sold_out": false,
           "preorder_only": false
         }
       ]
@@ -279,21 +279,21 @@
           "item_id": "06001",
           "name": "Cookie - Chocolate Chip",
           "price": "$3.50",
-          "sold_out": true,
+          "sold_out": false,
           "preorder_only": false
         },
         {
           "item_id": "06002",
           "name": "Cookie - Snowcap (GF)",
           "price": "$3.50",
-          "sold_out": true,
+          "sold_out": false,
           "preorder_only": false
         },
         {
           "item_id": "06003",
           "name": "Cookie - My Sister's Sugar Cookie",
           "price": "$3.50",
-          "sold_out": true,
+          "sold_out": false,
           "preorder_only": false
         }
       ]
