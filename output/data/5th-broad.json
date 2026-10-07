@@ -1,7 +1,7 @@
 {
   "location_id": "L862ACB6EPKVT",
   "location_name": "5th & Broadway",
-  "generated_at": "2026-10-07T18:41:48.102Z",
+  "generated_at": "2026-10-07T18:51:53.134Z",
   "source": "FlavorSchedule+Square",
   "section_count": 8,
   "item_count": 36,
@@ -137,7 +137,7 @@
           "item_id": "02065",
           "name": "Mini Vanilla Cream",
           "price": "$3.00",
-          "sold_out": false,
+          "sold_out": true,
           "preorder_only": false
         }
       ]
