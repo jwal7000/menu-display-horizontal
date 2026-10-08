@@ -1,7 +1,7 @@
 {
   "location_id": "L862ACB6EPKVT",
   "location_name": "5th & Broadway",
-  "generated_at": "2026-10-08T23:15:34.727Z",
+  "generated_at": "2026-10-08T23:25:39.179Z",
   "source": "FlavorSchedule+Square",
   "section_count": 8,
   "item_count": 36,
@@ -76,7 +76,7 @@
           "item_id": "01036",
           "name": "S'mores",
           "price": "$5.70",
-          "sold_out": true,
+          "sold_out": false,
           "preorder_only": false
         },
         {
