@@ -1,7 +1,7 @@
 {
   "location_id": "L862ACB6EPKVT",
   "location_name": "5th & Broadway",
-  "generated_at": "2026-10-08T22:45:21.029Z",
+  "generated_at": "2026-10-08T22:55:25.445Z",
   "source": "FlavorSchedule+Square",
   "section_count": 8,
   "item_count": 36,
@@ -123,7 +123,7 @@
           "item_id": "02018",
           "name": "Mini Cinnamon Sugar Toast",
           "price": "$2.75",
-          "sold_out": true,
+          "sold_out": false,
           "preorder_only": false
         },
         {
