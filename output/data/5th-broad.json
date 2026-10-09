@@ -1,7 +1,7 @@
 {
   "location_id": "L862ACB6EPKVT",
   "location_name": "5th & Broadway",
-  "generated_at": "2026-10-09T18:04:09.037Z",
+  "generated_at": "2026-10-09T18:14:13.664Z",
   "source": "FlavorSchedule+Square",
   "section_count": 8,
   "item_count": 36,
@@ -156,7 +156,7 @@
           "item_id": "04042",
           "name": "Paleo - S'mores",
           "price": "$4.75",
-          "sold_out": false,
+          "sold_out": true,
           "preorder_only": false
         }
       ]
