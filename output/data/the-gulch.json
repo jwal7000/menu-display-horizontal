@@ -1,7 +1,7 @@
 {
   "location_id": "L4CQJADFVPZC9",
   "location_name": "The Gulch",
-  "generated_at": "2026-10-08T23:55:52.709Z",
+  "generated_at": "2026-10-09T00:05:57.247Z",
   "source": "FlavorSchedule+Square",
   "section_count": 8,
   "item_count": 36,
@@ -34,7 +34,7 @@
           "item_id": "01004",
           "name": "Maple Glaze",
           "price": "$5.35",
-          "sold_out": false,
+          "sold_out": true,
           "preorder_only": false
         },
         {
