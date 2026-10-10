@@ -1,7 +1,7 @@
 {
   "location_id": "L862ACB6EPKVT",
   "location_name": "5th & Broadway",
-  "generated_at": "2026-10-10T01:38:35.619Z",
+  "generated_at": "2026-10-10T01:48:40.249Z",
   "source": "FlavorSchedule+Square",
   "section_count": 8,
   "item_count": 36,
@@ -27,7 +27,7 @@
           "item_id": "01003",
           "name": "Chocolate Sea Salt",
           "price": "$5.35",
-          "sold_out": false,
+          "sold_out": true,
           "preorder_only": false
         },
         {
@@ -48,7 +48,7 @@
           "item_id": "01006",
           "name": "Milk Chocolate Sprinkles",
           "price": "$5.10",
-          "sold_out": false,
+          "sold_out": true,
           "preorder_only": false
         },
         {
