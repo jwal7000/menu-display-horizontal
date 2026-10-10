@@ -1,7 +1,7 @@
 {
   "location_id": "L4CQJADFVPZC9",
   "location_name": "The Gulch",
-  "generated_at": "2026-10-10T16:45:20.079Z",
+  "generated_at": "2026-10-10T16:55:24.456Z",
   "source": "FlavorSchedule+Square",
   "section_count": 8,
   "item_count": 36,
@@ -83,7 +83,7 @@
           "item_id": "01039",
           "name": "Cinnamon Sugar Toast",
           "price": "$5.35",
-          "sold_out": false,
+          "sold_out": true,
           "preorder_only": false
         },
         {
