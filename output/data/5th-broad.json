@@ -1,7 +1,7 @@
 {
   "location_id": "L862ACB6EPKVT",
   "location_name": "5th & Broadway",
-  "generated_at": "2026-10-10T17:05:29.141Z",
+  "generated_at": "2026-10-10T17:15:33.433Z",
   "source": "FlavorSchedule+Square",
   "section_count": 8,
   "item_count": 36,
@@ -189,7 +189,7 @@
           "item_id": "03078",
           "name": "Yeast Raised - Pumpkin Spice Latte (Filled)",
           "price": "$4.25",
-          "sold_out": false,
+          "sold_out": true,
           "preorder_only": false
         },
         {
