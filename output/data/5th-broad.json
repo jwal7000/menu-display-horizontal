@@ -1,7 +1,7 @@
 {
   "location_id": "L862ACB6EPKVT",
   "location_name": "5th & Broadway",
-  "generated_at": "2026-10-11T15:05:10.512Z",
+  "generated_at": "2026-10-11T15:15:15.083Z",
   "source": "FlavorSchedule+Square",
   "section_count": 8,
   "item_count": 36,
@@ -175,7 +175,7 @@
           "item_id": "03003",
           "name": "Yeast Raised - Milk Chocolate Sprinkles",
           "price": "$3.25",
-          "sold_out": false,
+          "sold_out": true,
           "preorder_only": false
         },
         {
@@ -222,7 +222,7 @@
           "item_id": "17002",
           "name": "Roll - Cinnamon Glaze",
           "price": "$6.00",
-          "sold_out": false,
+          "sold_out": true,
           "preorder_only": false
         },
         {
