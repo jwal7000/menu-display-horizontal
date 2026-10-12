@@ -1,7 +1,7 @@
 {
   "location_id": "L862ACB6EPKVT",
   "location_name": "5th & Broadway",
-  "generated_at": "2026-10-12T20:58:45.675Z",
+  "generated_at": "2026-10-12T21:08:50.702Z",
   "source": "FlavorSchedule+Square",
   "section_count": 8,
   "item_count": 36,
@@ -41,7 +41,7 @@
           "item_id": "01005",
           "name": "King Kong",
           "price": "$5.70",
-          "sold_out": true,
+          "sold_out": false,
           "preorder_only": false
         },
         {
@@ -109,7 +109,7 @@
           "item_id": "02002",
           "name": "Mini Milk Chocolate Sprinkles",
           "price": "$2.75",
-          "sold_out": true,
+          "sold_out": false,
           "preorder_only": false
         },
         {
@@ -248,7 +248,7 @@
           "item_id": "05005",
           "name": "Donut Holes (8 ct.)",
           "price": "$4.70",
-          "sold_out": false,
+          "sold_out": true,
           "preorder_only": false
         }
       ]
