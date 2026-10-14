@@ -1,7 +1,7 @@
 {
   "location_id": "L4CQJADFVPZC9",
   "location_name": "The Gulch",
-  "generated_at": "2026-10-14T17:29:30.582Z",
+  "generated_at": "2026-10-14T17:39:35.323Z",
   "source": "FlavorSchedule+Square",
   "section_count": 8,
   "item_count": 36,
@@ -48,14 +48,14 @@
           "item_id": "01006",
           "name": "Milk Chocolate Sprinkles",
           "price": "$5.10",
-          "sold_out": false,
+          "sold_out": true,
           "preorder_only": false
         },
         {
           "item_id": "01009",
           "name": "Salted Caramel Apple",
           "price": "$5.35",
-          "sold_out": false,
+          "sold_out": true,
           "preorder_only": false
         },
         {
@@ -83,7 +83,7 @@
           "item_id": "01039",
           "name": "Cinnamon Sugar Toast",
           "price": "$5.35",
-          "sold_out": false,
+          "sold_out": true,
           "preorder_only": false
         },
         {
@@ -298,5 +298,6 @@
         }
       ]
     }
-  ]
+  ],
+  "inventory_patched_at": "2026-10-14T17:39:36.377Z"
 }
