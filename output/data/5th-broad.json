@@ -1,7 +1,7 @@
 {
   "location_id": "L862ACB6EPKVT",
   "location_name": "5th & Broadway",
-  "generated_at": "2026-10-14T15:18:28.745Z",
+  "generated_at": "2026-10-14T15:28:34.343Z",
   "source": "FlavorSchedule+Square",
   "section_count": 8,
   "item_count": 36,
@@ -222,7 +222,7 @@
           "item_id": "17002",
           "name": "Roll - Cinnamon Glaze",
           "price": "$6.00",
-          "sold_out": false,
+          "sold_out": true,
           "preorder_only": false
         },
         {
