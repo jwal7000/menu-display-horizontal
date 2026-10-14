@@ -1,0 +1,550 @@
+/* ─────────────────────────────────────────────────────────────────────────
+   Five Daughters Bakery — Digital Menu Board
+   Target: 16:9 TV (1920×1080 reference). All sizes in vh/vw so the layout
+   scales naturally to any 16:9 screen without media queries.
+───────────────────────────────────────────────────────────────────────── */
+
+/* ── Custom Fonts ── */
+@font-face {
+  font-family: 'Neutraface 2 Display';
+  src: url('fonts/Neutra2Display-Medium.otf') format('opentype');
+  font-weight: 500;
+  font-style: normal;
+}
+
+/* ── Reset ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+/*
+  Scale 1rem with viewport width so clamp() rem bounds stay proportional
+  at any 16:9 resolution. 0.8333vw = 16 px at the 1920 px reference.
+*/
+html { font-size: 0.8333vw; }
+
+/* ── Design tokens ── */
+:root {
+  /* FDB Brand Palette */
+  --pink:            #f59bbb;   /* primary */
+  --pink-dim:        #e07a9e;   /* darker pink for accents/borders */
+  --pink-pale:       #fce8f1;   /* very light pink for surfaces */
+  --plum:            #5c2946;   /* dark text / headings */
+  --plum-mid:        #7a3a5e;   /* mid plum for secondary text */
+  --teal:            #9cdbd9;   /* accent / pop of color */
+  --teal-dim:        #6bbfbc;   /* slightly deeper teal */
+  --white:           #ffffff;
+  --off-white:       #fdf6fa;   /* warm white for body bg */
+
+  /* Semantic roles */
+  --bg:              var(--off-white);
+  --surface:         var(--white);
+  --surface-2:       var(--pink-pale);
+  --border:          #f0cede;
+  --border-light:    #f7dde9;
+
+  --text-primary:    var(--plum);
+  --text-secondary:  var(--plum-mid);
+  --text-muted:      #a0708a;
+
+  --accent:          var(--pink);
+  --accent-bright:   var(--pink-dim);
+  --price-color:     var(--plum);
+
+  --sold-out-text:   #c09aac;
+  --sold-out-line:   #dbb0c6;
+
+  --warn-bg:         #fff0f5;
+  --warn-border:     var(--pink-dim);
+  --warn-text:       var(--plum);
+
+  /* Typography */
+  --font-display:    'Neutraface 2 Display', 'Playfair Display', Georgia, 'Times New Roman', serif;
+  --font-ui:         'Inter', system-ui, -apple-system, sans-serif;
+
+  /* Layout */
+  --header-h:        9vh;
+  --footer-h:        4.2vh;
+  --warn-h:          3.4vh;
+  --pad-x:           2vw;
+  --pad-y:           1.4vh;
+  --radius:          0.5vw;
+  --gap:             1.4vw;
+}
+
+/* ── Base ── */
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: var(--bg);
+  color: var(--text-primary);
+  font-family: var(--font-display);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* ── Warning banner ── */
+.connection-warning {
+  position: fixed;
+  inset: 0 0 auto 0;
+  z-index: 200;
+  height: var(--warn-h);
+  background: var(--warn-bg);
+  border-bottom: 1px solid var(--warn-border);
+  color: var(--warn-text);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6vw;
+  font-family: var(--font-display);
+  font-size: 1.5vh;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  transition: transform 0.35s ease;
+}
+
+.connection-warning.hidden { display: none; }
+
+.warning-icon { font-size: 1.6vh; }
+
+/* Shift layout down when warning is visible */
+body.has-warning .header    { top: var(--warn-h); }
+body.has-warning .menu-root { top: calc(var(--header-h) + var(--warn-h)); }
+
+/* ── Header ── */
+.header {
+  position: fixed;
+  inset: 0 0 auto 0;
+  height: var(--header-h);
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  padding: 0 var(--pad-x);
+  background: var(--white);
+  border-bottom: 3px solid var(--pink);
+  transition: top 0.35s ease;
+  box-shadow: 0 2px 12px rgba(245, 155, 187, 0.18);
+}
+
+.header-left {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4vh;
+  flex: 0 0 auto;
+}
+
+.header-left {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.header-center {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.header-right {
+  flex: 1;
+}
+
+.header-logo {
+  height: calc(var(--header-h) * 0.78);
+  width: auto;
+  display: block;
+  object-fit: contain;
+}
+
+.header-location {
+  font-family: var(--font-display);
+  font-size: clamp(0.8rem, 2vh, 1.4rem);
+  font-weight: 600;
+  color: var(--plum);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+/* ── Menu root ── */
+.menu-root {
+  position: fixed;
+  top: var(--header-h);
+  left: 0;
+  right: 0;
+  bottom: var(--footer-h);
+  display: flex;
+  flex-direction: row;
+  overflow: hidden;
+  transition: top 0.35s ease;
+}
+
+/* ── Menu content (no-scroll — TV display) ── */
+.menu-content {
+  flex: 1;
+  overflow: hidden;
+  padding: var(--pad-y) 0;
+}
+
+/* ── Promo sidebar ── */
+.promo-panel {
+  flex: 0 0 36vw;
+  display: flex;
+  align-items: stretch;
+  justify-content: stretch;
+  padding: 0;
+  background: transparent;
+  overflow: hidden;
+}
+
+.promo-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center;
+  display: block;
+}
+
+/* ── Section stack (e.g. Rolls + Paleo in one column) ── */
+.section-stack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap);
+}
+
+/* ── Sections grid ── */
+/*
+  Auto-fill columns: each column is at least 22vw wide.
+  On a 1920px screen this gives ~4 columns for a typical 10-section menu.
+  Fewer sections → wider columns, which looks intentional.
+*/
+.sections-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--gap);
+  align-items: start;
+  animation: fadeUp 0.45s ease both;
+}
+
+/* ── Section card ── */
+.section-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(92, 41, 70, 0.07);
+  /* Teal top accent bar */
+  border-top: 3px solid var(--teal);
+}
+
+.section-header {
+  padding: 1.1vh var(--pad-x) 1vh;
+  background: var(--surface-2);
+  border-bottom: 1px solid var(--border);
+}
+
+.section-name {
+  font-family: var(--font-display);
+  font-size: clamp(0.9rem, 1.9vh, 1.5rem);
+  font-weight: 600;
+  color: var(--plum);
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ── Item list ── */
+.item-list { list-style: none; }
+
+.item-row {
+  display: flex;
+  align-items: center;
+  gap: 1vw;
+  padding: 0.8vh var(--pad-x);
+  border-bottom: 1px solid var(--border);
+  transition: opacity 0.25s ease;
+}
+.item-row:last-child { border-bottom: none; }
+
+/* Thumbnail image */
+.item-thumb {
+  flex: 0 0 auto;
+  width: 5.5vh;
+  height: 5.5vh;
+  object-fit: cover;
+  border-radius: 0.4vw;
+  border: 2px solid var(--border);
+  opacity: 1;
+}
+
+/* Text wrapper holds name + dots + price in a row */
+.item-text {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  align-items: baseline;
+  column-gap: 0.5vw;
+  flex: 1;
+  min-width: 0;
+}
+
+/* Sold-out state */
+.item-row.sold-out { opacity: 0.42; }
+.item-row.sold-out .item-name {
+  text-decoration: line-through;
+  text-decoration-color: var(--sold-out-line);
+  text-decoration-thickness: 1px;
+}
+
+/* Item name — clamp long names to 2 lines max */
+.item-name {
+  font-family: var(--font-display);
+  font-size: clamp(0.8rem, 1.75vh, 1.35rem);
+  font-weight: 400;
+  color: var(--text-primary);
+  line-height: 1.35;
+  /* Allow wrapping but limit to 2 lines */
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  min-width: 0;
+}
+
+/* Dot leader */
+.item-dots {
+  align-self: flex-end;
+  width: 2.5vw;
+  min-width: 1vw;
+  border-bottom: 1.5px dotted var(--border);
+  margin-bottom: 0.28vh;
+}
+
+/* Price */
+.item-price {
+  font-family: var(--font-display);
+  font-size: clamp(0.8rem, 1.75vh, 1.35rem);
+  font-weight: 600;
+  color: var(--pink-dim);
+  white-space: nowrap;
+}
+
+/* Sold Out label */
+.item-sold-out-label {
+  font-family: var(--font-display);
+  font-size: clamp(0.6rem, 1.25vh, 0.95rem);
+  font-weight: 600;
+  color: var(--sold-out-text);
+  white-space: nowrap;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+/* ── Variation sub-rows ── */
+/*
+  When an item has multiple flavors (e.g. Poppi soda),
+  sub-rows sit indented below the item name row.
+  The parent .item-row just shows the name; price/dots are hidden.
+*/
+.item-row.has-variations {
+  grid-template-columns: 1fr;
+  padding-bottom: 0;
+}
+
+.item-variations {
+  list-style: none;
+  padding: 0 var(--pad-x) 0.6vh calc(var(--pad-x) + 1.2vw);
+  grid-column: 1 / -1;
+}
+
+.variation-row {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  align-items: baseline;
+  column-gap: 0.4vw;
+  padding: 0.5vh 0;
+  border-bottom: 1px solid rgba(42, 37, 32, 0.7);
+}
+.variation-row:last-child { border-bottom: none; }
+
+.variation-row.sold-out .variation-name {
+  opacity: 0.4;
+  text-decoration: line-through;
+  text-decoration-color: var(--sold-out-line);
+}
+
+.variation-name {
+  font-family: var(--font-display);
+  font-size: clamp(0.7rem, 1.45vh, 1.1rem);
+  font-weight: 400;
+  color: var(--text-secondary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.variation-dots {
+  align-self: flex-end;
+  width: 2vw;
+  min-width: 0.5vw;
+  border-bottom: 1.5px dotted var(--border);
+  margin-bottom: 0.2vh;
+}
+
+.variation-price {
+  font-family: var(--font-display);
+  font-size: clamp(0.7rem, 1.45vh, 1.1rem);
+  font-weight: 500;
+  color: var(--pink-dim);
+  white-space: nowrap;
+}
+
+.variation-sold-out-label {
+  font-family: var(--font-display);
+  font-size: clamp(0.55rem, 1.1vh, 0.85rem);
+  font-weight: 600;
+  color: var(--sold-out-text);
+  white-space: nowrap;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+/* ── Empty section state ── */
+.section-empty {
+  padding: 1.8vh var(--pad-x);
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: clamp(0.7rem, 1.4vh, 1rem);
+  color: var(--text-muted);
+  text-align: center;
+}
+
+/* ── Footer ── */
+.footer {
+  position: fixed;
+  inset: auto 0 0 0;
+  height: var(--footer-h);
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.2vw;
+  background: var(--pink);
+  border-top: 2px solid var(--pink-dim);
+  padding: 0 var(--pad-x);
+}
+
+.footer-location {
+  font-family: var(--font-display);
+  font-size: clamp(0.55rem, 1.15vh, 0.9rem);
+  font-weight: 600;
+  color: var(--white);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.footer-sep {
+  color: rgba(255,255,255,0.5);
+  font-size: 1.1vh;
+}
+
+.footer-updated {
+  font-family: var(--font-display);
+  font-size: clamp(0.55rem, 1.15vh, 0.9rem);
+  font-weight: 400;
+  color: rgba(255,255,255,0.8);
+}
+
+/* ── Loading / error states ── */
+.loading-state {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 50vh;
+}
+
+.loading-text {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: clamp(1rem, 2.2vh, 1.8rem);
+  color: var(--text-muted);
+  letter-spacing: 0.06em;
+}
+
+/* ── Animations ── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(1.2vh); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Subtle pulse on the footer timestamp during background refresh */
+@keyframes softPulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.45; }
+}
+
+body.refreshing .footer-updated {
+  animation: softPulse 1.2s ease infinite;
+}
+
+/* ── Accessibility: reduce motion ── */
+@media (prefers-reduced-motion: reduce) {
+  .sections-grid  { animation: none; }
+  .footer-updated { animation: none !important; }
+  .item-row       { transition: none; }
+  .connection-warning { transition: none; }
+  .menu-root, .header { transition: none; }
+}
+
+/* ── Promo / Combo Panel (right sidebar, horizontal layout) ─────────────── */
+
+/* When promo is active, push menu content left to make room */
+body.has-promo .menu-root {
+  right: 28vw;
+}
+
+.promo-panel {
+  position: fixed;
+  top: var(--header-h);
+  right: 0;
+  width: 28vw;
+  bottom: var(--footer-h);
+  background: var(--off-white);
+  border-left: 3px solid var(--pink);
+  display: none;           /* hidden until has-promo toggled on */
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  transition: top 0.35s ease;
+}
+
+/* Shift panel down with the warning banner if it appears */
+body.has-warning .promo-panel {
+  top: calc(var(--header-h) + var(--warn-h));
+}
+
+/* Show panel when promo content is loaded */
+body.has-promo .promo-panel {
+  display: flex;
+}
+
+/* Image fills the panel, letterboxed */
+.promo-panel img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* Arbitrary HTML content (LTO items, text, etc.) */
+.promo-panel .promo-html {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2vh 1.5vw;
+  box-sizing: border-box;
+  overflow: hidden;
+}

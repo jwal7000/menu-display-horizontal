@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Five Daughters Bakery — Menu</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <!-- Connection warning banner (hidden by default) -->
+  <div id="connection-warning" class="connection-warning hidden" aria-live="polite">
+    <span class="warning-icon">⚠</span>
+    Menu data unavailable — showing last known menu
+  </div>
+
+  <!-- Header -->
+  <header class="header">
+    <div class="header-left">
+      <span id="location-name" class="header-location"></span>
+    </div>
+    <div class="header-center">
+      <img src="logo.png" alt="Five Daughters Bakery" class="header-logo" />
+    </div>
+    <div class="header-right"></div>
+  </header>
+
+  <!-- Main menu grid -->
+  <main id="menu-root" class="menu-root" aria-label="Menu">
+    <div class="loading-state">
+      <span class="loading-text">Loading menu…</span>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <span id="footer-location" class="footer-location"></span>
+    <span class="footer-sep" aria-hidden="true">·</span>
+    <span id="footer-updated" class="footer-updated"></span>
+  </footer>
+
+  <!-- Promo / combo panel — content driven by {loc}-promo.json -->
+  <div id="promo-panel" class="promo-panel"></div>
+
+  <script src="menu.js"></script>
+</body>
+</html>
