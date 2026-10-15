@@ -210,6 +210,13 @@ body.has-warning .menu-root { top: calc(var(--header-h) + var(--warn-h)); }
   display: flex;
   flex-direction: column;
   gap: var(--gap);
+  break-inside: avoid;
+  margin-bottom: var(--gap);
+}
+
+/* Within a stack, internal cards don't need their own margin — the stack gap handles it */
+.section-stack .section-card {
+  margin-bottom: 0;
 }
 
 /* ── Sections grid ── */
@@ -219,10 +226,9 @@ body.has-warning .menu-root { top: calc(var(--header-h) + var(--warn-h)); }
   Fewer sections → wider columns, which looks intentional.
 */
 .sections-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: var(--gap);
-  align-items: start;
+  columns: 3;
+  column-gap: var(--gap);
+  padding: 0 var(--pad-x);
   animation: fadeUp 0.45s ease both;
 }
 
@@ -235,6 +241,9 @@ body.has-warning .menu-root { top: calc(var(--header-h) + var(--warn-h)); }
   box-shadow: 0 2px 8px rgba(92, 41, 70, 0.07);
   /* Teal top accent bar */
   border-top: 3px solid var(--teal);
+  /* columns layout: keep card together and add vertical spacing */
+  break-inside: avoid;
+  margin-bottom: var(--gap);
 }
 
 .section-header {
@@ -245,7 +254,7 @@ body.has-warning .menu-root { top: calc(var(--header-h) + var(--warn-h)); }
 
 .section-name {
   font-family: var(--font-display);
-  font-size: clamp(0.9rem, 1.9vh, 1.5rem);
+  font-size: clamp(1rem, 2.1vh, 1.65rem);
   font-weight: 600;
   color: var(--plum);
   letter-spacing: 0.04em;
@@ -299,7 +308,7 @@ body.has-warning .menu-root { top: calc(var(--header-h) + var(--warn-h)); }
 /* Item name — clamp long names to 2 lines max */
 .item-name {
   font-family: var(--font-display);
-  font-size: clamp(0.8rem, 1.75vh, 1.35rem);
+  font-size: clamp(0.9rem, 1.95vh, 1.5rem);
   font-weight: 400;
   color: var(--text-primary);
   line-height: 1.35;
@@ -323,7 +332,7 @@ body.has-warning .menu-root { top: calc(var(--header-h) + var(--warn-h)); }
 /* Price */
 .item-price {
   font-family: var(--font-display);
-  font-size: clamp(0.8rem, 1.75vh, 1.35rem);
+  font-size: clamp(0.9rem, 1.95vh, 1.5rem);
   font-weight: 600;
   color: var(--pink-dim);
   white-space: nowrap;
