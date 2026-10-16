@@ -298,7 +298,7 @@ body.has-warning .menu-root { top: calc(var(--header-h) + var(--warn-h)); }
 }
 
 /* Sold-out state */
-.item-row.sold-out { opacity: 0.42; }
+.item-row.sold-out { opacity: 0.62; }
 .item-row.sold-out .item-name {
   text-decoration: line-through;
   text-decoration-color: var(--sold-out-line);
