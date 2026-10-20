@@ -1,9 +1,9 @@
 {
   "location_id": "LDR9H5M3GQKXF",
   "location_name": "Medley",
-  "generated_at": "2026-10-14T19:10:23.900Z",
+  "generated_at": "2026-10-20T14:53:53.161Z",
   "source": "FlavorSchedule+Square",
-  "section_count": 8,
+  "section_count": 9,
   "item_count": 36,
   "sections": [
     {
@@ -91,6 +91,39 @@
           "name": "Strawberry Fields",
           "price": "$5.35",
           "sold_out": true,
+          "preorder_only": false
+        }
+      ]
+    },
+    {
+      "name": "Build Your Own Boxes",
+      "items": [
+        {
+          "item_id": "static-box-mix6",
+          "name": "Mixed 6-Count Box",
+          "price": "$28",
+          "sold_out": false,
+          "preorder_only": false
+        },
+        {
+          "item_id": "static-box-mix12",
+          "name": "Mixed Dozen Box",
+          "price": "$54",
+          "sold_out": false,
+          "preorder_only": false
+        },
+        {
+          "item_id": "static-box-mini4",
+          "name": "Mini 4-Count Box",
+          "price": "$10",
+          "sold_out": false,
+          "preorder_only": false
+        },
+        {
+          "item_id": "static-box-mini12",
+          "name": "Mini Dozen Box",
+          "price": "$27",
+          "sold_out": false,
           "preorder_only": false
         }
       ]
