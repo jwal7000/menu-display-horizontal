@@ -361,6 +361,31 @@ async function buildMenuFromDB() {
     console.log(`    Inventory: ${inventoryCounts.size} tracked, ${soldOutCount} sold out`);
 
     const sections  = buildSections(locItems, priceMap, inventoryCounts);
+
+    // ── Static section injections (per location) ──────────────────────────
+    // These sections are not in Square/AppSheet; they are hardcoded here.
+    const STATIC_INSERTS = {
+      medley: [
+        {
+          after: 'Hundred Layer Donuts',
+          section: {
+            name: 'Build Your Own Boxes',
+            items: [
+              { item_id: 'static-box-mix6',  name: 'Mixed 6-Count Box', price: '$28', sold_out: false, preorder_only: false },
+              { item_id: 'static-box-mix12', name: 'Mixed Dozen Box',   price: '$54', sold_out: false, preorder_only: false },
+              { item_id: 'static-box-mini4', name: 'Mini 4-Count Box',  price: '$10', sold_out: false, preorder_only: false },
+              { item_id: 'static-box-mini12',name: 'Mini Dozen Box',    price: '$27', sold_out: false, preorder_only: false },
+            ],
+          },
+        },
+      ],
+    };
+    for (const { after, section } of (STATIC_INSERTS[loc.slug] || [])) {
+      const idx = sections.findIndex(s => s.name === after);
+      sections.splice(idx === -1 ? sections.length : idx + 1, 0, section);
+    }
+    // ─────────────────────────────────────────────────────────────────────
+
     const itemCount = sections.reduce((n, s) => n + s.items.length, 0);
 
     const menu = {
