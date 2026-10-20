@@ -29,6 +29,21 @@
   let lastGoodMenu   = null;
   let isFirstLoad    = true;
 
+  // ── Time-based availability overrides ─────────────────────────────────────
+  // Applied client-side on every fetch so the display reacts at the exact
+  // cutoff time without waiting for a data rebuild.
+  function applyTimeOverrides(data) {
+    const hour = new Date().getHours(); // device local time
+    for (const section of (data.sections || [])) {
+      // Breakfast is only available until 12:00 pm
+      if (section.name === 'Breakfast' && hour >= 12) {
+        for (const item of (section.items || [])) {
+          item.sold_out = true;
+        }
+      }
+    }
+  }
+
   // ── Utilities ─────────────────────────────────────────────────────────────
 
   function formatTimestamp(isoString) {
@@ -303,6 +318,7 @@
       }
 
       const data = await response.json();
+      applyTimeOverrides(data);
 
       lastGoodMenu = data;
       renderMenu(data);
