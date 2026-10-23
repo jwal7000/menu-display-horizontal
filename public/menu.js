@@ -44,6 +44,31 @@
     }
   }
 
+  // ── Staff override support ────────────────────────────────────────────────
+  // Fetches pastry-overrides-{loc}.json written by the iPad admin app and marks
+  // items in the sold_out array as sold out.  Runs on every 60-second refresh
+  // cycle.  Failures are logged but never break the display.
+  async function applyStaffOverrides(data, loc) {
+    try {
+      const url = `https://raw.githubusercontent.com/jwal7000/menu-display-horizontal/main/public/pastry-overrides-${loc}.json?t=${Date.now()}`;
+      const res = await fetch(url);
+      if (!res.ok) return;
+      const overrides   = await res.json();
+      const soldOutSet  = new Set(Array.isArray(overrides.sold_out) ? overrides.sold_out : []);
+      if (soldOutSet.size === 0) return;
+      for (const section of (data.sections || [])) {
+        for (const item of (section.items || [])) {
+          if (soldOutSet.has(item.name)) {
+            item.sold_out = true;
+          }
+        }
+      }
+      console.log('[menu.js] staff overrides applied:', [...soldOutSet]);
+    } catch (err) {
+      console.warn('[menu.js] Staff overrides unavailable:', err.message);
+    }
+  }
+
   // ── Utilities ─────────────────────────────────────────────────────────────
 
   function formatTimestamp(isoString) {
@@ -319,6 +344,7 @@
 
       const data = await response.json();
       applyTimeOverrides(data);
+      await applyStaffOverrides(data, LOC);
 
       lastGoodMenu = data;
       renderMenu(data);
