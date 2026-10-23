@@ -53,19 +53,22 @@
       const url = `https://raw.githubusercontent.com/jwal7000/menu-display-horizontal/main/public/pastry-overrides-${loc}.json?t=${Date.now()}`;
       const res = await fetch(url);
       if (!res.ok) return;
-      const overrides   = await res.json();
-      const soldOutSet  = new Set(Array.isArray(overrides.sold_out) ? overrides.sold_out : []);
-      if (soldOutSet.size === 0) return;
+      const overrides = await res.json();
+
+      // Only apply if overrides haven't expired (resets at midnight local time)
+      const expiresAt = overrides.expires_at ? new Date(overrides.expires_at).getTime() : 0;
+      if (!expiresAt || Date.now() >= expiresAt) return;
+
+      const soldOutSet = new Set(Array.isArray(overrides.sold_out) ? overrides.sold_out : []);
+      if (!soldOutSet.size) return;
+
       for (const section of (data.sections || [])) {
         for (const item of (section.items || [])) {
-          if (soldOutSet.has(item.name)) {
-            item.sold_out = true;
-          }
+          if (soldOutSet.has(item.name)) item.sold_out = true;
         }
       }
-      console.log('[menu.js] staff overrides applied:', [...soldOutSet]);
-    } catch (err) {
-      console.warn('[menu.js] Staff overrides unavailable:', err.message);
+    } catch (e) {
+      console.warn('[menu] Could not apply staff overrides:', e.message);
     }
   }
 
