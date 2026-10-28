@@ -246,6 +246,11 @@ body.has-warning .menu-root { top: calc(var(--header-h) + var(--warn-h)); }
   margin-bottom: var(--gap);
 }
 
+/* Build Your Own Boxes — warm golden underglow highlight */
+.section-card--highlight {
+  box-shadow: 0 6px 28px 4px rgba(255, 219, 92, 0.42), 0 2px 8px rgba(92, 41, 70, 0.07);
+}
+
 .section-header {
   padding: 1.1vh var(--pad-x) 1vh;
   background: var(--surface-2);

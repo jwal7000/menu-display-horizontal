@@ -44,6 +44,34 @@
     }
   }
 
+  // ── Staff override support ────────────────────────────────────────────────
+  // Fetches pastry-overrides-{loc}.json written by the iPad admin app and marks
+  // items in the sold_out array as sold out.  Runs on every 60-second refresh
+  // cycle.  Failures are logged but never break the display.
+  async function applyStaffOverrides(data, loc) {
+    try {
+      const url = `https://raw.githubusercontent.com/jwal7000/menu-display-horizontal/main/public/pastry-overrides-${loc}.json?t=${Date.now()}`;
+      const res = await fetch(url);
+      if (!res.ok) return;
+      const overrides = await res.json();
+
+      // Only apply if overrides haven't expired (resets at midnight local time)
+      const expiresAt = overrides.expires_at ? new Date(overrides.expires_at).getTime() : 0;
+      if (!expiresAt || Date.now() >= expiresAt) return;
+
+      const soldOutSet = new Set(Array.isArray(overrides.sold_out) ? overrides.sold_out : []);
+      if (!soldOutSet.size) return;
+
+      for (const section of (data.sections || [])) {
+        for (const item of (section.items || [])) {
+          if (soldOutSet.has(item.name)) item.sold_out = true;
+        }
+      }
+    } catch (e) {
+      console.warn('[menu] Could not apply staff overrides:', e.message);
+    }
+  }
+
   // ── Utilities ─────────────────────────────────────────────────────────────
 
   function formatTimestamp(isoString) {
@@ -192,6 +220,9 @@
   function buildSectionCard(section) {
     const card = document.createElement("div");
     card.className = "section-card";
+    if (section.name === "Build Your Own Boxes") {
+      card.classList.add("section-card--highlight");
+    }
 
     const header = document.createElement("div");
     header.className = "section-header";
@@ -232,7 +263,7 @@
     // Update header and footer meta
     const locName = data.location_name ?? "";
     const ts      = data.generated_at ?? "";
-    locationNameEl.textContent  = locName;
+    locationNameEl.textContent  = locName ? 'Five Daughters Bakery: ' + locName : '';
     if (footerLocationEl) footerLocationEl.textContent = locName;
     if (footerUpdatedEl)  footerUpdatedEl.textContent  = ts ? "Last updated " + formatFullTimestamp(ts) : "";
 
@@ -319,6 +350,7 @@
 
       const data = await response.json();
       applyTimeOverrides(data);
+      await applyStaffOverrides(data, LOC);
 
       lastGoodMenu = data;
       renderMenu(data);
