@@ -25,6 +25,7 @@ echo "[$(date '+%Y-%m-%d %H:%M:%S')] Inventory sync start..." >> "$LOG"
 # ── Horizontal locations (push to menu-display-horizontal) ───────────────────
 HORIZONTAL_LOCATIONS=(
   "the-gulch:L4CQJADFVPZC9"
+  "medley:LDR9H5M3GQKXF"
 )
 
 for entry in "${HORIZONTAL_LOCATIONS[@]}"; do

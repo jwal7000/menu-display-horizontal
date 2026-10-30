@@ -1,7 +1,7 @@
 {
   "location_id": "L862ACB6EPKVT",
   "location_name": "5th & Broadway",
-  "generated_at": "2026-10-23T16:36:10.080Z",
+  "generated_at": "2026-10-30T18:01:57.865Z",
   "source": "FlavorSchedule+Square",
   "section_count": 8,
   "item_count": 36,
@@ -69,7 +69,7 @@
           "item_id": "01033",
           "name": "Pumpkin Spice Latte",
           "price": "$5.70",
-          "sold_out": false,
+          "sold_out": true,
           "preorder_only": false
         },
         {
@@ -156,7 +156,7 @@
           "item_id": "04042",
           "name": "Paleo - S'mores",
           "price": "$4.75",
-          "sold_out": false,
+          "sold_out": true,
           "preorder_only": false
         }
       ]
@@ -175,7 +175,7 @@
           "item_id": "03003",
           "name": "Yeast Raised - Milk Chocolate Sprinkles",
           "price": "$3.25",
-          "sold_out": true,
+          "sold_out": false,
           "preorder_only": false
         },
         {
@@ -196,7 +196,7 @@
           "item_id": "03131",
           "name": "Yeast Raised - Apple Cider Glaze",
           "price": "$3.25",
-          "sold_out": true,
+          "sold_out": false,
           "preorder_only": false
         },
         {
@@ -222,14 +222,14 @@
           "item_id": "17002",
           "name": "Roll - Cinnamon Glaze",
           "price": "$6.00",
-          "sold_out": true,
+          "sold_out": false,
           "preorder_only": false
         },
         {
           "item_id": "17006",
           "name": "Roll - Apple Pie",
           "price": "$7.00",
-          "sold_out": true,
+          "sold_out": false,
           "preorder_only": false
         },
         {
@@ -267,7 +267,7 @@
           "item_id": "05009",
           "name": "Biscuit - Egg & Cheese",
           "price": "$5.00",
-          "sold_out": true,
+          "sold_out": false,
           "preorder_only": false
         }
       ]
