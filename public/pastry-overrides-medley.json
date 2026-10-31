@@ -1,8 +1,5 @@
 {
-  "_updated_at": "2026-10-30T17:43:08.839Z",
-  "sold_out": [
-    "Biscuit - Bacon Egg & Cheese",
-    "Biscuit - Egg & Cheese"
-  ],
-  "expires_at": "2026-10-31T04:00:00.000Z"
+  "_updated_at": "2026-10-31T12:47:22.864Z",
+  "sold_out": [],
+  "expires_at": null
 }
