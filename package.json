@@ -11,7 +11,8 @@
     "fetch-inventory": "node src/fetchInventory.js",
     "patch-inventory": "node src/patchMenuInventory.js",
     "preview": "serve . -p 3000 --no-clipboard",
-    "build-menu-db": "node src/buildMenuFromDB.js"
+    "build-menu-db": "node src/buildMenuFromDB.js",
+    "build-bev": "node src/buildBeverageMenu.js"
   },
   "dependencies": {
     "dotenv": "^16.4.5",
