@@ -44,7 +44,7 @@ const DISPLAY_LOCATIONS = [
   { slug: 'the-factory', name: 'The Factory',    sqId: 'ECE7YC9G73NXK', dbName: 'The Factory' },
   { slug: 'the-gulch',   name: 'The Gulch',       sqId: 'L4CQJADFVPZC9', dbName: 'The Gulch' },
   { slug: '5th-broad',   name: '5th & Broadway',  sqId: 'L862ACB6EPKVT', dbName: '5th & Broad' },
-  { slug: 'medley',      name: 'Medley',           sqId: 'LDR9H5M3GQKXF', dbName: 'Medley' },
+  { slug: 'medley',      name: 'Medley',           sqId: 'LDR9H5M3GQKXF', dbName: 'Medley', skipInventory: true },
 ];
 
 // ── Helpers ──────────────────────────────────────────────────────────────────
@@ -356,9 +356,11 @@ async function buildMenuFromDB() {
 
     // Only fetch inventory for variations that survived the exclusion filter
     const locVarIds = [...new Set(locItems.map(i => i.square_variation_id).filter(Boolean))];
-    const inventoryCounts = await fetchInventoryCounts(client, loc.sqId, locVarIds);
+    const inventoryCounts = loc.skipInventory
+      ? new Map()  // inventory not yet configured — show all items as available
+      : await fetchInventoryCounts(client, loc.sqId, locVarIds);
     const soldOutCount    = [...inventoryCounts.values()].filter(q => q <= SOLD_OUT_THRESHOLD).length;
-    console.log(`    Inventory: ${inventoryCounts.size} tracked, ${soldOutCount} sold out`);
+    console.log(`    Inventory: ${loc.skipInventory ? 'skipped (all available)' : `${inventoryCounts.size} tracked, ${soldOutCount} sold out`}`);
 
     const sections  = buildSections(locItems, priceMap, inventoryCounts);
 

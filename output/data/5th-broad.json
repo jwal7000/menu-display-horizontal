@@ -1,10 +1,10 @@
 {
   "location_id": "L862ACB6EPKVT",
   "location_name": "5th & Broadway",
-  "generated_at": "2026-10-30T18:01:57.865Z",
+  "generated_at": "2026-11-01T23:05:18.001Z",
   "source": "FlavorSchedule+Square",
   "section_count": 8,
-  "item_count": 36,
+  "item_count": 34,
   "sections": [
     {
       "name": "Hundred Layer Donuts",
@@ -27,7 +27,7 @@
           "item_id": "01003",
           "name": "Chocolate Sea Salt",
           "price": "$5.35",
-          "sold_out": false,
+          "sold_out": true,
           "preorder_only": false
         },
         {
@@ -59,8 +59,8 @@
           "preorder_only": false
         },
         {
-          "item_id": "01018",
-          "name": "Blueberry Lavender",
+          "item_id": "01010",
+          "name": "Cinnamon Cream Cheese",
           "price": "$5.35",
           "sold_out": false,
           "preorder_only": false
@@ -80,15 +80,8 @@
           "preorder_only": false
         },
         {
-          "item_id": "01039",
-          "name": "Cinnamon Sugar Toast",
-          "price": "$5.35",
-          "sold_out": false,
-          "preorder_only": false
-        },
-        {
-          "item_id": "01053",
-          "name": "Strawberry Fields",
+          "item_id": "01140",
+          "name": "Huckleberry Glaze",
           "price": "$5.35",
           "sold_out": false,
           "preorder_only": false
@@ -113,15 +106,15 @@
           "preorder_only": false
         },
         {
-          "item_id": "02005",
-          "name": "Mini Pumpkin Spice Latte",
+          "item_id": "02016",
+          "name": "Mini Cinnamon Cream Cheese",
           "price": "$3.00",
           "sold_out": false,
           "preorder_only": false
         },
         {
-          "item_id": "02018",
-          "name": "Mini Cinnamon Sugar Toast",
+          "item_id": "02019",
+          "name": "Mini Huckleberry Glaze",
           "price": "$2.75",
           "sold_out": false,
           "preorder_only": false
@@ -153,8 +146,8 @@
           "preorder_only": false
         },
         {
-          "item_id": "04042",
-          "name": "Paleo - S'mores",
+          "item_id": "04019",
+          "name": "Paleo - Chocolate Pumpkin",
           "price": "$4.75",
           "sold_out": true,
           "preorder_only": false
@@ -179,16 +172,9 @@
           "preorder_only": false
         },
         {
-          "item_id": "03015",
-          "name": "Yeast Raised - Strawberry Fields",
+          "item_id": "03038",
+          "name": "Yeast Raised - Huckleberry Glaze",
           "price": "$3.25",
-          "sold_out": false,
-          "preorder_only": false
-        },
-        {
-          "item_id": "03078",
-          "name": "Yeast Raised - Pumpkin Spice Latte (Filled)",
-          "price": "$4.25",
           "sold_out": false,
           "preorder_only": false
         },
@@ -222,21 +208,21 @@
           "item_id": "17002",
           "name": "Roll - Cinnamon Glaze",
           "price": "$6.00",
-          "sold_out": false,
+          "sold_out": true,
           "preorder_only": false
         },
         {
           "item_id": "17006",
           "name": "Roll - Apple Pie",
           "price": "$7.00",
-          "sold_out": false,
+          "sold_out": true,
           "preorder_only": false
         },
         {
           "item_id": "17009",
           "name": "Roll - Vanilla Chai",
           "price": "$7.00",
-          "sold_out": true,
+          "sold_out": false,
           "preorder_only": false
         }
       ]
@@ -267,7 +253,7 @@
           "item_id": "05009",
           "name": "Biscuit - Egg & Cheese",
           "price": "$5.00",
-          "sold_out": false,
+          "sold_out": true,
           "preorder_only": false
         }
       ]
@@ -286,14 +272,14 @@
           "item_id": "06002",
           "name": "Cookie - Snowcap (GF)",
           "price": "$3.50",
-          "sold_out": false,
+          "sold_out": true,
           "preorder_only": false
         },
         {
           "item_id": "06003",
           "name": "Cookie - My Sister's Sugar Cookie",
           "price": "$3.50",
-          "sold_out": false,
+          "sold_out": true,
           "preorder_only": false
         }
       ]
