@@ -24,6 +24,28 @@ SQUARE_TOKEN=$(python3 -c "import json; print(json.load(open('/Users/openclaw-us
 mkdir -p "$(dirname "$LOG")"
 echo "[$(date '+%Y-%m-%d %H:%M:%S')] Starting menu refresh..." >> "$LOG"
 
+
+# push_repo DIR URL BRANCH LABEL
+# Pushes DIR's BRANCH. If GitHub rejects it because the remote moved (e.g. the beverages
+# admin page committed), rebase onto the remote and push again. A failure is logged and
+# remembered, but never stops the other repos from updating.
+FAILED=0
+push_repo() {
+  local dir="$1" url="$2" branch="$3" label="$4"
+  if GIT_ASKPASS='' git -C "$dir" -c credential.helper='' push "$url" "$branch" >> "$LOG" 2>&1; then
+    echo "[$(date '+%Y-%m-%d %H:%M:%S')] $label: pushed." >> "$LOG"; return 0
+  fi
+  echo "[$(date '+%Y-%m-%d %H:%M:%S')] $label: push rejected; rebasing onto remote and retrying." >> "$LOG"
+  if GIT_ASKPASS='' git -C "$dir" -c credential.helper='' -c user.name="menu-refresh[bot]" \
+       -c user.email="menu-refresh@fivedaughtersbakery.com" pull --rebase --autostash "$url" "$branch" >> "$LOG" 2>&1 \
+     && GIT_ASKPASS='' git -C "$dir" -c credential.helper='' push "$url" "$branch" >> "$LOG" 2>&1; then
+    echo "[$(date '+%Y-%m-%d %H:%M:%S')] $label: pushed after rebase." >> "$LOG"; return 0
+  fi
+  git -C "$dir" rebase --abort >/dev/null 2>&1 || true
+  echo "[$(date '+%Y-%m-%d %H:%M:%S')] $label: PUSH FAILED (left local commits in place)." >> "$LOG"
+  FAILED=1
+}
+
 cd "$REPO_H"
 export PATH="/opt/homebrew/opt/node@22/bin:/opt/homebrew/bin:/usr/local/bin:$PATH"
 
@@ -51,42 +73,56 @@ for loc in the-factory 5th-broad; do
 done
 
 # 4. Push horizontal repo (The Gulch)
-git -C "$REPO_H" add output/data/*.json
+git -C "$REPO_H" add -- 'output/data/*.json'
 if git -C "$REPO_H" diff --cached --quiet; then
   echo "[$(date '+%Y-%m-%d %H:%M:%S')] Horizontal: no changes." >> "$LOG"
 else
   git -C "$REPO_H" -c user.name="menu-refresh[bot]" \
       -c user.email="menu-refresh@fivedaughtersbakery.com" \
       commit -m "chore: auto-refresh menu data [$(date '+%H:%M')]" >> "$LOG" 2>&1
-  GIT_ASKPASS='' git -C "$REPO_H" -c credential.helper='' push \
-    "https://${GITHUB_TOKEN}@github.com/jwal7000/menu-display-horizontal.git" main >> "$LOG" 2>&1
-  echo "[$(date '+%Y-%m-%d %H:%M:%S')] Horizontal: pushed." >> "$LOG"
+  push_repo "$REPO_H" "https://${GITHUB_TOKEN}@github.com/jwal7000/menu-display-horizontal.git" main "Horizontal"
 fi
 
 # 5. Push portrait repo (The Factory, 5th & Broadway)
-git -C "$REPO_P" add output/data/*.json 2>/dev/null || true
+git -C "$REPO_P" add -- 'output/data/*.json' >> "$LOG" 2>&1 || echo "[$(date '+%Y-%m-%d %H:%M:%S')] Portrait: git add FAILED" >> "$LOG"
 if git -C "$REPO_P" diff --cached --quiet; then
   echo "[$(date '+%Y-%m-%d %H:%M:%S')] Portrait: no changes." >> "$LOG"
 else
   git -C "$REPO_P" -c user.name="menu-refresh[bot]" \
       -c user.email="menu-refresh@fivedaughtersbakery.com" \
       commit -m "chore: auto-refresh menu data [$(date '+%H:%M')]" >> "$LOG" 2>&1
-  GIT_ASKPASS='' git -C "$REPO_P" -c credential.helper='' push \
-    "https://${GITHUB_TOKEN}@github.com/jwal7000/menu-display-portrait.git" main >> "$LOG" 2>&1
-  echo "[$(date '+%Y-%m-%d %H:%M:%S')] Portrait: pushed." >> "$LOG"
+  push_repo "$REPO_P" "https://${GITHUB_TOKEN}@github.com/jwal7000/menu-display-portrait.git" main "Portrait"
 fi
 
 # 6. Push beverages repo (The Gulch, Medley)
-git -C "$REPO_B" add public/data/bev-*.json 2>/dev/null || true
+git -C "$REPO_B" add -- 'public/data/bev-*.json' >> "$LOG" 2>&1 || echo "[$(date '+%Y-%m-%d %H:%M:%S')] Beverages: git add FAILED" >> "$LOG"
 if git -C "$REPO_B" diff --cached --quiet; then
   echo "[$(date '+%Y-%m-%d %H:%M:%S')] Beverages: no changes." >> "$LOG"
 else
   git -C "$REPO_B" -c user.name="menu-refresh[bot]" \
       -c user.email="menu-refresh@fivedaughtersbakery.com" \
       commit -m "chore: auto-refresh bev data [$(date '+%H:%M')]" >> "$LOG" 2>&1
-  GIT_ASKPASS='' git -C "$REPO_B" -c credential.helper='' push \
-    "https://${GITHUB_TOKEN}@github.com/jwal7000/menu-display-beverages.git" main >> "$LOG" 2>&1
-  echo "[$(date '+%Y-%m-%d %H:%M:%S')] Beverages: pushed." >> "$LOG"
+  push_repo "$REPO_B" "https://${GITHUB_TOKEN}@github.com/jwal7000/menu-display-beverages.git" main "Beverages"
 fi
 
-echo "[$(date '+%Y-%m-%d %H:%M:%S')] Done." >> "$LOG"
+# 7. Push data to gh-pages branch (serves GitHub Pages directly without Actions)
+GH_PAGES_WORKTREE="$REPO_H/.gh-pages-worktree"
+if [[ ! -d "$GH_PAGES_WORKTREE" ]]; then
+  git -C "$REPO_H" worktree add "$GH_PAGES_WORKTREE" gh-pages 2>/dev/null || true
+fi
+if [[ -d "$GH_PAGES_WORKTREE/.git" || -f "$GH_PAGES_WORKTREE/.git" ]]; then
+  mkdir -p "$GH_PAGES_WORKTREE/data"
+  cp "$REPO_H/output/data/"*.json "$GH_PAGES_WORKTREE/data/" 2>/dev/null || true
+  git -C "$GH_PAGES_WORKTREE" add -- 'data/*.json' >> "$LOG" 2>&1 || echo "[$(date '+%Y-%m-%d %H:%M:%S')] gh-pages: git add FAILED" >> "$LOG"
+  if git -C "$GH_PAGES_WORKTREE" diff --cached --quiet; then
+    echo "[$(date '+%Y-%m-%d %H:%M:%S')] gh-pages: no data changes." >> "$LOG"
+  else
+    git -C "$GH_PAGES_WORKTREE" -c user.name="menu-refresh[bot]" \
+        -c user.email="menu-refresh@fivedaughtersbakery.com" \
+        commit -m "chore: auto-refresh menu data [$(date '+%H:%M')]" >> "$LOG" 2>&1
+    push_repo "$GH_PAGES_WORKTREE" "https://${GITHUB_TOKEN}@github.com/jwal7000/menu-display-horizontal.git" gh-pages "gh-pages"
+  fi
+fi
+
+echo "[$(date '+%Y-%m-%d %H:%M:%S')] Done (push failures: $FAILED)." >> "$LOG"
+exit $FAILED
