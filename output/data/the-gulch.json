@@ -1,7 +1,7 @@
 {
   "location_id": "L4CQJADFVPZC9",
   "location_name": "The Gulch",
-  "generated_at": "2026-11-02T01:36:26.988Z",
+  "generated_at": "2026-11-02T01:46:31.592Z",
   "source": "FlavorSchedule+Square",
   "section_count": 8,
   "item_count": 34,
@@ -284,6 +284,5 @@
         }
       ]
     }
-  ],
-  "inventory_patched_at": "2026-11-02T01:36:27.059Z"
+  ]
 }
