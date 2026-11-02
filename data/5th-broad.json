@@ -1,10 +1,10 @@
 {
   "location_id": "L862ACB6EPKVT",
   "location_name": "5th & Broadway",
-  "generated_at": "2026-10-14T19:10:23.690Z",
+  "generated_at": "2026-11-02T16:33:55.804Z",
   "source": "FlavorSchedule+Square",
   "section_count": 8,
-  "item_count": 36,
+  "item_count": 34,
   "sections": [
     {
       "name": "Hundred Layer Donuts",
@@ -13,7 +13,7 @@
           "item_id": "01001",
           "name": "Vanilla Cream",
           "price": "$5.35",
-          "sold_out": true,
+          "sold_out": false,
           "preorder_only": false
         },
         {
@@ -27,7 +27,7 @@
           "item_id": "01003",
           "name": "Chocolate Sea Salt",
           "price": "$5.35",
-          "sold_out": false,
+          "sold_out": true,
           "preorder_only": false
         },
         {
@@ -41,7 +41,7 @@
           "item_id": "01005",
           "name": "King Kong",
           "price": "$5.70",
-          "sold_out": false,
+          "sold_out": true,
           "preorder_only": false
         },
         {
@@ -59,8 +59,8 @@
           "preorder_only": false
         },
         {
-          "item_id": "01018",
-          "name": "Blueberry Lavender",
+          "item_id": "01010",
+          "name": "Cinnamon Cream Cheese",
           "price": "$5.35",
           "sold_out": true,
           "preorder_only": false
@@ -69,7 +69,7 @@
           "item_id": "01033",
           "name": "Pumpkin Spice Latte",
           "price": "$5.70",
-          "sold_out": false,
+          "sold_out": true,
           "preorder_only": false
         },
         {
@@ -80,15 +80,8 @@
           "preorder_only": false
         },
         {
-          "item_id": "01039",
-          "name": "Cinnamon Sugar Toast",
-          "price": "$5.35",
-          "sold_out": false,
-          "preorder_only": false
-        },
-        {
-          "item_id": "01053",
-          "name": "Strawberry Fields",
+          "item_id": "01140",
+          "name": "Huckleberry Glaze",
           "price": "$5.35",
           "sold_out": false,
           "preorder_only": false
@@ -102,42 +95,42 @@
           "item_id": "02001",
           "name": "Mini Purist",
           "price": "$2.75",
-          "sold_out": true,
+          "sold_out": false,
           "preorder_only": false
         },
         {
           "item_id": "02002",
           "name": "Mini Milk Chocolate Sprinkles",
           "price": "$2.75",
-          "sold_out": true,
+          "sold_out": false,
           "preorder_only": false
         },
         {
-          "item_id": "02005",
-          "name": "Mini Pumpkin Spice Latte",
+          "item_id": "02016",
+          "name": "Mini Cinnamon Cream Cheese",
           "price": "$3.00",
-          "sold_out": true,
+          "sold_out": false,
           "preorder_only": false
         },
         {
-          "item_id": "02018",
-          "name": "Mini Cinnamon Sugar Toast",
+          "item_id": "02019",
+          "name": "Mini Huckleberry Glaze",
           "price": "$2.75",
-          "sold_out": true,
+          "sold_out": false,
           "preorder_only": false
         },
         {
           "item_id": "02025",
           "name": "Mini Spiced Apple Glaze",
           "price": "$2.75",
-          "sold_out": true,
+          "sold_out": false,
           "preorder_only": false
         },
         {
           "item_id": "02065",
           "name": "Mini Vanilla Cream",
           "price": "$3.00",
-          "sold_out": true,
+          "sold_out": false,
           "preorder_only": false
         }
       ]
@@ -153,8 +146,8 @@
           "preorder_only": false
         },
         {
-          "item_id": "04042",
-          "name": "Paleo - S'mores",
+          "item_id": "04019",
+          "name": "Paleo - Chocolate Pumpkin",
           "price": "$4.75",
           "sold_out": false,
           "preorder_only": false
@@ -168,7 +161,7 @@
           "item_id": "03002",
           "name": "Yeast Raised - Purist",
           "price": "$3.00",
-          "sold_out": true,
+          "sold_out": false,
           "preorder_only": false
         },
         {
@@ -179,16 +172,9 @@
           "preorder_only": false
         },
         {
-          "item_id": "03015",
-          "name": "Yeast Raised - Strawberry Fields",
+          "item_id": "03038",
+          "name": "Yeast Raised - Huckleberry Glaze",
           "price": "$3.25",
-          "sold_out": true,
-          "preorder_only": false
-        },
-        {
-          "item_id": "03078",
-          "name": "Yeast Raised - Pumpkin Spice Latte (Filled)",
-          "price": "$4.25",
           "sold_out": false,
           "preorder_only": false
         },
@@ -248,7 +234,7 @@
           "item_id": "05005",
           "name": "Donut Holes (8 ct.)",
           "price": "$4.70",
-          "sold_out": true,
+          "sold_out": false,
           "preorder_only": false
         }
       ]
@@ -279,7 +265,7 @@
           "item_id": "06001",
           "name": "Cookie - Chocolate Chip",
           "price": "$3.50",
-          "sold_out": true,
+          "sold_out": false,
           "preorder_only": false
         },
         {
@@ -293,7 +279,7 @@
           "item_id": "06003",
           "name": "Cookie - My Sister's Sugar Cookie",
           "price": "$3.50",
-          "sold_out": true,
+          "sold_out": false,
           "preorder_only": false
         }
       ]
