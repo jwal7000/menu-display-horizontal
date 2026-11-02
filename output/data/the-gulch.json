@@ -1,7 +1,7 @@
 {
   "location_id": "L4CQJADFVPZC9",
   "location_name": "The Gulch",
-  "generated_at": "2026-11-02T18:05:27.441Z",
+  "generated_at": "2026-11-02T18:15:36.753Z",
   "source": "FlavorSchedule+Square",
   "section_count": 8,
   "item_count": 34,
@@ -76,7 +76,7 @@
           "item_id": "01036",
           "name": "S'mores",
           "price": "$5.70",
-          "sold_out": false,
+          "sold_out": true,
           "preorder_only": false
         },
         {
@@ -109,7 +109,7 @@
           "item_id": "02016",
           "name": "Mini Cinnamon Cream Cheese",
           "price": "$3.00",
-          "sold_out": false,
+          "sold_out": true,
           "preorder_only": false
         },
         {
@@ -130,7 +130,7 @@
           "item_id": "02065",
           "name": "Mini Vanilla Cream",
           "price": "$3.00",
-          "sold_out": false,
+          "sold_out": true,
           "preorder_only": false
         }
       ]
@@ -189,7 +189,7 @@
           "item_id": "03999",
           "name": "Yeast Raised - Apple Fritter",
           "price": "$4.00",
-          "sold_out": false,
+          "sold_out": true,
           "preorder_only": false
         }
       ]
