@@ -12,7 +12,10 @@
     "patch-inventory": "node src/patchMenuInventory.js",
     "preview": "serve . -p 3000 --no-clipboard",
     "build-menu-db": "node src/buildMenuFromDB.js",
-    "build-bev": "node src/buildBeverageMenu.js"
+    "build-bev": "node src/buildBeverageMenu.js",
+    "job:menu-build": "node src/jobs/run.js menu-build",
+    "job:inventory-sync": "node src/jobs/run.js inventory-sync",
+    "test": "node --import ./test/stub-deps.mjs --test test/*.test.js"
   },
   "dependencies": {
     "dotenv": "^16.4.5",

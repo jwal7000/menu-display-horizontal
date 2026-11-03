@@ -6,6 +6,20 @@
 
 ---
 
+## 2026-11-03 — Cloud Run Jobs migration (branch `cloud-run-jobs`)
+
+Pipeline can now run as two Cloud Run Jobs (`menu-build` every 10 min, `inventory-sync` every 2 min) instead of the Mac mini launchd scripts. See `cloudrun/README.md` for deploy, cutover and rollback.
+
+- Credentials from env vars (Secret Manager on Cloud Run), falling back to `~/.openclaw/secrets/*` on the Mac mini
+- Cloud SQL via connector socket when `MYSQL_SOCKET` is set; otherwise the local proxy on 3307 as before
+- `bev-items-config.json` read from GCS when `BEV_CONFIG_URL` is set
+- Location list shared in `src/lib/locations.js`
+- Fix: single-size menu items now carry `variation_id`, so the 2-min sold-out sync can match them
+- Fix: `patchMenuInventory` only rewrites a menu file when a sold-out flag changes
+- New: stateless git publisher with retry (`src/jobs/publish.js`), `Dockerfile`, `cloudrun/deploy-menu-jobs.sh`, tests (`npm test`)
+
+---
+
 ## 2026-08-13 — Session with Gabe
 
 ### `8f8e023` — Force 3-column grid; remove scroll for TV display
