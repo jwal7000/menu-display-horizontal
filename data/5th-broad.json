@@ -1,7 +1,7 @@
 {
   "location_id": "L862ACB6EPKVT",
   "location_name": "5th & Broadway",
-  "generated_at": "2026-11-04T19:02:30.745Z",
+  "generated_at": "2026-11-04T19:23:01.897Z",
   "source": "FlavorSchedule+Square",
   "section_count": 8,
   "item_count": 34,
@@ -48,21 +48,21 @@
           "item_id": "01006",
           "name": "Milk Chocolate Sprinkles",
           "price": "$5.10",
-          "sold_out": false,
+          "sold_out": true,
           "preorder_only": false
         },
         {
           "item_id": "01009",
           "name": "Salted Caramel Apple",
           "price": "$5.35",
-          "sold_out": false,
+          "sold_out": true,
           "preorder_only": false
         },
         {
           "item_id": "01010",
           "name": "Cinnamon Cream Cheese",
           "price": "$5.35",
-          "sold_out": false,
+          "sold_out": true,
           "preorder_only": false
         },
         {
@@ -83,7 +83,7 @@
           "item_id": "01140",
           "name": "Huckleberry Glaze",
           "price": "$5.35",
-          "sold_out": false,
+          "sold_out": true,
           "preorder_only": false
         }
       ]
