@@ -1,7 +1,7 @@
 {
   "location_id": "L862ACB6EPKVT",
   "location_name": "5th & Broadway",
-  "generated_at": "2026-11-04T01:06:56.402Z",
+  "generated_at": "2026-11-04T01:17:05.280Z",
   "source": "FlavorSchedule+Square",
   "section_count": 8,
   "item_count": 34,
@@ -189,7 +189,7 @@
           "item_id": "03999",
           "name": "Yeast Raised - Apple Fritter",
           "price": "$4.00",
-          "sold_out": false,
+          "sold_out": true,
           "preorder_only": false
         }
       ]
