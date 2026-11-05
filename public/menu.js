@@ -220,6 +220,9 @@
   function buildSectionCard(section) {
     const card = document.createElement("div");
     card.className = "section-card";
+    if (section.name === "Build Your Own Boxes") {
+      card.classList.add("section-card--highlight");
+    }
 
     const header = document.createElement("div");
     header.className = "section-header";
@@ -260,7 +263,7 @@
     // Update header and footer meta
     const locName = data.location_name ?? "";
     const ts      = data.generated_at ?? "";
-    locationNameEl.textContent  = locName;
+    locationNameEl.textContent  = locName ? 'Five Daughters Bakery: ' + locName : '';
     if (footerLocationEl) footerLocationEl.textContent = locName;
     if (footerUpdatedEl)  footerUpdatedEl.textContent  = ts ? "Last updated " + formatFullTimestamp(ts) : "";
 
