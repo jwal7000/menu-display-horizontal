@@ -20,7 +20,7 @@ Handed over from a claude.ai session. That session couldn't push to GitHub, coul
 **The 2-min sold-out sync isn't live today. Cloud Run's `inventory-sync` will be the first time it runs.** As of 2026-11-05, the Mac mini (user `openclaw-user`) has only `com.fivedaughters.menu-refresh` loaded. `com.fivedaughters.inventory-sync` isn't loaded, and there are no "update sold_out flags" commits back to at least Oct 11. So today, `sold_out` changes only on the 10-min build. After cutover, items can flip to sold out within about 2 minutes, and screens will change more often during the day. Tell the stores before cutover, and expect `inventory-sync[bot]` commits to be new.
 
 Other Mac mini findings from 2026-11-05:
-- **Unknown job.** `com.fivedaughters.menu-display-portrait` is loaded and running. Jonathan is sending its details. Cutover and rollback don't touch it. If it pushes menu data to the portrait repo, it would double-publish after cutover, so it needs a decision before B.
+- **`com.fivedaughters.menu-display-portrait` is a leftover local web server. No action at cutover.** The portrait Fire Sticks load from GitHub Pages, not from the Mac mini, and the job doesn't publish menu data, so there's no double-publishing risk. Cutover and rollback don't touch it. Stop it when the Mac mini is retired (see C6).
 - **Node.** The launchd jobs use `/opt/homebrew/opt/node@22/bin`. Run any manual checks with that Node and as `openclaw-user`. Under `jwal`, Homebrew's `node@22` won't start (permission denied on `openssl@3/libcrypto`). Leave that alone until after cutover.
 - **Rollback.** `cutover` records which launchd jobs were loaded (`~/.openclaw/menu-cutover-launchd.txt`), and `rollback` reloads only those, so it won't switch on `inventory-sync`.
 
@@ -71,6 +71,7 @@ After cutover:
 3. **Update the context notes.** Staff and the saved context say to edit the bev config by pushing to the repo. After cutover it's edited in GCS (see `cloudrun/README.md` → "Day to day"). Update them.
 4. **Medley inventory.** Once Square inventory is set up there, remove `skipInventory` in `src/lib/locations.js` and redeploy the jobs.
 5. **Optional, to reduce deploy churn.** `menu-build` commits every run because `generated_at` changes. Consider skipping the push when nothing but timestamps changed. That cuts Pages deploys from about 430 a day, which helps given GitHub Pages' build limits and today's deploy collisions. If you do it, make sure the displays don't use `generated_at` as a freshness check first.
+6. **When the Mac mini is retired, stop `com.fivedaughters.menu-display-portrait`.** It's a leftover local server that nothing depends on: the portrait Fire Sticks load from GitHub Pages. It isn't part of cutover, so `deploy-menu-jobs.sh` doesn't manage it. Stop it by hand as `openclaw-user` at retirement.
 
 ## Known context from 2026-11-05
 
