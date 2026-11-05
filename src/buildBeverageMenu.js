@@ -40,22 +40,8 @@ export async function buildBeverageMenu({ outputDir = DEFAULT_OUTPUT_DIR } = {})
   if (!Array.isArray(config.sections)) throw new Error('bev-items-config.json has no sections array');
   console.log(`\n🍵  Building beverage menu from config: ${config.sections.length} sections`);
 
-  // Load staff availability overrides from GCS (public URL).
-  // NOTE: legacy — written by the old fdb-bev-override service. admin.html now writes
-  // overrides-{slug}.json in menu-display-beverages, which bev.js applies in the browser.
-  // Kept so behaviour doesn't change during the migration; remove when that service is retired.
-  const OVERRIDES_URL = 'https://storage.googleapis.com/analytics-link-370416-menu/bev-overrides.json';
-  let overrideSet = new Set();
-  try {
-    const res = await fetch(OVERRIDES_URL + '?t=' + Date.now());
-    if (res.ok) {
-      const ov = await res.json();
-      overrideSet = new Set(ov.unavailable || []);
-      if (overrideSet.size) {
-        console.log(`   🚫  Staff overrides (${overrideSet.size}): ${[...overrideSet].join(', ')}`);
-      }
-    }
-  } catch (e) { console.warn('   ⚠️   Could not fetch bev-overrides from GCS:', e.message); }
+  // Staff availability overrides aren't applied here: admin.html writes
+  // overrides-{slug}.json in menu-display-beverages, and bev.js applies it in the browser.
 
   mkdirSync(resolve(outputDir, 'data'), { recursive: true });
   const written = [];
@@ -63,22 +49,8 @@ export async function buildBeverageMenu({ outputDir = DEFAULT_OUTPUT_DIR } = {})
   for (const loc of BEV_LOCATIONS) {
     console.log(`\n📍  ${loc.name}`);
 
-    // Deep copy sections from config (so we can mutate availability per location)
+    // Deep copy sections from config, so each location's output is independent
     const sections = JSON.parse(JSON.stringify(config.sections));
-
-    // Apply staff overrides
-    if (overrideSet.size) {
-      for (const sec of sections) {
-        for (const item of (sec.items || [])) {
-          if (overrideSet.has(item.name)) item.available = false;
-        }
-        for (const sub of (sec.sub_sections || [])) {
-          for (const item of sub.items) {
-            if (overrideSet.has(item.name)) item.available = false;
-          }
-        }
-      }
-    }
 
     let itemCount = 0;
     let unavailCount = 0;
