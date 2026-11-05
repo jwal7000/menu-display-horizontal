@@ -4,7 +4,7 @@ Handed over from a claude.ai session. That session couldn't push to GitHub, coul
 
 ## Where things stand
 
-**Done, on branch `cloud-run-jobs`** (not yet pushed; it arrived as a patch file):
+**Done, on branch `cloud-run-jobs`** (pushed; PR #1 against `main`, not merged):
 - Two Cloud Run Jobs from one image: `menu-build` (10 min) and `inventory-sync` (2 min). Entrypoint `src/jobs/run.js`; publishing in `src/jobs/publish.js` + `targets.js`.
 - Secrets from env vars (Secret Manager: `square-access-token`, `mysql-password`, `github-menu-token`), falling back to the Mac mini's files. Cloud SQL through `MYSQL_SOCKET`. Bev config from `BEV_CONFIG_URL=gs://analytics-link-370416-menu/bev-items-config.json`.
 - Fixes:
@@ -16,6 +16,13 @@ Handed over from a claude.ai session. That session couldn't push to GitHub, coul
   - The beverages repo gets both `public/data` and `output/data`.
 - `Dockerfile`, `cloudrun/deploy-menu-jobs.sh`, `cloudrun/README.md`, tests (`npm test`, 12 passing, with SDKs stubbed).
 - Nothing deployed. The Mac mini is still the live pipeline.
+
+**The 2-min sold-out sync isn't live today. Cloud Run's `inventory-sync` will be the first time it runs.** As of 2026-11-05, the Mac mini (user `openclaw-user`) has only `com.fivedaughters.menu-refresh` loaded. `com.fivedaughters.inventory-sync` isn't loaded, and there are no "update sold_out flags" commits back to at least Oct 11. So today, `sold_out` changes only on the 10-min build. After cutover, items can flip to sold out within about 2 minutes, and screens will change more often during the day. Tell the stores before cutover, and expect `inventory-sync[bot]` commits to be new.
+
+Other Mac mini findings from 2026-11-05:
+- **Unknown job.** `com.fivedaughters.menu-display-portrait` is loaded and running. Jonathan is sending its details. Cutover and rollback don't touch it. If it pushes menu data to the portrait repo, it would double-publish after cutover, so it needs a decision before B.
+- **Node.** The launchd jobs use `/opt/homebrew/opt/node@22/bin`. Run any manual checks with that Node and as `openclaw-user`. Under `jwal`, Homebrew's `node@22` won't start (permission denied on `openssl@3/libcrypto`). Leave that alone until after cutover.
+- **Rollback.** `cutover` records which launchd jobs were loaded (`~/.openclaw/menu-cutover-launchd.txt`), and `rollback` reloads only those, so it won't switch on `inventory-sync`.
 
 **Decisions already made:**
 - `bev-items-config.json` moves to GCS bucket `analytics-link-370416-menu`. It isn't kept in a repo.
@@ -29,11 +36,12 @@ Handed over from a claude.ai session. That session couldn't push to GitHub, coul
 Work in order, and confirm with the user before every push, GCP change or cutover.
 
 ### A. Land the branch
-1. Apply the patch and push `cloud-run-jobs`. Open a PR against `main`.
-2. `npm install` and `npm test`.
-3. **Verify the Square SDK pagination for real.** `src/lib/square.js` uses `for await (const c of page)` on `client.inventory.batchGetCounts(...)`, and this hasn't been run against the installed SDK (square ^44). Write a throwaway script that calls `fetchInventoryCounts` read-only for one location and a few variation IDs from `output/data/the-gulch.json`. Compare the result with the Square dashboard, or with the Square MCP connector if one is available.
-4. `docker build .` to confirm the image builds.
-5. Merge after the user approves. It's safe to merge before cutover: the Mac mini scripts work unchanged on this code.
+1. ✅ Pushed `cloud-run-jobs`; PR #1 against `main`.
+2. ✅ `npm install` and `npm test` (12 passing).
+3. ✅ **Square SDK pagination.** square@44.2.0 follows `cursor` across pages and maps fields to camelCase (checked with a stubbed `fetch`). Live Gulch counts read through the Square connector match the published `sold_out` flags. The API also returns `RETURNED_BY_CUSTOMER` / `WASTE` counts, and the code correctly keeps only `IN_STOCK`.
+4. ⏭ `docker build .` skipped: Cloud Build builds the image at deploy time (user's call).
+5. **Before merging:** run the branch for real on the Mac mini in a throwaway clone (`npm ci`, `build-menu-db`, `build-bev`, then diff against the live `output/data`, ignoring `generated_at` / `inventory_patched_at`). Expected difference: the new `variation_id`. Run it as `openclaw-user` with `NODE_DIR=/opt/homebrew/opt/node@22/bin`. The first attempt ran as `jwal` and stopped at `npm ci` (see Node above).
+6. Merge after the user approves the diff. It's safe to merge before cutover: the Mac mini scripts work unchanged on this code.
 
 ### B. Deploy (blocked on Jonathan)
 Prerequisites: Jonathan re-authenticates, and grants `menu-deploy-bot` `roles/cloudscheduler.admin`, `roles/secretmanager.admin` and `roles/cloudsql.client`. Run `preflight` first, and expect it may also flag `iam.serviceAccountUser` on itself, Cloud Build / Artifact Registry access, and storage access on the bucket.
@@ -53,7 +61,7 @@ cloudrun/deploy-menu-jobs.sh cutover
 Reaching the Mac mini: SSH over Tailscale from the user's Mac, if Remote Login or Tailscale SSH is enabled. Otherwise hand the commands to the user or Jonathan.
 
 After cutover:
-- Check a screen at each store.
+- Check a screen at each store. Expect sold-out items to update within about 2 min. That's new behavior (see above), not a bug.
 - Watch Cloud Run executions for an hour.
 - Confirm only `menu-refresh[bot]` / `inventory-sync[bot]` commits appear.
 

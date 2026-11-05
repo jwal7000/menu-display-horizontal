@@ -81,13 +81,17 @@ cloudrun/deploy-menu-jobs.sh resume        # dry-run jobs on schedule; check Clo
 cloudrun/deploy-menu-jobs.sh cutover       # asks you to type CUTOVER
 ```
 
-This stops the two launchd jobs, switches the jobs to `DRY_RUN=0`, resumes the triggers, and runs `menu-build` once. After that, check a screen at each store.
+Cutover first records which of `com.fivedaughters.menu-refresh` and `com.fivedaughters.inventory-sync` are loaded, in `~/.openclaw/menu-cutover-launchd.txt`. Then it stops those jobs, switches the Cloud Run jobs to `DRY_RUN=0`, resumes the triggers, and runs `menu-build` once. After that, check a screen at each store. Running cutover again keeps the first record. Other launchd jobs, such as `com.fivedaughters.menu-display-portrait`, aren't touched.
+
+The 2-min sold-out updates go live for the first time at cutover. On the Mac mini, `inventory-sync` isn't loaded, so only the 10-min build sets `sold_out` today. After cutover, items can flip to sold out within about 2 minutes, so screens change more often during the day.
 
 ### Rollback
 
 ```bash
-cloudrun/deploy-menu-jobs.sh rollback      # pause triggers, jobs back to dry-run, restart launchd jobs
+cloudrun/deploy-menu-jobs.sh rollback      # pause triggers, jobs back to dry-run, reload the recorded launchd jobs
 ```
+
+Rollback reloads only the jobs in the cutover record, so a job that was off before cutover (today, `inventory-sync`) stays off. When it's done, it renames the record to `….restored-<timestamp>`. If there's no record, it reloads nothing and tells you to load jobs by hand.
 
 ## Day to day
 

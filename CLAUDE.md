@@ -32,7 +32,7 @@ Display code changes to the horizontal site must land on **`gh-pages`**, which i
 - **Beverages:** `bev-items-config.json`, curated by hand → `src/buildBeverageMenu.js` → `bev-{slug}.json`. The Square catalog isn't used because espresso items live in Square Restaurants (TAG).
 - **Inventory:** every 2 min, Square counts → `src/patchMenuInventory.js` patches the `sold_out` flags.
 - **Staff overrides:** `admin.html` writes `public/pastry-overrides-{slug}.json` (this repo, `main`) and `public/overrides-{slug}.json` (beverages repo). The displays read them at runtime.
-- **Today:** the Mac mini at Jonathan's office (Tailscale) runs `scripts/refresh-menu.sh` (10 min) and `scripts/refresh-inventory.sh` (2 min) from `~/.openclaw/workspace/square-digital-menu-poc`.
+- **Today:** the Mac mini at Jonathan's office (Tailscale) runs `scripts/refresh-menu.sh` (10 min, launchd `com.fivedaughters.menu-refresh`, as `openclaw-user`) from `~/.openclaw/workspace/square-digital-menu-poc`. The 2-min `refresh-inventory.sh` job (`com.fivedaughters.inventory-sync`) is **not loaded**, so 2-min sold-out updates first go live with Cloud Run's `inventory-sync`. An unknown job, `com.fivedaughters.menu-display-portrait`, is also running. See `cloudrun/HANDOFF.md`.
 - **Carousel:** a separate Cloud Run service (`fdb-carousel`). Deploy with `deploy-carousel.sh` on the Mac mini.
 
 ## Ground rules

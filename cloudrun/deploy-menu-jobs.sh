@@ -13,8 +13,8 @@
 #   cloudrun/deploy-menu-jobs.sh schedule          # create/update Scheduler triggers (created PAUSED)
 #   cloudrun/deploy-menu-jobs.sh run <job>         # run a job once now and wait
 #   cloudrun/deploy-menu-jobs.sh compare           # diff latest dry-run output against what's live on GitHub
-#   cloudrun/deploy-menu-jobs.sh cutover           # LIVE: stop Mac mini launchd jobs, jobs push for real, resume Scheduler
-#   cloudrun/deploy-menu-jobs.sh rollback          # pause Scheduler, restart Mac mini launchd jobs
+#   cloudrun/deploy-menu-jobs.sh cutover           # LIVE: record + stop Mac mini launchd jobs, jobs push for real, resume Scheduler
+#   cloudrun/deploy-menu-jobs.sh rollback          # pause Scheduler, reload only the launchd jobs cutover recorded
 #
 # Bash 3.2 compatible (macOS default).
 
@@ -33,7 +33,10 @@ BEV_CONFIG_LOCAL="${BEV_CONFIG_LOCAL:-$HOME/.openclaw/workspace/square-digital-m
 AR_REPO="${AR_REPO:-cloud-run-source-deploy}"
 IMAGE_BASE="$REGION-docker.pkg.dev/$PROJECT/$AR_REPO/menu-jobs"
 LAUNCH_AGENTS_DIR="${LAUNCH_AGENTS_DIR:-$HOME/Library/LaunchAgents}"
-LAUNCHD_LABELS="com.fivedaughters.menu-refresh com.fivedaughters.inventory-sync"
+LAUNCHD_LABELS="com.fivedaughters.menu-refresh com.fivedaughters.inventory-sync"   # the jobs cutover may stop
+# Which of LAUNCHD_LABELS were loaded at cutover, so rollback restores exactly that.
+# Kept outside the repo (it's public and gets git-pulled).
+LAUNCHD_STATE_FILE="${LAUNCHD_STATE_FILE:-$HOME/.openclaw/menu-cutover-launchd.txt}"
 
 JOBS="menu-build inventory-sync"
 SCHEDULE_menu_build="*/10 * * * *"
@@ -246,23 +249,73 @@ PY
 }
 
 # ── cutover / rollback ────────────────────────────────────────────────────────
+# Exact label match on launchctl's 3rd column. Captured first, not piped into
+# grep -q, so pipefail can't turn an early grep exit into "not loaded".
+launchd_loaded() {
+  local labels
+  labels="$(launchctl list 2>/dev/null | awk 'NR > 1 { print $3 }')"
+  printf '%s\n' "$labels" | grep -qxF "$1"
+}
+
+# Writes the loaded subset of LAUNCHD_LABELS to the state file. Never overwrites
+# an existing record: a second cutover would see nothing loaded and record that.
+launchd_record() {
+  if [[ -f "$LAUNCHD_STATE_FILE" ]]; then
+    warn "keeping existing record from the first cutover: $LAUNCHD_STATE_FILE"
+    sed 's/^/      /' "$LAUNCHD_STATE_FILE"
+    return
+  fi
+  mkdir -p "$(dirname "$LAUNCHD_STATE_FILE")"
+  {
+    echo "# launchd jobs loaded at cutover, $(date '+%Y-%m-%d %H:%M:%S %Z'). rollback reloads only these."
+    for label in $LAUNCHD_LABELS; do
+      if launchd_loaded "$label"; then echo "$label"; fi
+    done
+  } > "$LAUNCHD_STATE_FILE"
+  ok "recorded loaded jobs in $LAUNCHD_STATE_FILE:"
+  grep -v '^#' "$LAUNCHD_STATE_FILE" | sed 's/^/      /' || echo "      (none)"
+}
+
 launchd_stop() {
   for label in $LAUNCHD_LABELS; do
-    if launchctl list | grep -q "$label"; then
+    if launchd_loaded "$label"; then
       launchctl bootout "gui/$(id -u)/$label" 2>/dev/null || launchctl unload "$LAUNCH_AGENTS_DIR/$label.plist"
       ok "stopped $label"
     else
-      ok "$label not running"
+      ok "$label not loaded — leaving it alone"
     fi
   done
 }
-launchd_start() {
-  for label in $LAUNCHD_LABELS; do
-    local plist="$LAUNCH_AGENTS_DIR/$label.plist"
-    [[ -f "$plist" ]] || { warn "missing $plist — start $label by hand"; continue; }
-    launchctl bootstrap "gui/$(id -u)" "$plist" 2>/dev/null || launchctl load "$plist"
-    ok "started $label"
+
+# Reloads only the labels cutover recorded. Without a record it reloads nothing:
+# guessing could switch on a job that wasn't running before.
+launchd_restore() {
+  [[ -f "$LAUNCHD_STATE_FILE" ]] || {
+    warn "no cutover record at $LAUNCHD_STATE_FILE — not reloading any launchd job."
+    warn "Check what should run, then load it by hand: launchctl load $LAUNCH_AGENTS_DIR/<label>.plist"
+    return 1
+  }
+  local label plist failed=0
+  for label in $(grep -v '^#' "$LAUNCHD_STATE_FILE"); do
+    case " $LAUNCHD_LABELS " in
+      *" $label "*) ;;
+      *) warn "ignoring unexpected label in record: $label"; continue ;;
+    esac
+    if launchd_loaded "$label"; then ok "$label already loaded"; continue; fi
+    plist="$LAUNCH_AGENTS_DIR/$label.plist"
+    [[ -f "$plist" ]] || { warn "missing $plist — start $label by hand"; failed=1; continue; }
+    if launchctl bootstrap "gui/$(id -u)" "$plist" 2>/dev/null || launchctl load "$plist"; then
+      ok "reloaded $label"
+    else
+      warn "could not reload $label"; failed=1
+    fi
   done
+  for label in $LAUNCHD_LABELS; do
+    grep -qxF "$label" "$LAUNCHD_STATE_FILE" || ok "$label wasn't loaded at cutover — left off"
+  done
+  [[ $failed -eq 0 ]] || return 1
+  # Done: archive the record so a later cutover records fresh state.
+  mv "$LAUNCHD_STATE_FILE" "$LAUNCHD_STATE_FILE.restored-$(date +%Y%m%d-%H%M%S)"
 }
 
 cmd_cutover() {
@@ -271,6 +324,8 @@ cmd_cutover() {
   read -r -p "Type CUTOVER to continue: " answer
   [[ "$answer" == "CUTOVER" ]] || die "Aborted."
 
+  log "Recording which Mac mini launchd jobs are loaded (rollback restores exactly these)"
+  launchd_record
   log "Stopping Mac mini launchd jobs (so nothing pushes twice)"
   launchd_stop
   log "Switching jobs to live (DRY_RUN=0)"
@@ -289,8 +344,8 @@ cmd_rollback() {
   for job in $JOBS; do
     gcloud run jobs update "$job" --region "$REGION" --update-env-vars DRY_RUN=1 --quiet >/dev/null || true
   done
-  log "Restarting Mac mini launchd jobs"
-  launchd_start
+  log "Reloading the Mac mini launchd jobs that were loaded at cutover"
+  launchd_restore || die "Rollback incomplete: Cloud Run is paused and in dry-run, but launchd needs a hand (see above)."
 }
 
 # ── main ──────────────────────────────────────────────────────────────────────
