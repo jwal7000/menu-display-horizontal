@@ -13,18 +13,18 @@
  */
 
 import mysql                              from 'mysql2/promise';
-import { SquareClient, SquareEnvironment } from 'square';
-import { readFileSync, writeFileSync, mkdirSync } from 'fs';
-import { fileURLToPath }                  from 'url';
+import { writeFileSync, mkdirSync }       from 'fs';
+import { fileURLToPath, pathToFileURL }   from 'url';
 import { dirname, resolve }               from 'path';
+import { mysqlOptions }                   from './lib/settings.js';
+import { squareClient, fetchInventoryCounts, SOLD_OUT_THRESHOLD } from './lib/square.js';
+import { DISPLAY_LOCATIONS }              from './lib/locations.js';
 
 const __dirname  = dirname(fileURLToPath(import.meta.url));
 const ROOT_DIR   = resolve(__dirname, '..');
-const OUTPUT_DIR = resolve(ROOT_DIR, 'output');
+const DEFAULT_OUTPUT_DIR = resolve(ROOT_DIR, 'output');
 
 // ── Constants ─────────────────────────────────────────────────────────────────
-
-const SOLD_OUT_THRESHOLD = 3; // inventory count ≤ this → sold out
 
 // How Item_Category in FlavorSchedule maps to display section names + sort order
 const SECTION_CONFIG = {
@@ -38,20 +38,9 @@ const SECTION_CONFIG = {
   'Cookies':                   { displayName: 'Cookies',              sort: 8 },
 };
 
-// Physical display locations
-// dbName must match the Location field in FlavorSchedule_Exclusions exactly.
-const DISPLAY_LOCATIONS = [
-  { slug: 'the-factory', name: 'The Factory',    sqId: 'ECE7YC9G73NXK', dbName: 'The Factory' },
-  { slug: 'the-gulch',   name: 'The Gulch',       sqId: 'L4CQJADFVPZC9', dbName: 'The Gulch' },
-  { slug: '5th-broad',   name: '5th & Broadway',  sqId: 'L862ACB6EPKVT', dbName: '5th & Broad' },
-  { slug: 'medley',      name: 'Medley',           sqId: 'LDR9H5M3GQKXF', dbName: 'Medley', skipInventory: true },
-];
+// Physical display locations live in ./lib/locations.js
 
 // ── Helpers ──────────────────────────────────────────────────────────────────
-
-function expandPath(p) {
-  return p.startsWith('~') ? p.replace('~', process.env.HOME || '') : p;
-}
 
 function formatCents(cents) {
   if (cents == null) return null;
@@ -92,7 +81,7 @@ async function fetchExclusions(conn, year, month) {
  * @param {Array}  exclusions - Rows from fetchExclusions()
  * @param {number} dow        - Day of week: 0=Sun, 1=Mon, … 6=Sat (Central time)
  */
-function isExcluded(item, dbName, exclusions, dow) {
+export function isExcluded(item, dbName, exclusions, dow) {
   const isWeekday = dow >= 1 && dow <= 5;
   const isWeekend = dow === 0 || dow === 6;
 
@@ -164,34 +153,11 @@ async function fetchCatalogPrices(client, variationIds) {
   return priceMap;
 }
 
-// ── Square: Inventory counts ──────────────────────────────────────────────────
-
-/**
- * Returns a Map of { variation_id → quantity } for IN_STOCK items
- * at the given location.
- */
-async function fetchInventoryCounts(client, locationId, variationIds) {
-  const counts = new Map();
-  if (!variationIds.length) return counts;
-
-  const BATCH = 100;
-  for (let i = 0; i < variationIds.length; i += BATCH) {
-    const res = await client.inventory.batchGetCounts({
-      catalogObjectIds: variationIds.slice(i, i + BATCH),
-      locationIds:      [locationId],
-    });
-    for (const c of (res.data || [])) {
-      if (c.state === 'IN_STOCK') {
-        counts.set(c.catalogObjectId, parseFloat(c.quantity || '0'));
-      }
-    }
-  }
-  return counts;
-}
+// ── Square: Inventory counts — see ./lib/square.js
 
 // ── Menu assembly ─────────────────────────────────────────────────────────────
 
-function buildSections(items, priceMap, inventoryCounts) {
+export function buildSections(items, priceMap, inventoryCounts) {
   // Group variations by Square parent item ID so multi-size items are combined
   const parentMap = new Map(); // parentId → [{ item, vid, priceInfo }]
   const noVidItems = [];
@@ -247,6 +213,7 @@ function buildSections(items, priceMap, inventoryCounts) {
       const soldOut = qty !== null ? qty <= SOLD_OUT_THRESHOLD : false;
       addItem(it.Item_Category, {
         item_id:       it.SKU,
+        variation_id:  v,   // lets patchMenuInventory match this item to Square counts
         name:          it.Item_Name,
         price:         formatCents(pi?.price_cents ?? null),
         sold_out:      soldOut,
@@ -296,29 +263,13 @@ function buildSections(items, priceMap, inventoryCounts) {
 
 // ── Main ──────────────────────────────────────────────────────────────────────
 
-async function buildMenuFromDB() {
-  // Load credentials
-  const mysqlEnv = readFileSync(expandPath('~/.openclaw/secrets/mysql.env'), 'utf8');
-  const mysqlPw  = mysqlEnv.split('\n')
-    .find(l => l.startsWith('MYSQL_PASSWORD'))
-    .split('=').slice(1).join('=').trim();
-
-  const squareCreds = JSON.parse(
-    readFileSync(expandPath('~/.openclaw/secrets/square.json'), 'utf8')
-  );
-
-  // MySQL
-  const conn = await mysql.createConnection({
-    host: '127.0.0.1', port: 3307,
-    user: 'FDB_SteveConnect', password: mysqlPw,
-    database: 'production', dateStrings: true,
-  });
-
-  // Square
-  const client = new SquareClient({
-    token:       squareCreds.access_token,
-    environment: SquareEnvironment.Production,
-  });
+/**
+ * Builds every location's pastry menu and writes {outputDir}/data/{slug}.json.
+ * Returns the list of files written.
+ */
+export async function buildMenuFromDB({ outputDir = DEFAULT_OUTPUT_DIR } = {}) {
+  const conn   = await mysql.createConnection(mysqlOptions());
+  const client = squareClient();
 
   const today = todayCST();
   const [yr, mo] = today.split('-');
@@ -344,7 +295,8 @@ async function buildMenuFromDB() {
   console.log(`    ${priceMap.size} prices found`);
 
   // 3. Build per-location menus
-  mkdirSync(resolve(OUTPUT_DIR, 'data'), { recursive: true });
+  mkdirSync(resolve(outputDir, 'data'), { recursive: true });
+  const written = [];
 
   for (const loc of DISPLAY_LOCATIONS) {
     console.log(`\n📍  ${loc.name}`);
@@ -400,8 +352,9 @@ async function buildMenuFromDB() {
       sections,
     };
 
-    const outPath = resolve(OUTPUT_DIR, 'data', `${loc.slug}.json`);
+    const outPath = resolve(outputDir, 'data', `${loc.slug}.json`);
     writeFileSync(outPath, JSON.stringify(menu, null, 2));
+    written.push(outPath);
     console.log(`    ✅  ${sections.length} sections, ${itemCount} items`);
     for (const s of sections) {
       const so = s.items.filter(i => i.sold_out).length;
@@ -410,9 +363,13 @@ async function buildMenuFromDB() {
   }
 
   console.log('\n✅  All locations done.\n');
+  return written;
 }
 
-buildMenuFromDB().catch(err => {
-  console.error('\n❌  Fatal:', err.message);
-  process.exit(1);
-});
+// CLI: `npm run build-menu-db` (Mac mini launchd path — unchanged behaviour)
+if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
+  buildMenuFromDB().catch(err => {
+    console.error('\n❌  Fatal:', err.message);
+    process.exit(1);
+  });
+}

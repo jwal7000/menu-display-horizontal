@@ -1,0 +1,12 @@
+.git
+.gh-pages-worktree
+node_modules
+output
+public
+logs
+launchd
+scripts
+test
+cloudrun
+*.md
+.env

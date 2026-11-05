@@ -2,7 +2,9 @@
  * buildBeverageMenu.js
  * Builds the beverage menu JSON for display at Type 2 stores (Gulch, Medley).
  *
- * Data source: output/bev-items-config.json (manually curated items + pricing).
+ * Data source: bev-items-config.json (manually curated items + pricing).
+ *   - BEV_CONFIG_URL=gs://analytics-link-370416-menu/bev-items-config.json → read from GCS (Cloud Run)
+ *   - otherwise output/bev-items-config.json on local disk (Mac mini)
  * Availability: item.available flag in the config (updated seasonally or by staff).
  *
  * Output: output/data/bev-{slug}.json per location.
@@ -10,29 +12,38 @@
  * Usage: npm run build-bev
  */
 
-import { readFileSync, writeFileSync, mkdirSync, existsSync } from 'fs';
-import { fileURLToPath } from 'url';
+import { readFileSync, writeFileSync, mkdirSync } from 'fs';
+import { fileURLToPath, pathToFileURL } from 'url';
 import { dirname, resolve }  from 'path';
+import { BEV_LOCATIONS }     from './lib/locations.js';
+import { readObject }        from './lib/gcs.js';
 
 const __dirname  = dirname(fileURLToPath(import.meta.url));
 const ROOT_DIR   = resolve(__dirname, '..');
-const OUTPUT_DIR = resolve(ROOT_DIR, 'output');
+const DEFAULT_OUTPUT_DIR = resolve(ROOT_DIR, 'output');
 
-// Type 2 stores that have a beverage display (horizontal)
-const BEV_LOCATIONS = [
-  { slug: 'the-gulch', name: 'The Gulch', sqId: 'L4CQJADFVPZC9' },
-  { slug: 'medley',    name: 'Medley',    sqId: 'LDR9H5M3GQKXF' },
-];
+async function loadConfig() {
+  const url = process.env.BEV_CONFIG_URL;
+  if (url) {
+    console.log(`   📥  Loading bev config from ${url}`);
+    return JSON.parse(await readObject(url));
+  }
+  return JSON.parse(readFileSync(resolve(DEFAULT_OUTPUT_DIR, 'bev-items-config.json'), 'utf8'));
+}
 
-function expandPath(p) { return p.startsWith('~') ? p.replace('~', process.env.HOME||'') : p; }
-
-async function buildBeverageMenu() {
-  // Load item config
-  const configPath = resolve(OUTPUT_DIR, 'bev-items-config.json');
-  const config = JSON.parse(readFileSync(configPath, 'utf8'));
+/**
+ * Builds bev-{slug}.json for every beverage location into {outputDir}/data/.
+ * Returns the list of files written.
+ */
+export async function buildBeverageMenu({ outputDir = DEFAULT_OUTPUT_DIR } = {}) {
+  const config = await loadConfig();
+  if (!Array.isArray(config.sections)) throw new Error('bev-items-config.json has no sections array');
   console.log(`\n🍵  Building beverage menu from config: ${config.sections.length} sections`);
 
-  // Load staff availability overrides from GCS (public URL)
+  // Load staff availability overrides from GCS (public URL).
+  // NOTE: legacy — written by the old fdb-bev-override service. admin.html now writes
+  // overrides-{slug}.json in menu-display-beverages, which bev.js applies in the browser.
+  // Kept so behaviour doesn't change during the migration; remove when that service is retired.
   const OVERRIDES_URL = 'https://storage.googleapis.com/analytics-link-370416-menu/bev-overrides.json';
   let overrideSet = new Set();
   try {
@@ -46,7 +57,8 @@ async function buildBeverageMenu() {
     }
   } catch (e) { console.warn('   ⚠️   Could not fetch bev-overrides from GCS:', e.message); }
 
-  mkdirSync(resolve(OUTPUT_DIR, 'data'), { recursive: true });
+  mkdirSync(resolve(outputDir, 'data'), { recursive: true });
+  const written = [];
 
   for (const loc of BEV_LOCATIONS) {
     console.log(`\n📍  ${loc.name}`);
@@ -93,8 +105,9 @@ async function buildBeverageMenu() {
       sections,
     };
 
-    const outPath = resolve(OUTPUT_DIR, 'data', `bev-${loc.slug}.json`);
+    const outPath = resolve(outputDir, 'data', `bev-${loc.slug}.json`);
     writeFileSync(outPath, JSON.stringify(output, null, 2));
+    written.push(outPath);
     console.log(`    ✅  ${sections.length} sections, ${itemCount} items (${unavailCount} unavailable)`);
     for (const s of sections) {
       const unavl = (s.items||[]).filter(i=>!i.available).length;
@@ -103,6 +116,10 @@ async function buildBeverageMenu() {
   }
 
   console.log('\n✅  Done.\n');
+  return written;
 }
 
-buildBeverageMenu().catch(err => { console.error('❌  Fatal:', err.message); process.exit(1); });
+// CLI: `npm run build-bev` (Mac mini launchd path — unchanged behaviour)
+if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
+  buildBeverageMenu().catch(err => { console.error('❌  Fatal:', err.message); process.exit(1); });
+}
