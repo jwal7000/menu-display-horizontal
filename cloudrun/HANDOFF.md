@@ -44,7 +44,7 @@ Work in order, and confirm with the user before every push, GCP change or cutove
 6. Merge after the user approves the diff. It's safe to merge before cutover: the Mac mini scripts work unchanged on this code.
 
 ### B. Deploy (blocked on Jonathan)
-Prerequisites: Jonathan re-authenticates, and grants `menu-deploy-bot` `roles/cloudscheduler.admin`, `roles/secretmanager.admin` and `roles/cloudsql.client`. Run `preflight` first, and expect it may also flag `iam.serviceAccountUser` on itself, Cloud Build / Artifact Registry access, and storage access on the bucket.
+Prerequisites: Jonathan re-authenticates, and grants `menu-deploy-bot` `roles/cloudscheduler.admin`, `roles/secretmanager.admin` and `roles/cloudsql.client`. Run `preflight` first. It may also flag Cloud Build / Artifact Registry access and storage access on the bucket. It doesn't check `iam.serviceAccountUser` on itself: if that's missing, `jobs` fails with an `iam.serviceaccounts.actAs` error.
 
 On the Mac mini, from `square-digital-menu-poc` after `git pull`:
 ```
@@ -59,6 +59,14 @@ cloudrun/deploy-menu-jobs.sh schedule && cloudrun/deploy-menu-jobs.sh resume   #
 cloudrun/deploy-menu-jobs.sh cutover
 ```
 Reaching the Mac mini: SSH over Tailscale from the user's Mac, if Remote Login or Tailscale SSH is enabled. Otherwise hand the commands to the user or Jonathan.
+
+**First dry-run deploy (2026-11-06), what we found:**
+- **`jobs` stopped at the image build.** `gcloud builds submit` exited non-zero because `menu-deploy-bot` can't stream logs from the default Cloud Build logs bucket, and `set -e` stopped the script before either job was deployed. Fixed: the build now runs with `--suppress-logs`, still waits for the result, and prints the build's Cloud Console link. Rerun `jobs` after `git pull`.
+- **`preflight` misreported the bucket as DENIED.** `gcloud storage ls` has no `--limit` flag. Fixed: it does a plain listing now. Failed probes also print gcloud's first error line, so a bad flag no longer looks like a denial. The actAs line is informational only.
+- **`square-access-token` already existed** before our `secrets` run. `secrets` added **version 2** with the Mac mini's token. `put_secret` only adds a version when `latest` doesn't match that token, so either version 1 held a different value, or `menu-deploy-bot` couldn't read it. Whoever created the secret (another service?) may read `square-access-token:latest`, and now gets version 2. Before cutover, find out who created it and what reads it. Don't disable or destroy version 1 until that's known.
+- **`gs://analytics-link-370416-menu/bev-items-config.json` already existed** before our first `bev-config` upload, so it predates the migration. The jobs read this object, so before cutover:
+  - confirm it matches the Mac mini's `output/bev-items-config.json`. `compare` after `run menu-build` shows any bev differences.
+  - find out what wrote the earlier copy. If something still writes it, it could overwrite the curated config after cutover.
 
 After cutover:
 - Check a screen at each store. Expect sold-out items to update within about 2 min. That's new behavior (see above), not a bug.

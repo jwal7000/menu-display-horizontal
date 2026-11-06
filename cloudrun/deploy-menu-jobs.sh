@@ -56,6 +56,7 @@ export CLOUDSDK_CORE_DISABLE_PROMPTS=1
 log()  { printf '\033[1m▶︎ %s\033[0m\n' "$*"; }
 ok()   { printf '  \033[32m✓\033[0m %s\n' "$*"; }
 warn() { printf '  \033[33m!\033[0m %s\n' "$*"; }
+info() { printf '  \033[36mi\033[0m %s\n' "$*"; }
 die()  { printf '\033[31m✗ %s\033[0m\n' "$*" >&2; exit 1; }
 
 auth() {
@@ -81,16 +82,22 @@ cmd_preflight() {
   fi
 
   log "Permissions for $DEPLOY_SA (read-only probes)"
-  probe() { if eval "$2" >/dev/null 2>&1; then ok "$1"; else warn "$1 — DENIED"; fi; }
+  # On failure, show gcloud's first error line: a bad flag and a real denial look alike otherwise.
+  probe() {
+    local err
+    if err="$(eval "$2" 2>&1 >/dev/null)"; then ok "$1"
+    else warn "$1 — FAILED: $(printf '%s\n' "$err" | grep -m1 -v '^[[:space:]]*$' || echo 'no error output')"; fi
+  }
   probe "Cloud Run jobs (run.admin)"            "gcloud run jobs list --region $REGION --limit 1"
   probe "Cloud Scheduler (cloudscheduler.admin)" "gcloud scheduler jobs list --location $REGION --limit 1"
   probe "Secret Manager (secretmanager.admin)"   "gcloud secrets list --limit 1"
   probe "Cloud Build (cloudbuild.builds.editor)" "gcloud builds list --region $REGION --limit 1"
   probe "Artifact Registry repo $AR_REPO"        "gcloud artifacts repositories describe $AR_REPO --location $REGION"
   probe "Cloud SQL instance visible"             "gcloud sql instances describe ${SQL_INSTANCE##*:}"
-  probe "Bucket gs://$BUCKET"                    "gcloud storage ls gs://$BUCKET --limit 1"
-  probe "actAs $RUNTIME_SA (iam.serviceAccountUser)" \
-        "gcloud iam service-accounts get-iam-policy $RUNTIME_SA"
+  # gcloud storage ls has no --limit; a plain top-level listing is the read probe.
+  probe "Bucket gs://$BUCKET"                    "gcloud storage ls gs://$BUCKET"
+  # Not probed: reading the SA's IAM policy needs a different permission than actAs, so it misreports.
+  info "actAs $RUNTIME_SA (iam.serviceAccountUser) — not checkable here; if missing, 'jobs' fails with iam.serviceaccounts.actAs"
   echo
   echo "  Runtime SA ($RUNTIME_SA) also needs: roles/cloudsql.client, roles/secretmanager.secretAccessor,"
   echo "  storage read on gs://$BUCKET (write for dry-run uploads), roles/run.invoker (for Scheduler)."
@@ -149,7 +156,22 @@ cmd_jobs() {
   image="$IMAGE_BASE:$tag"
 
   log "Building $image (Cloud Build)"
-  gcloud builds submit "$REPO_ROOT" --region "$REGION" --tag "$image" --quiet
+  # --suppress-logs: menu-deploy-bot can't stream from the default logs bucket, and the
+  # streaming error used to abort the script even when the build itself succeeded.
+  # gcloud still waits for the build and exits non-zero if it fails.
+  local build_log build_id rc=0
+  build_log="$(mktemp)"
+  gcloud builds submit "$REPO_ROOT" --region "$REGION" --tag "$image" --suppress-logs --quiet 2>&1 \
+    | tee "$build_log" || rc=$?
+  build_id="$(grep -oE 'builds/[0-9a-f-]{36}' "$build_log" | head -1 | cut -d/ -f2 || true)"
+  rm -f "$build_log"
+  if [[ -n "$build_id" ]]; then
+    info "build logs: https://console.cloud.google.com/cloud-build/builds;region=$REGION/$build_id?project=$PROJECT"
+  else
+    warn "no build ID in gcloud's output — find the build in Cloud Console → Cloud Build → History ($REGION)"
+  fi
+  [[ $rc -eq 0 ]] || die "Cloud Build failed (exit $rc). Open the build logs link above."
+  ok "image built"
 
   local env_vars="MYSQL_SOCKET=/cloudsql/$SQL_INSTANCE,BEV_CONFIG_URL=gs://$BUCKET/bev-items-config.json,DRY_RUN=$DRY_RUN,DRY_RUN_URL=gs://$BUCKET/dry-run"
   local secrets="SQUARE_ACCESS_TOKEN=square-access-token:latest,MYSQL_PASSWORD=mysql-password:latest,GITHUB_TOKEN=github-menu-token:latest"
