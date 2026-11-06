@@ -1,7 +1,7 @@
 {
   "location_id": "L862ACB6EPKVT",
   "location_name": "5th & Broadway",
-  "generated_at": "2026-11-06T19:21:09.845Z",
+  "generated_at": "2026-11-06T19:31:19.557Z",
   "source": "FlavorSchedule+Square",
   "section_count": 8,
   "item_count": 34,
@@ -139,7 +139,7 @@
           "variation_id": "4FN3BDYASE7TCV7GBZ4EFXZJ",
           "name": "Mini Spiced Apple Glaze",
           "price": "$2.75",
-          "sold_out": false,
+          "sold_out": true,
           "preorder_only": false
         },
         {
