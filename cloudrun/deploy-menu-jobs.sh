@@ -43,6 +43,8 @@ SCHEDULE_menu_build="*/10 * * * *"
 SCHEDULE_inventory_sync="*/2 * * * *"
 TIMEOUT_menu_build="600s"
 TIMEOUT_inventory_sync="110s"   # must finish before the next 2-min trigger
+BUILD_POLL_SECS="${BUILD_POLL_SECS:-5}"         # how often jobs checks the Cloud Build status
+BUILD_TIMEOUT_SECS="${BUILD_TIMEOUT_SECS:-1200}" # give up waiting after 20 min
 
 DRY_RUN="${DRY_RUN:-1}"          # jobs deploy in dry-run unless DRY_RUN=0 (cutover sets it)
 
@@ -156,22 +158,36 @@ cmd_jobs() {
   image="$IMAGE_BASE:$tag"
 
   log "Building $image (Cloud Build)"
-  # --suppress-logs: menu-deploy-bot can't stream from the default logs bucket, and the
-  # streaming error used to abort the script even when the build itself succeeded.
-  # gcloud still waits for the build and exits non-zero if it fails.
-  local build_log build_id rc=0
-  build_log="$(mktemp)"
-  gcloud builds submit "$REPO_ROOT" --region "$REGION" --tag "$image" --suppress-logs --quiet 2>&1 \
-    | tee "$build_log" || rc=$?
-  build_id="$(grep -oE 'builds/[0-9a-f-]{36}' "$build_log" | head -1 | cut -d/ -f2 || true)"
-  rm -f "$build_log"
-  if [[ -n "$build_id" ]]; then
-    info "build logs: https://console.cloud.google.com/cloud-build/builds;region=$REGION/$build_id?project=$PROJECT"
-  else
-    warn "no build ID in gcloud's output — find the build in Cloud Console → Cloud Build → History ($REGION)"
-  fi
-  [[ $rc -eq 0 ]] || die "Cloud Build failed (exit $rc). Open the build logs link above."
-  ok "image built"
+  # Submit with --async and poll the status ourselves. Waiting on the build makes gcloud
+  # stream logs, and menu-deploy-bot can't read the default logs bucket
+  # ("can only stream logs if you are Viewer/Owner"). --suppress-logs didn't avoid that.
+  local build_id link status last="" fails=0 start=$SECONDS
+  build_id="$(gcloud builds submit "$REPO_ROOT" --region "$REGION" --tag "$image" \
+                --async --format='value(id)' --quiet)" || die "Cloud Build submit failed (see gcloud's error above)."
+  [[ "$build_id" =~ ^[0-9a-f-]{36}$ ]] || die "Cloud Build submit didn't return a build ID (got: '$build_id')."
+  link="https://console.cloud.google.com/cloud-build/builds;region=$REGION/$build_id?project=$PROJECT"
+  info "build $build_id — logs: $link"
+
+  while :; do
+    if status="$(gcloud builds describe "$build_id" --region "$REGION" --format='value(status)' 2>/dev/null)"; then
+      fails=0
+    else
+      fails=$((fails + 1))
+      # Three failed describes in a row: a permission problem, not a network blip.
+      [[ $fails -lt 3 ]] || die "Can't read the build status (gcloud builds describe failed 3× in a row). Logs: $link"
+      status="$last"
+    fi
+    [[ "$status" == "$last" ]] || { info "build status: $status"; last="$status"; }
+    case "$status" in
+      SUCCESS) break ;;
+      FAILURE|TIMEOUT|CANCELLED|INTERNAL_ERROR|EXPIRED)
+        die "Cloud Build $status — no jobs deployed. Logs: $link" ;;
+    esac
+    (( SECONDS - start < BUILD_TIMEOUT_SECS )) \
+      || die "Gave up after $((BUILD_TIMEOUT_SECS / 60)) min (last status: ${status:-unknown}); no jobs deployed. The build may still be running. Logs: $link"
+    sleep "$BUILD_POLL_SECS"
+  done
+  ok "image built ($(( SECONDS - start ))s)"
 
   local env_vars="MYSQL_SOCKET=/cloudsql/$SQL_INSTANCE,BEV_CONFIG_URL=gs://$BUCKET/bev-items-config.json,DRY_RUN=$DRY_RUN,DRY_RUN_URL=gs://$BUCKET/dry-run"
   local secrets="SQUARE_ACCESS_TOKEN=square-access-token:latest,MYSQL_PASSWORD=mysql-password:latest,GITHUB_TOKEN=github-menu-token:latest"
