@@ -1,7 +1,7 @@
 {
   "location_id": "ECE7YC9G73NXK",
   "location_name": "The Factory",
-  "generated_at": "2026-11-07T21:44:51.788Z",
+  "generated_at": "2026-11-07T21:55:00.946Z",
   "source": "FlavorSchedule+Square",
   "section_count": 8,
   "item_count": 35,
@@ -70,7 +70,7 @@
           "variation_id": "WZRXPDUQICIRZL7TQXK2OEJA",
           "name": "Cinnamon Cream Cheese",
           "price": "$5.35",
-          "sold_out": false,
+          "sold_out": true,
           "preorder_only": false
         },
         {
@@ -86,7 +86,7 @@
           "variation_id": "LZB6X76AT4PEIU6HJU4HNWMV",
           "name": "S'mores",
           "price": "$5.70",
-          "sold_out": false,
+          "sold_out": true,
           "preorder_only": false
         },
         {
@@ -107,7 +107,7 @@
           "variation_id": "PFDBG6KRN2QBZWGRPXZOMDUC",
           "name": "Mini Purist",
           "price": "$2.75",
-          "sold_out": false,
+          "sold_out": true,
           "preorder_only": false
         },
         {
@@ -168,7 +168,7 @@
           "variation_id": "PPIFB5EWCCUMMZ72RKLSD5CU",
           "name": "Paleo - Chocolate Pumpkin",
           "price": "$4.75",
-          "sold_out": false,
+          "sold_out": true,
           "preorder_only": false
         }
       ]
