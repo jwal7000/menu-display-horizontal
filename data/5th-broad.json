@@ -1,7 +1,7 @@
 {
   "location_id": "L862ACB6EPKVT",
   "location_name": "5th & Broadway",
-  "generated_at": "2026-11-07T23:46:40.608Z",
+  "generated_at": "2026-11-07T23:56:49.200Z",
   "source": "FlavorSchedule+Square",
   "section_count": 8,
   "item_count": 35,
@@ -115,7 +115,7 @@
           "variation_id": "6AWNWMRW7J5AG4ZUI74KIV6W",
           "name": "Mini Milk Chocolate Sprinkles",
           "price": "$2.75",
-          "sold_out": false,
+          "sold_out": true,
           "preorder_only": false
         },
         {
@@ -213,7 +213,7 @@
           "variation_id": "GUUAMMLNJSMQACNF4DBG3N6P",
           "name": "Yeast Raised - Apple Fritter",
           "price": "$4.00",
-          "sold_out": false,
+          "sold_out": true,
           "preorder_only": false
         }
       ]
