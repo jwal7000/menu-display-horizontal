@@ -1,10 +1,10 @@
 {
   "location_id": "L862ACB6EPKVT",
   "location_name": "5th & Broadway",
-  "generated_at": "2026-11-07T05:50:43.434Z",
+  "generated_at": "2026-11-07T06:00:52.584Z",
   "source": "FlavorSchedule+Square",
   "section_count": 8,
-  "item_count": 34,
+  "item_count": 35,
   "sections": [
     {
       "name": "Hundred Layer Donuts",
@@ -244,6 +244,14 @@
           "price": "$7.00",
           "sold_out": false,
           "preorder_only": false
+        },
+        {
+          "item_id": "17008",
+          "variation_id": "5H6WZZ7WW4YGII3HUYQHD7A5",
+          "name": "Roll - Blueberry Lemon Glaze",
+          "price": "$7.00",
+          "sold_out": true,
+          "preorder_only": true
         },
         {
           "item_id": "17009",
