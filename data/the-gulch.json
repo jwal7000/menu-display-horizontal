@@ -1,7 +1,7 @@
 {
   "location_id": "L4CQJADFVPZC9",
   "location_name": "The Gulch",
-  "generated_at": "2026-11-07T18:52:15.870Z",
+  "generated_at": "2026-11-07T19:02:25.834Z",
   "source": "FlavorSchedule+Square",
   "section_count": 8,
   "item_count": 35,
@@ -139,7 +139,7 @@
           "variation_id": "4FN3BDYASE7TCV7GBZ4EFXZJ",
           "name": "Mini Spiced Apple Glaze",
           "price": "$2.75",
-          "sold_out": false,
+          "sold_out": true,
           "preorder_only": false
         },
         {
@@ -197,7 +197,7 @@
           "variation_id": "E5IFQ5VGYMUCWRTVCC66VYY3",
           "name": "Yeast Raised - Huckleberry Glaze",
           "price": "$3.25",
-          "sold_out": false,
+          "sold_out": true,
           "preorder_only": false
         },
         {
