@@ -1,7 +1,7 @@
 {
   "location_id": "L862ACB6EPKVT",
   "location_name": "5th & Broadway",
-  "generated_at": "2026-11-07T00:46:18.257Z",
+  "generated_at": "2026-11-07T00:56:26.220Z",
   "source": "FlavorSchedule+Square",
   "section_count": 8,
   "item_count": 34,
@@ -250,7 +250,7 @@
           "variation_id": "APZBQTD2756UIQEPG7UFLC3K",
           "name": "Roll - Vanilla Chai",
           "price": "$7.00",
-          "sold_out": false,
+          "sold_out": true,
           "preorder_only": false
         }
       ]
