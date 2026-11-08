@@ -1,7 +1,7 @@
 {
   "location_id": "L4CQJADFVPZC9",
   "location_name": "The Gulch",
-  "generated_at": "2026-11-08T18:02:08.184Z",
+  "generated_at": "2026-11-08T18:12:16.467Z",
   "source": "FlavorSchedule+Square",
   "section_count": 8,
   "item_count": 35,
@@ -22,7 +22,7 @@
           "variation_id": "6W4RPTRTDRXHQ47PS44P37MG",
           "name": "The Purist",
           "price": "$4.75",
-          "sold_out": false,
+          "sold_out": true,
           "preorder_only": false
         },
         {
@@ -115,7 +115,7 @@
           "variation_id": "6AWNWMRW7J5AG4ZUI74KIV6W",
           "name": "Mini Milk Chocolate Sprinkles",
           "price": "$2.75",
-          "sold_out": false,
+          "sold_out": true,
           "preorder_only": false
         },
         {
