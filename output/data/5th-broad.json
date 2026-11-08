@@ -1,7 +1,7 @@
 {
   "location_id": "L862ACB6EPKVT",
   "location_name": "5th & Broadway",
-  "generated_at": "2026-11-08T00:37:23.566Z",
+  "generated_at": "2026-11-08T00:47:32.640Z",
   "source": "FlavorSchedule+Square",
   "section_count": 8,
   "item_count": 35,
@@ -22,7 +22,7 @@
           "variation_id": "6W4RPTRTDRXHQ47PS44P37MG",
           "name": "The Purist",
           "price": "$4.75",
-          "sold_out": true,
+          "sold_out": false,
           "preorder_only": false
         },
         {
@@ -115,7 +115,7 @@
           "variation_id": "6AWNWMRW7J5AG4ZUI74KIV6W",
           "name": "Mini Milk Chocolate Sprinkles",
           "price": "$2.75",
-          "sold_out": true,
+          "sold_out": false,
           "preorder_only": false
         },
         {
@@ -189,7 +189,7 @@
           "variation_id": "H55ADAOMVQGRT7R2UYZ5NVBS",
           "name": "Yeast Raised - Milk Chocolate Sprinkles",
           "price": "$3.25",
-          "sold_out": true,
+          "sold_out": false,
           "preorder_only": false
         },
         {
@@ -271,7 +271,7 @@
           "variation_id": "54MT7OCBB6OQSIYKIVDNWDOB",
           "name": "Donut Holes (8 ct.)",
           "price": "$4.70",
-          "sold_out": false,
+          "sold_out": true,
           "preorder_only": false
         }
       ]
