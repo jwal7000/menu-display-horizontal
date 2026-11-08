@@ -1,7 +1,7 @@
 {
   "location_id": "L4CQJADFVPZC9",
   "location_name": "The Gulch",
-  "generated_at": "2026-11-08T15:50:20.174Z",
+  "generated_at": "2026-11-08T16:00:28.726Z",
   "source": "FlavorSchedule+Square",
   "section_count": 8,
   "item_count": 35,
@@ -271,7 +271,7 @@
           "variation_id": "54MT7OCBB6OQSIYKIVDNWDOB",
           "name": "Donut Holes (8 ct.)",
           "price": "$4.70",
-          "sold_out": false,
+          "sold_out": true,
           "preorder_only": false
         }
       ]
@@ -305,7 +305,7 @@
           "variation_id": "PDJ2W2N6OZ4ZOOU2KXHC63LU",
           "name": "Cookie - Chocolate Chip",
           "price": "$3.50",
-          "sold_out": false,
+          "sold_out": true,
           "preorder_only": false
         },
         {
