@@ -1,7 +1,7 @@
 {
   "location_id": "L862ACB6EPKVT",
   "location_name": "5th & Broadway",
-  "generated_at": "2026-11-08T20:44:26.132Z",
+  "generated_at": "2026-11-08T20:54:35.177Z",
   "source": "FlavorSchedule+Square",
   "section_count": 8,
   "item_count": 35,
@@ -46,7 +46,7 @@
           "variation_id": "KRKLCZFYNCPJ3DWU5HCSGKRX",
           "name": "King Kong",
           "price": "$5.70",
-          "sold_out": false,
+          "sold_out": true,
           "preorder_only": false
         },
         {
