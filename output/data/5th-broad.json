@@ -1,7 +1,7 @@
 {
   "location_id": "L862ACB6EPKVT",
   "location_name": "5th & Broadway",
-  "generated_at": "2026-11-08T21:35:12.685Z",
+  "generated_at": "2026-11-08T21:56:23.353Z",
   "source": "FlavorSchedule+Square",
   "section_count": 8,
   "item_count": 35,
@@ -46,7 +46,7 @@
           "variation_id": "KRKLCZFYNCPJ3DWU5HCSGKRX",
           "name": "King Kong",
           "price": "$5.70",
-          "sold_out": true,
+          "sold_out": false,
           "preorder_only": false
         },
         {
@@ -62,7 +62,7 @@
           "variation_id": "LLEYQ7TBTYWRJG3WONLOQUZV",
           "name": "Salted Caramel Apple",
           "price": "$5.35",
-          "sold_out": true,
+          "sold_out": false,
           "preorder_only": false
         },
         {
@@ -86,7 +86,7 @@
           "variation_id": "LZB6X76AT4PEIU6HJU4HNWMV",
           "name": "S'mores",
           "price": "$5.70",
-          "sold_out": true,
+          "sold_out": false,
           "preorder_only": false
         },
         {
@@ -271,7 +271,7 @@
           "variation_id": "54MT7OCBB6OQSIYKIVDNWDOB",
           "name": "Donut Holes (8 ct.)",
           "price": "$4.70",
-          "sold_out": false,
+          "sold_out": true,
           "preorder_only": false
         }
       ]
