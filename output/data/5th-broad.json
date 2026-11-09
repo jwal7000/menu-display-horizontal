@@ -1,7 +1,7 @@
 {
   "location_id": "L862ACB6EPKVT",
   "location_name": "5th & Broadway",
-  "generated_at": "2026-11-09T00:28:35.915Z",
+  "generated_at": "2026-11-09T00:38:44.216Z",
   "source": "FlavorSchedule+Square",
   "section_count": 8,
   "item_count": 35,
@@ -14,7 +14,7 @@
           "variation_id": "FRQQDQXS4UBO6GIJDFNOILIL",
           "name": "Vanilla Cream",
           "price": "$5.35",
-          "sold_out": false,
+          "sold_out": true,
           "preorder_only": false
         },
         {
