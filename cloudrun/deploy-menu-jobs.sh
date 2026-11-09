@@ -356,7 +356,28 @@ launchd_restore() {
   mv "$LAUNCHD_STATE_FILE" "$LAUNCHD_STATE_FILE.restored-$(date +%Y%m%d-%H%M%S)"
 }
 
+# Refuses to cut over unless this session can see (and so stop) the Mac mini's menu-refresh job.
+# Without it, cutover would record "(none)", stop nothing, and leave two pipelines publishing.
+# A rerun after a partial cutover is allowed: the record shows we already stopped it.
+CUTOVER_REQUIRED_LABEL="com.fivedaughters.menu-refresh"
+cutover_guard() {
+  local req="$CUTOVER_REQUIRED_LABEL"
+  if launchd_loaded "$req"; then
+    ok "$req is loaded; cutover will record and stop it"
+    return
+  fi
+  if [[ -f "$LAUNCHD_STATE_FILE" ]] && grep -qxF "$req" "$LAUNCHD_STATE_FILE"; then
+    ok "$req was already stopped by an earlier cutover ($LAUNCHD_STATE_FILE); continuing"
+    return
+  fi
+  die "$req isn't loaded for user '$(whoami)', so cutover couldn't stop it and the Mac mini would keep
+  publishing alongside Cloud Run. Run cutover as openclaw-user on the Mac mini, in a session where
+  'launchctl list | grep fivedaughters' shows $req. Nothing was changed."
+}
+
 cmd_cutover() {
+  log "Checking the Mac mini's launchd jobs"
+  cutover_guard
   echo "This makes Cloud Run the live pipeline: the Mac mini launchd jobs stop and"
   echo "the Cloud Run jobs start pushing to GitHub. Rollback: $0 rollback"
   read -r -p "Type CUTOVER to continue: " answer

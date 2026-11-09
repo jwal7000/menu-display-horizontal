@@ -35,6 +35,10 @@ function makeRemote(name, branches) {
 
 const show = (bare, branch, path) => JSON.parse(execFileSync('git', ['--git-dir', bare, 'show', `${branch}:${path}`], { encoding: 'utf8' }));
 const commits = (bare, branch) => Number(execFileSync('git', ['--git-dir', bare, 'rev-list', '--count', branch], { encoding: 'utf8' }));
+const lastCommit = (bare, branch) => {
+  const [author, subject] = execFileSync('git', ['--git-dir', bare, 'log', '-1', '--format=%an%n%s', branch], { encoding: 'utf8' }).trim().split('\n');
+  return { author, subject };
+};
 
 const menu = (vid, soldOut = false) => ({
   location_name: 'x', sections: [{ name: 'Donuts', items: [{ item_id: 'SKU-1', variation_id: vid, name: 'Glazed', sold_out: soldOut }] }],
@@ -79,6 +83,9 @@ test('inventory-sync patches main + gh-pages + portrait, skips Medley, and only 
   assert.equal(commits(H, 'main'), before.hm + 1);
   assert.equal(commits(H, 'gh-pages'), before.hg + 1);
   assert.equal(commits(P, 'main'), before.p + 1);
+  const c = lastCommit(H, 'main');
+  assert.equal(c.author, 'inventory-sync[bot]');
+  assert.match(c.subject, /^chore: update sold_out flags \[cloud-run\] \[.+\]$/, 'Cloud Run commits are tagged');
 
   // Second run, same inventory → nothing to push
   await inv.runInventorySync({ fetchCounts });
@@ -162,4 +169,25 @@ test('a failing target is reported without stopping the others, and tokens are s
     delete process.env.GITHUB_TOKEN;
   }
   assert.ok(!logs.join('\n').includes('ghp_SECRET123'));
+});
+
+test('menu-build commits as menu-build[bot] with a [cloud-run] tag, distinct from the Mac mini', async () => {
+  delete process.env.DRY_RUN;
+  const { runMenuBuild } = await import('../src/jobs/menuBuild.js');
+  const writer = (names) => async ({ outputDir }) => {
+    mkdirSync(join(outputDir, 'data'), { recursive: true });
+    return names.map(n => { const p = join(outputDir, 'data', n); writeFileSync(p, JSON.stringify({ v: 'cloud-run' })); return p; });
+  };
+  const ok = await runMenuBuild({
+    buildPastry: writer(['the-gulch.json', 'medley.json', 'the-factory.json', '5th-broad.json']),
+    buildBev:    writer(['bev-the-gulch.json', 'bev-medley.json']),
+  });
+  assert.equal(ok, true);
+  for (const [bare, branch] of [[H, 'main'], [H, 'gh-pages'], [P, 'main'], [B, 'main']]) {
+    const c = lastCommit(bare, branch);
+    assert.equal(c.author, 'menu-build[bot]', `${branch} author`);
+    assert.notEqual(c.author, 'menu-refresh[bot]', 'not the Mac mini author');
+    assert.match(c.subject, /^chore: auto-refresh menu data \[cloud-run\] \[.+\]$/, `${branch} subject`);
+  }
+  assert.equal(show(H, 'gh-pages', 'data/the-gulch.json').v, 'cloud-run');
 });

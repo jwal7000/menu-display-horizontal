@@ -20,17 +20,18 @@ import { publishTargets }    from './publish.js';
 import { menuBuildTargets }  from './targets.js';
 import { centralTime }       from './time.js';
 
-export async function runMenuBuild() {
+// The builders are parameters only so tests can stand in for MySQL/Square; run.js passes nothing.
+export async function runMenuBuild({ buildPastry = buildMenuFromDB, buildBev = buildBeverageMenu } = {}) {
   const outputDir = mkdtempSync(join(tmpdir(), 'menu-build-'));
   const errors = [];
   let pastryFiles = [];
   let bevFiles    = [];
 
   try {
-    try { pastryFiles = await buildMenuFromDB({ outputDir }); }
+    try { pastryFiles = await buildPastry({ outputDir }); }
     catch (err) { errors.push('pastry'); console.error('❌  Pastry build failed:', err.message); }
 
-    try { bevFiles = await buildBeverageMenu({ outputDir }); }
+    try { bevFiles = await buildBev({ outputDir }); }
     catch (err) { errors.push('beverages'); console.error('❌  Beverage build failed:', err.message); }
 
     const portraitSlugs = DISPLAY_LOCATIONS.filter(l => l.layout === 'portrait').map(l => l.slug);
@@ -38,8 +39,9 @@ export async function runMenuBuild() {
 
     const { failed } = await publishTargets(
       targets,
-      `chore: auto-refresh menu data [${centralTime()}]`,
-      { name: 'menu-refresh[bot]', email: 'menu-refresh@fivedaughtersbakery.com' },
+      // Distinct from the Mac mini's menu-refresh[bot] commits, so GitHub shows which pipeline pushed.
+      `chore: auto-refresh menu data [cloud-run] [${centralTime()}]`,
+      { name: 'menu-build[bot]', email: 'menu-build@fivedaughtersbakery.com' },
     );
 
     const ok = !errors.length && !failed.length;

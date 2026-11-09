@@ -14,7 +14,7 @@ Both jobs use one image (`Dockerfile`, entrypoint `src/jobs/run.js <job>`).
 - **Secrets** come from Secret Manager as env vars: `square-access-token`, `mysql-password`, `github-menu-token`.
 - **Database:** Cloud SQL connector socket `/cloudsql/analytics-link-370416:us-central1:fivedaughtersbakery`. On the Mac mini the same code still uses the proxy on `127.0.0.1:3307`.
 - **Bev config:** `gs://analytics-link-370416-menu/bev-items-config.json` is now the source of truth. Edit it with `gcloud storage cp` or the Cloud Console. The copy on the Mac mini is no longer read once cutover is done.
-- **Publishing:** each run shallow-clones the target branch, writes the files, commits as `menu-refresh[bot]` / `inventory-sync[bot]`, and pushes. If the push loses a race, for example with admin.html, it re-clones and tries again (3 attempts). One repo failing doesn't stop the others. The job exits non-zero so the failure shows up in Cloud Run.
+- **Publishing:** each run shallow-clones the target branch, writes the files, commits as `menu-build[bot]` / `inventory-sync[bot]` with a `[cloud-run]` tag in the message, and pushes. The Mac mini commits as `menu-refresh[bot]` with no tag, so GitHub shows which pipeline pushed. If the push loses a race, for example with admin.html, it re-clones and tries again (3 attempts). One repo failing doesn't stop the others. The job exits non-zero so the failure shows up in Cloud Run.
 
 | Repo / branch | Files |
 |---|---|
@@ -81,7 +81,7 @@ cloudrun/deploy-menu-jobs.sh resume        # dry-run jobs on schedule; check Clo
 cloudrun/deploy-menu-jobs.sh cutover       # asks you to type CUTOVER
 ```
 
-Cutover first records which of `com.fivedaughters.menu-refresh` and `com.fivedaughters.inventory-sync` are loaded, in `~/.openclaw/menu-cutover-launchd.txt`. Then it stops those jobs, switches the Cloud Run jobs to `DRY_RUN=0`, resumes the triggers, and runs `menu-build` once. After that, check a screen at each store. Running cutover again keeps the first record. Other launchd jobs, such as `com.fivedaughters.menu-display-portrait`, aren't touched.
+Run it as `openclaw-user` on the Mac mini. Before the prompt, cutover checks that `com.fivedaughters.menu-refresh` is loaded. If it isn't, cutover stops and changes nothing, because it couldn't stop the Mac mini job and both pipelines would publish. A rerun after a partial cutover is allowed. Cutover then records which of `com.fivedaughters.menu-refresh` and `com.fivedaughters.inventory-sync` are loaded, in `~/.openclaw/menu-cutover-launchd.txt`. Then it stops those jobs, switches the Cloud Run jobs to `DRY_RUN=0`, resumes the triggers, and runs `menu-build` once. After that, check a screen at each store. Running cutover again keeps the first record. Other launchd jobs, such as `com.fivedaughters.menu-display-portrait`, aren't touched.
 
 The 2-min sold-out updates go live for the first time at cutover. On the Mac mini, `inventory-sync` isn't loaded, so only the 10-min build sets `sold_out` today. After cutover, items can flip to sold out within about 2 minutes, so screens change more often during the day.
 

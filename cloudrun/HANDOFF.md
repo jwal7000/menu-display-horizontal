@@ -17,7 +17,7 @@ Handed over from a claude.ai session. That session couldn't push to GitHub, coul
 - `Dockerfile`, `cloudrun/deploy-menu-jobs.sh`, `cloudrun/README.md`, tests (`npm test`, 12 passing, with SDKs stubbed).
 - **Deployed in dry-run (2026-11-09)**, and a one-day scheduled soak is running. The Mac mini is still the live pipeline. Not cut over yet: see B → "Before cutover".
 
-**The 2-min sold-out sync isn't live today. Cloud Run's `inventory-sync` will be the first time it runs.** As of 2026-11-05, the Mac mini (user `openclaw-user`) has only `com.fivedaughters.menu-refresh` loaded. `com.fivedaughters.inventory-sync` isn't loaded, and there are no "update sold_out flags" commits back to at least Oct 11. So today, `sold_out` changes only on the 10-min build. After cutover, items can flip to sold out within about 2 minutes, and screens will change more often during the day. Tell the stores before cutover, and expect `inventory-sync[bot]` commits to be new.
+**The 2-min sold-out sync isn't live today. Cloud Run's `inventory-sync` will be the first time it runs.** As of 2026-11-05, the Mac mini (user `openclaw-user`) has only `com.fivedaughters.menu-refresh` loaded. `com.fivedaughters.inventory-sync` isn't loaded, and there are no "update sold_out flags" commits back to at least Oct 11. So today, `sold_out` changes only on the 10-min build. After cutover, items can flip to sold out within about 2 minutes, and screens will change more often during the day. Tell the stores before cutover, and expect `inventory-sync[bot]` commits (tagged `[cloud-run]`) to be new.
 
 Other Mac mini findings from 2026-11-05:
 - **`com.fivedaughters.menu-display-portrait` is a leftover local web server. No action at cutover.** The portrait Fire Sticks load from GitHub Pages, not from the Mac mini, and the job doesn't publish menu data, so there's no double-publishing risk. Cutover and rollback don't touch it. Stop it when the Mac mini is retired (see C6).
@@ -79,7 +79,7 @@ Reaching the Mac mini: SSH over Tailscale from the user's Mac, if Remote Login o
 - Rollback reloaded only `menu-refresh`, then printed "inventory-sync wasn't loaded at cutover — left off". `inventory-sync` was never loaded, and `menu-display-portrait` was never touched.
 
 Two failure cases to know about:
-- **Cutover can't see the jobs.** For example, it's run as the wrong user (`jwal` instead of `openclaw-user`). It records `(none)`, stops nothing, and still switches Cloud Run to live, so both pipelines publish. Fix: run `rollback` right away. It pauses Cloud Run and loads nothing, which is correct because nothing was stopped.
+- **Cutover can't see the jobs.** For example, it's run as the wrong user (`jwal` instead of `openclaw-user`). Before the guard, it recorded `(none)`, stopped nothing, and still switched Cloud Run to live. **Now guarded:** before the CUTOVER prompt, `cutover` checks that `com.fivedaughters.menu-refresh` is loaded. If it isn't, it stops and says to run as `openclaw-user`, and nothing is changed. A rerun after a partial cutover still works, because the record shows the earlier run stopped the job. If it somehow happens anyway, run `rollback` right away.
 - **The Scheduler pause fails during rollback** (GCP error, or the key won't authenticate). Rollback stops before reaching launchd, so `menu-refresh` isn't reloaded. The record is kept, so rerun `rollback` once GCP answers. Cloud Run is still publishing in that case, so the screens stay current. If Cloud Run is also publishing bad data, run `launchctl load ~/Library/LaunchAgents/com.fivedaughters.menu-refresh.plist` as `openclaw-user`, and stop the Cloud Run triggers some other way, so you don't have two writers.
 
 **Before cutover:**
@@ -87,12 +87,13 @@ Two failure cases to know about:
 2. **`square-access-token`.** Find out who created it and what else reads `:latest` (see above). Still open.
 3. **`bev-items-config.json` in GCS.** Find out what wrote the earlier copy, and make sure nothing still writes it. Still open.
 4. **Tell the stores** that sold-out items will start updating within about 2 min (see "Where things stand").
-5. **Run cutover as `openclaw-user` on the Mac mini.** Before typing CUTOVER, check that `launchctl list | grep fivedaughters` shows `com.fivedaughters.menu-refresh`. In cutover's output, the "recorded loaded jobs" list must show `com.fivedaughters.menu-refresh`. If it shows `(none)`, run `rollback` straight away (see above).
+5. **Redeploy the jobs from the latest `main`.** The soak's jobs were deployed before the `menu-build[bot]` / `[cloud-run]` change, so they still commit as `menu-refresh[bot]`. On the Mac mini: `git pull`, then `cloudrun/deploy-menu-jobs.sh jobs` (still dry-run), `run menu-build`, and `compare`.
+6. **Run cutover as `openclaw-user` on the Mac mini.** The guard refuses to start if it can't see `com.fivedaughters.menu-refresh`. In cutover's output, the "recorded loaded jobs" list should show `com.fivedaughters.menu-refresh`.
 
 After cutover:
 - Check a screen at each store. Expect sold-out items to update within about 2 min. That's new behavior (see above), not a bug.
 - Watch Cloud Run executions for an hour.
-- Confirm only `menu-refresh[bot]` / `inventory-sync[bot]` commits appear.
+- Confirm the data commits are now `menu-build[bot]` ("auto-refresh menu data [cloud-run] [HH:MM]") and `inventory-sync[bot]` ("update sold_out flags [cloud-run] [HH:MM]"). Any new `menu-refresh[bot]` commit, or a data commit without `[cloud-run]`, means the Mac mini is still publishing: check launchd, or roll back.
 
 ### C. Loose ends (can go in parallel with B)
 1. **Sync horizontal `main` `public/` with `gh-pages`.** `gh-pages` has the newer `menu.js` and `styles.css` ("Build Your Own Boxes" highlight, "Five Daughters Bakery:" title prefix). Copy them back to `main/public/` so the two don't drift. Keep `public/pastry-overrides-*.json` on `main`, because `admin.html` writes there.

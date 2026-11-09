@@ -82,7 +82,8 @@ export async function runInventorySync({ fetchCounts } = {}) {
 
   const { failed } = await publishTargets(
     targets,
-    `chore: update sold_out flags [${centralTime()}]`,
+    // [cloud-run] tells these apart from the Mac mini's refresh-inventory.sh, which uses the same author.
+    `chore: update sold_out flags [cloud-run] [${centralTime()}]`,
     { name: 'inventory-sync[bot]', email: 'inventory-sync@fivedaughtersbakery.com' },
   );
   console.log(`\n${failed.length ? '⚠️ ' : '✅'}  inventory-sync done — push failures: [${failed.join(', ')}]`);
