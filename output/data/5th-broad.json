@@ -1,7 +1,7 @@
 {
   "location_id": "L862ACB6EPKVT",
   "location_name": "5th & Broadway",
-  "generated_at": "2026-11-09T16:52:55.568Z",
+  "generated_at": "2026-11-09T17:03:05.325Z",
   "source": "FlavorSchedule+Square",
   "section_count": 8,
   "item_count": 34,
@@ -30,7 +30,7 @@
           "variation_id": "VOEJFH6AB2RMRPUNIDAQ5RTR",
           "name": "Chocolate Sea Salt",
           "price": "$5.35",
-          "sold_out": false,
+          "sold_out": true,
           "preorder_only": false
         },
         {
