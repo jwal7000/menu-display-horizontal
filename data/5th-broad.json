@@ -1,7 +1,7 @@
 {
   "location_id": "L862ACB6EPKVT",
   "location_name": "5th & Broadway",
-  "generated_at": "2026-11-09T20:26:18.386Z",
+  "generated_at": "2026-11-09T20:36:28.320Z",
   "source": "FlavorSchedule+Square",
   "section_count": 8,
   "item_count": 34,
@@ -168,7 +168,7 @@
           "variation_id": "PPIFB5EWCCUMMZ72RKLSD5CU",
           "name": "Paleo - Chocolate Pumpkin",
           "price": "$4.75",
-          "sold_out": false,
+          "sold_out": true,
           "preorder_only": false
         }
       ]
@@ -197,7 +197,7 @@
           "variation_id": "E5IFQ5VGYMUCWRTVCC66VYY3",
           "name": "Yeast Raised - Huckleberry Glaze",
           "price": "$3.25",
-          "sold_out": false,
+          "sold_out": true,
           "preorder_only": false
         },
         {
