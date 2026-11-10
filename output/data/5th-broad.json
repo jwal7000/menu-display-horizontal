@@ -1,7 +1,7 @@
 {
   "location_id": "L862ACB6EPKVT",
   "location_name": "5th & Broadway",
-  "generated_at": "2026-11-10T21:50:49.815Z",
+  "generated_at": "2026-11-10T22:00:59.545Z",
   "source": "FlavorSchedule+Square",
   "section_count": 8,
   "item_count": 34,
@@ -38,7 +38,7 @@
           "variation_id": "DH7OASIEM3KVR33BVRTJ3CSR",
           "name": "Maple Glaze",
           "price": "$5.35",
-          "sold_out": false,
+          "sold_out": true,
           "preorder_only": false
         },
         {
@@ -107,7 +107,7 @@
           "variation_id": "PFDBG6KRN2QBZWGRPXZOMDUC",
           "name": "Mini Purist",
           "price": "$2.75",
-          "sold_out": false,
+          "sold_out": true,
           "preorder_only": false
         },
         {
