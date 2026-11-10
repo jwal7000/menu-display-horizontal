@@ -74,6 +74,16 @@ Reaching the Mac mini: SSH over Tailscale from the user's Mac, if Remote Login o
 - `compare`: **0 differences** against what's live on GitHub. The only "?" was the beverages repo's `output/data/bev-medley.json`, which doesn't exist there yet. That's expected: the new code writes bev files to both `public/data` and `output/data`, so cutover creates it.
 - Jonathan started the one-day scheduled soak (`schedule` + `resume`, still dry-run) on 2026-11-09.
 
+**Soak: `inventory-sync` timing (2026-11-10).** All executions succeeded, but they took 55 s to 2 min 15 s end to end, so some overlapped the next 2-min trigger. Changes (ship with the next `jobs` deploy):
+- **Task timeout 110 s → 300 s.** Overlapping runs are tolerated, and a timeout would just lose the run. Cloud Run's end-to-end time also includes its own container startup, which isn't counted against the task timeout.
+- **Startup trimmed.** `run.js` imports only the job it runs, and the publisher loads `gcs.js` only for dry-run uploads. A live `inventory-sync` now loads only `square`, not `googleapis` + auth libraries + `mysql2`. Locally, start-up to first work went from 4.2–10.9 s to 1.6–4.9 s.
+- **Timing in the logs.** `⏱ … modules loaded at Ns`, `⏱ … finished at Ns`, and `[publish] <target>: Ns` per target. Compare these with the execution's total time in Cloud Run: whatever's left over is Cloud Run's own container startup, which the code can't change.
+
+Not done yet, depending on what the timing logs show:
+- **Overlap caveat.** A push that loses a race re-clones and re-applies the Square counts fetched at the *start* of that run. If a slow run pushes after a newer one, it can briefly write older `sold_out` flags; the next run corrects them within 2 min. Fix if it matters: refetch counts on a retry, or when they're older than ~30 s.
+- **Drop the Square SDK from `inventory-sync`.** It's the remaining slow import (2.7–7.5 s cold here). Its one endpoint (batch-retrieve inventory counts, with cursor paging) could be a plain `fetch`.
+- **Publish the three targets in parallel.** About 1–3 s per clone today; the counts cache would need to become promise-based so the Gulch counts are still fetched once.
+
 **Rollback check (2026-11-09).** I ran `cutover` → `rollback` end to end on today's `main`, with a fake `launchctl` and `gcloud`, starting from today's Mac mini state: `menu-refresh` and `menu-display-portrait` loaded, `inventory-sync` not loaded.
 - Cutover recorded only `com.fivedaughters.menu-refresh` and stopped only that job.
 - Rollback reloaded only `menu-refresh`, then printed "inventory-sync wasn't loaded at cutover — left off". `inventory-sync` was never loaded, and `menu-display-portrait` was never touched.

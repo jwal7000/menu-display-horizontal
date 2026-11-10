@@ -24,7 +24,7 @@ import { mkdtempSync, rmSync, readFileSync } from 'fs';
 import { tmpdir }    from 'os';
 import { join }      from 'path';
 import { githubToken } from '../lib/settings.js';
-import { writeObject } from '../lib/gcs.js';
+// gcs.js (googleapis) is imported only for dry-run uploads: it's slow to load on a cold container.
 
 const exec = promisify(execFile);
 const MAX_ATTEMPTS = 3;
@@ -82,6 +82,7 @@ async function publishOne(target, message, author) {
         console.log(`[publish] ${label}: DRY RUN — would push ${changed.length} file(s): ${changed.join(', ')}`);
         const prefix = process.env.DRY_RUN_URL;
         if (prefix) {
+          const { writeObject } = await import('../lib/gcs.js');
           for (const p of changed) {
             await writeObject(`${prefix.replace(/\/$/, '')}/${repo.split('/')[1]}/${branch}/${p}`,
                               readFileSync(join(dir, p)));
@@ -110,12 +111,14 @@ async function publishOne(target, message, author) {
 export async function publishTargets(targets, message, author) {
   const failed = [];
   for (const t of targets) {
+    const start = Date.now();
     try {
       if (!(await publishOne(t, message, author))) failed.push(t.label);
     } catch (err) {
       console.error(`[publish] ${t.label}: FAILED — ${scrub(err.message)}`);
       failed.push(t.label);
     }
+    console.log(`[publish] ${t.label}: ${((Date.now() - start) / 1000).toFixed(1)}s (clone, apply, push)`);
   }
   return { failed };
 }

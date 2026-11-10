@@ -171,6 +171,32 @@ test('a failing target is reported without stopping the others, and tokens are s
   assert.ok(!logs.join('\n').includes('ghp_SECRET123'));
 });
 
+test('DRY_RUN with DRY_RUN_URL uploads changed files to GCS (gcs.js loaded on demand) and never pushes', async () => {
+  const realFetch = globalThis.fetch;
+  const uploads = [];
+  globalThis.__FAKE_GCS_TOKEN = 'fake-token';
+  globalThis.fetch = async (url, init) => { uploads.push({ url: String(url), init }); return new Response('{}', { status: 200 }); };
+  process.env.DRY_RUN = '1';
+  process.env.DRY_RUN_URL = 'gs://test-bucket/dry-run/';
+  try {
+    const n = commits(B, 'main');
+    const target = { repo: 'jwal7000/menu-display-beverages', branch: 'main', label: 'dry-upload',
+      apply: async (dir) => { writeFileSync(join(dir, 'public/data/bev-the-gulch.json'), '{"v":"dry"}'); return ['public/data/bev-the-gulch.json']; } };
+    const { failed } = await publish.publishTargets([target], 'chore: dry', { name: 'bot', email: 'b@b' });
+    assert.deepEqual(failed, []);
+    assert.equal(commits(B, 'main'), n, 'nothing pushed');
+    assert.equal(uploads.length, 1);
+    assert.match(uploads[0].url, /\/b\/test-bucket\/o\?uploadType=media&name=dry-run%2Fmenu-display-beverages%2Fmain%2Fpublic%2Fdata%2Fbev-the-gulch\.json$/);
+    assert.equal(uploads[0].init.headers.Authorization, 'Bearer fake-token');
+    assert.equal(String(uploads[0].init.body), '{"v":"dry"}');
+  } finally {
+    globalThis.fetch = realFetch;
+    delete globalThis.__FAKE_GCS_TOKEN;
+    delete process.env.DRY_RUN;
+    delete process.env.DRY_RUN_URL;
+  }
+});
+
 test('menu-build commits as menu-build[bot] with a [cloud-run] tag, distinct from the Mac mini', async () => {
   delete process.env.DRY_RUN;
   const { runMenuBuild } = await import('../src/jobs/menuBuild.js');

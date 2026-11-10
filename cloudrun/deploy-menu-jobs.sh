@@ -42,7 +42,9 @@ JOBS="menu-build inventory-sync"
 SCHEDULE_menu_build="*/10 * * * *"
 SCHEDULE_inventory_sync="*/2 * * * *"
 TIMEOUT_menu_build="600s"
-TIMEOUT_inventory_sync="110s"   # must finish before the next 2-min trigger
+# Runs take ~1–2.5 min end to end in the soak, so they can overlap the next 2-min trigger.
+# Overlap is tolerated (pushes retry from a fresh clone); a timeout would just lose the run.
+TIMEOUT_inventory_sync="300s"
 BUILD_POLL_SECS="${BUILD_POLL_SECS:-5}"         # how often jobs checks the Cloud Build status
 BUILD_TIMEOUT_SECS="${BUILD_TIMEOUT_SECS:-1200}" # give up waiting after 20 min
 
