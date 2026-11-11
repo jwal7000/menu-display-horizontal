@@ -1,7 +1,7 @@
 {
   "location_id": "L862ACB6EPKVT",
   "location_name": "5th & Broadway",
-  "generated_at": "2026-11-11T00:53:39.147Z",
+  "generated_at": "2026-11-11T01:03:48.345Z",
   "source": "FlavorSchedule+Square",
   "section_count": 8,
   "item_count": 34,
@@ -189,7 +189,7 @@
           "variation_id": "H55ADAOMVQGRT7R2UYZ5NVBS",
           "name": "Yeast Raised - Milk Chocolate Sprinkles",
           "price": "$3.25",
-          "sold_out": false,
+          "sold_out": true,
           "preorder_only": false
         },
         {
