@@ -63,7 +63,7 @@ before(async () => {
   publish = await import('../src/jobs/publish.js');
 });
 
-test('inventory-sync patches main + gh-pages + portrait, skips Medley, and only commits on change', async () => {
+test('inventory-sync patches main + gh-pages + portrait, including Medley, and only commits on change', async () => {
   const asked = [];
   const fetchCounts = async (sqId, ids) => {
     asked.push([sqId, ...ids]);
@@ -76,8 +76,9 @@ test('inventory-sync patches main + gh-pages + portrait, skips Medley, and only 
   assert.equal(show(H, 'main',     'output/data/the-gulch.json').sections[0].items[0].sold_out, true);
   assert.equal(show(H, 'gh-pages', 'data/the-gulch.json').sections[0].items[0].sold_out, true);
   assert.equal(show(P, 'main',     'output/data/the-factory.json').sections[0].items[0].sold_out, true);
-  assert.equal(show(H, 'main',     'output/data/medley.json').sections[0].items[0].sold_out, false, 'Medley skipInventory honoured');
-  assert.ok(!asked.some(([id]) => id === 'LDR9H5M3GQKXF'), 'never asks Square about Medley');
+  assert.equal(show(H, 'main',     'output/data/medley.json').sections[0].items[0].sold_out, true, 'Medley inventory is tracked');
+  assert.equal(show(H, 'gh-pages', 'data/medley.json').sections[0].items[0].sold_out, true);
+  assert.equal(asked.filter(([id]) => id === 'LDR9H5M3GQKXF').length, 1, 'Medley counts fetched once for main + gh-pages');
   assert.equal(asked.filter(([id]) => id === 'L4CQJADFVPZC9').length, 1, 'Gulch counts fetched once for main + gh-pages');
 
   assert.equal(commits(H, 'main'), before.hm + 1);

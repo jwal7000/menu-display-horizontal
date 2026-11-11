@@ -9,7 +9,7 @@
  * Differences from the Mac mini script (all intentional fixes):
  *   - Also patches horizontal gh-pages (the branch the Gulch/Medley screens are
  *     served from), not just main.
- *   - Honours skipInventory (Medley) like the 10-min build does.
+ *   - Honours skipInventory like the 10-min build does (no store sets it now).
  *   - Fetches counts only for menu items instead of paging the whole catalog.
  */
 

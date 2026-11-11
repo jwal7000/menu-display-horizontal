@@ -29,7 +29,7 @@ Both jobs use one image (`Dockerfile`, entrypoint `src/jobs/run.js <job>`).
 2. **The 2-min sync didn't update `gh-pages`.** It now patches `gh-pages` as well as `main`.
 3. **The beverages deploy workflow overwrote fresh data with the stale `output/data` copy.** Both copies are now written.
 4. **The 2-min sync rewrote `inventory_patched_at` every run**, which made a diff, and so a push, every time. It now writes only when a flag changes.
-5. **The 2-min sync checked Medley despite `skipInventory`.** Medley is skipped until Square inventory is set up there.
+5. **The 2-min sync checked Medley despite `skipInventory`.** It now honors the flag. (Medley's Square inventory went live on 2026-11-11, so no store sets it any more.)
 6. **The inventory fetch paged the entire Square catalog** every run for every store. It now asks only for the variations on that store's menu.
 
 The Mac mini scripts keep working on this code with no changes: secrets fall back to `~/.openclaw/secrets/*`, the bev config falls back to the local file, and no new npm packages were added.

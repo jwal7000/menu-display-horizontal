@@ -10,7 +10,7 @@ Handed over from a claude.ai session. That session couldn't push to GitHub, coul
 - Fixes:
   - Single-size items carry `variation_id`, so the 2-min sync can match them.
   - The 2-min sync patches `gh-pages` too.
-  - The 2-min sync honors `skipInventory`.
+  - The 2-min sync honors `skipInventory` (no store uses it since Medley's inventory went live, see C4).
   - Writes happen only when a `sold_out` flag changes.
   - Inventory is fetched only for the menu's own items.
   - The beverages repo gets both `public/data` and `output/data`.
@@ -98,6 +98,10 @@ Two failure cases to know about:
 3. **`bev-items-config.json` in GCS.** Find out what wrote the earlier copy, and make sure nothing still writes it. Still open.
 4. **Tell the stores** that sold-out items will start updating within about 2 min (see "Where things stand").
 5. **Redeploy the jobs from the latest `main`.** The soak's jobs were deployed before the `menu-build[bot]` / `[cloud-run]` change, so they still commit as `menu-refresh[bot]`. On the Mac mini: `git pull`, then `cloudrun/deploy-menu-jobs.sh jobs` (still dry-run), `run menu-build`, and `compare`.
+   That one `git pull` + `jobs` ships everything waiting on a deploy:
+   - the `inventory-sync` 300 s timeout, lighter startup and timing logs (see "Soak" above);
+   - Medley inventory tracking (C4). After this, Medley items can show as sold out.
+   The `[cloud-run]` commit identities and the C2 bev-overrides removal are already running: `menu-build[bot]` commits on `main` since 2026-11-11 show the jobs were redeployed from a `main` that has both.
 6. **Run cutover as `openclaw-user` on the Mac mini.** The guard refuses to start if it can't see `com.fivedaughters.menu-refresh`. In cutover's output, the "recorded loaded jobs" list should show `com.fivedaughters.menu-refresh`.
 
 After cutover:
@@ -109,7 +113,7 @@ After cutover:
 1. **Sync horizontal `main` `public/` with `gh-pages`.** `gh-pages` has the newer `menu.js` and `styles.css` ("Build Your Own Boxes" highlight, "Five Daughters Bakery:" title prefix). Copy them back to `main/public/` so the two don't drift. Keep `public/pastry-overrides-*.json` on `main`, because `admin.html` writes there.
 2. **Retire the legacy bev overrides.** ✅ The read is removed from `buildBeverageMenu.js`. On 2026-11-05, `gs://analytics-link-370416-menu/bev-overrides.json` held `"unavailable": []` (`updated_at: null`, last modified 2026-09-29), so nothing was in effect, and old vs new builds give identical bev output. Staff overrides now come only from `admin.html` → `overrides-{slug}.json`. **Still open:** ask Jonathan before deprecating the `fdb-bev-override` Cloud Run service and deleting the file. Nothing reads it any more.
 3. **Update the context notes.** Staff and the saved context say to edit the bev config by pushing to the repo. After cutover it's edited in GCS (see `cloudrun/README.md` → "Day to day"). Update them.
-4. **Medley inventory.** Once Square inventory is set up there, remove `skipInventory` in `src/lib/locations.js` and redeploy the jobs.
+4. **Medley inventory.** ✅ Square inventory is live at Medley: on 2026-11-11 all 34 Medley menu variations had current `IN_STOCK` counts. `skipInventory` is removed from Medley in `src/lib/locations.js`. **Takes effect at the next `jobs` deploy.** From then on, Medley items with a count of 3 or less show as sold out, on both the 10-min build and the 2-min sync. Tell the Medley staff along with the other stores.
 5. **Optional, to reduce deploy churn.** `menu-build` commits every run because `generated_at` changes. Consider skipping the push when nothing but timestamps changed. That cuts Pages deploys from about 430 a day, which helps given GitHub Pages' build limits and today's deploy collisions. If you do it, make sure the displays don't use `generated_at` as a freshness check first.
 6. **When the Mac mini is retired, stop `com.fivedaughters.menu-display-portrait`.** It's a leftover local server that nothing depends on: the portrait Fire Sticks load from GitHub Pages. It isn't part of cutover, so `deploy-menu-jobs.sh` doesn't manage it. Stop it by hand as `openclaw-user` at retirement.
 

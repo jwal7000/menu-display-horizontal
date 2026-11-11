@@ -12,7 +12,7 @@ Square → Cloud SQL (MySQL) → JSON → GitHub Pages → Fire TV Sticks (Fully
 | The Factory | `the-factory` | ECE7YC9G73NXK | portrait | pastry |
 | 5th & Broadway | `5th-broad` | L862ACB6EPKVT | portrait | pastry |
 | The Gulch | `the-gulch` | L4CQJADFVPZC9 | horizontal | pastry · carousel · beverages |
-| Medley | `medley` | LDR9H5M3GQKXF | horizontal | pastry · carousel · beverages (`skipInventory: true` until Square inventory is set up) |
+| Medley | `medley` | LDR9H5M3GQKXF | horizontal | pastry · carousel · beverages |
 
 The single source for this table in code is `src/lib/locations.js`.
 
