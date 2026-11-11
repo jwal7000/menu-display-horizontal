@@ -83,7 +83,11 @@ cloudrun/deploy-menu-jobs.sh cutover       # asks you to type CUTOVER
 
 Run it as `openclaw-user` on the Mac mini. Before the prompt, cutover checks that `com.fivedaughters.menu-refresh` is loaded. If it isn't, cutover stops and changes nothing, because it couldn't stop the Mac mini job and both pipelines would publish. A rerun after a partial cutover is allowed. Cutover then records which of `com.fivedaughters.menu-refresh` and `com.fivedaughters.inventory-sync` are loaded, in `~/.openclaw/menu-cutover-launchd.txt`. Then it stops those jobs, switches the Cloud Run jobs to `DRY_RUN=0`, resumes the triggers, and runs `menu-build` once. After that, check a screen at each store. Running cutover again keeps the first record. Other launchd jobs, such as `com.fivedaughters.menu-display-portrait`, aren't touched.
 
-The 2-min sold-out updates go live for the first time at cutover. On the Mac mini, `inventory-sync` isn't loaded, so only the 10-min build sets `sold_out` today. After cutover, items can flip to sold out within about 2 minutes, so screens change more often during the day.
+The 2-min sold-out updates went live for the first time at cutover (2026-11-11). Before that, `inventory-sync` wasn't loaded on the Mac mini, so only the 10-min build set `sold_out`. Now items can flip to sold out within about 2 minutes, so screens change more often during the day.
+
+### Redeploying after cutover
+
+`git pull`, then `cloudrun/deploy-menu-jobs.sh jobs`. `jobs` keeps the deployed jobs' current mode: live after cutover, dry-run after rollback. Check that it prints `keeping DRY_RUN=0 (LIVE …)`. To force a mode, set `DRY_RUN=0` or `DRY_RUN=1`. If the two jobs are in different modes, or their mode can't be read, `jobs` stops before building.
 
 ### Rollback
 

@@ -9,7 +9,7 @@
 #   cloudrun/deploy-menu-jobs.sh preflight         # check APIs + permissions, change nothing
 #   cloudrun/deploy-menu-jobs.sh secrets           # create/refresh Secret Manager secrets from ~/.openclaw/secrets
 #   cloudrun/deploy-menu-jobs.sh bev-config [--force]  # upload bev-items-config.json to GCS (one-time move)
-#   cloudrun/deploy-menu-jobs.sh jobs              # build image + deploy both jobs (DRY_RUN=1 by default)
+#   cloudrun/deploy-menu-jobs.sh jobs              # build image + deploy both jobs, keeping their live/dry-run mode
 #   cloudrun/deploy-menu-jobs.sh schedule          # create/update Scheduler triggers (created PAUSED)
 #   cloudrun/deploy-menu-jobs.sh run <job>         # run a job once now and wait
 #   cloudrun/deploy-menu-jobs.sh compare           # diff latest dry-run output against what's live on GitHub
@@ -48,7 +48,9 @@ TIMEOUT_inventory_sync="300s"
 BUILD_POLL_SECS="${BUILD_POLL_SECS:-5}"         # how often jobs checks the Cloud Build status
 BUILD_TIMEOUT_SECS="${BUILD_TIMEOUT_SECS:-1200}" # give up waiting after 20 min
 
-DRY_RUN="${DRY_RUN:-1}"          # jobs deploy in dry-run unless DRY_RUN=0 (cutover sets it)
+# Unset: `jobs` keeps whatever mode the deployed jobs are in (live after cutover, dry-run
+# after rollback), and dry-run for a first deploy. DRY_RUN=1 / DRY_RUN=0 forces a mode.
+DRY_RUN="${DRY_RUN:-}"
 
 REPO_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 
@@ -154,7 +156,48 @@ cmd_bev_config() {
 }
 
 # ── jobs ──────────────────────────────────────────────────────────────────────
+# Prints the DRY_RUN value a deployed job runs with, "none" if the job doesn't exist yet.
+# Fails if the job exists but can't be read.
+deployed_dry_run() {
+  local job="$1" json
+  if ! json="$(gcloud run jobs describe "$job" --region "$REGION" --format=json 2>/dev/null)"; then
+    gcloud run jobs list --region "$REGION" --format='value(metadata.name)' 2>/dev/null | grep -qx "$job" \
+      && return 1   # exists, but describe failed
+    echo none; return 0
+  fi
+  python3 -c '
+import json, sys
+c = json.load(sys.stdin)["spec"]["template"]["spec"]["template"]["spec"]["containers"][0]
+print(next((e.get("value", "") for e in c.get("env", []) if e.get("name") == "DRY_RUN"), "1"))' <<<"$json"
+}
+
+# Decide the mode for `jobs`. Redeploying must never flip live jobs back to dry-run by
+# accident (screens would silently stop updating) or put dry-run jobs live.
+resolve_dry_run() {
+  if [[ -n "$DRY_RUN" ]]; then
+    [[ "$DRY_RUN" == 0 || "$DRY_RUN" == 1 ]] || die "DRY_RUN must be 0 or 1 (got '$DRY_RUN')."
+    info "DRY_RUN=$DRY_RUN set explicitly"; return
+  fi
+  local job mode modes=""
+  for job in $JOBS; do
+    mode="$(deployed_dry_run "$job")" \
+      || die "Couldn't read $job's current mode. Rerun with DRY_RUN=0 (live) or DRY_RUN=1 (dry-run). Nothing was deployed."
+    info "$job is currently: $([[ $mode == 0 ]] && echo live || { [[ $mode == none ]] && echo 'not deployed' || echo dry-run; })"
+    [[ "$mode" == none ]] || modes="$modes $mode"
+  done
+  case "$modes" in
+    "")              DRY_RUN=1 ;;   # first deploy
+    *0*1*|*1*0*)     die "The jobs are in different modes (DRY_RUN:$modes). Rerun with DRY_RUN=0 or DRY_RUN=1. Nothing was deployed." ;;
+    " 0"|" 0 0")     DRY_RUN=0 ;;
+    " 1"|" 1 1")     DRY_RUN=1 ;;
+    *)               die "Unexpected DRY_RUN on the deployed jobs ($modes). Rerun with DRY_RUN=0 or DRY_RUN=1. Nothing was deployed." ;;
+  esac
+  info "keeping DRY_RUN=$DRY_RUN ($([[ $DRY_RUN == 0 ]] && echo 'LIVE: these jobs push to the screens' || echo dry-run))"
+}
+
 cmd_jobs() {
+  log "Checking the jobs' current mode"
+  resolve_dry_run
   local tag image
   tag="$(git -C "$REPO_ROOT" rev-parse --short HEAD)$(git -C "$REPO_ROOT" diff --quiet || echo -dirty)"
   image="$IMAGE_BASE:$tag"

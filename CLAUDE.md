@@ -32,7 +32,7 @@ Display code changes to the horizontal site must land on **`gh-pages`**, which i
 - **Beverages:** `bev-items-config.json`, curated by hand → `src/buildBeverageMenu.js` → `bev-{slug}.json`. The Square catalog isn't used because espresso items live in Square Restaurants (TAG).
 - **Inventory:** every 2 min, Square counts → `src/patchMenuInventory.js` patches the `sold_out` flags.
 - **Staff overrides:** `admin.html` writes `public/pastry-overrides-{slug}.json` (this repo, `main`) and `public/overrides-{slug}.json` (beverages repo). The displays read them at runtime.
-- **Today:** the Mac mini at Jonathan's office (Tailscale) runs `scripts/refresh-menu.sh` (10 min, launchd `com.fivedaughters.menu-refresh`, as `openclaw-user`) from `~/.openclaw/workspace/square-digital-menu-poc`. The 2-min `refresh-inventory.sh` job (`com.fivedaughters.inventory-sync`) is **not loaded**, so 2-min sold-out updates first go live with Cloud Run's `inventory-sync`. `com.fivedaughters.menu-display-portrait` is also running. It's a leftover local server (the portrait Fire Sticks load from GitHub Pages): no action at cutover, stop it when the Mac mini is retired. See `cloudrun/HANDOFF.md`.
+- **Today (since cutover, 2026-11-11):** Cloud Run Jobs in `analytics-link-370416` publish everything: `menu-build` (10 min, commits as `menu-build[bot]`) and `inventory-sync` (2 min, `inventory-sync[bot]`), both tagged `[cloud-run]`. Redeploy from the Mac mini with `cloudrun/deploy-menu-jobs.sh jobs` (it keeps the jobs live). The Mac mini at Jonathan's office (Tailscale) still holds the deploy key and the rollback record; its `com.fivedaughters.menu-refresh` job is stopped. `com.fivedaughters.menu-display-portrait` is a leftover local server (the portrait Fire Sticks load from GitHub Pages): stop it when the Mac mini is retired. See `cloudrun/HANDOFF.md`.
 - **Carousel:** a separate Cloud Run service (`fdb-carousel`). Deploy with `deploy-carousel.sh` on the Mac mini.
 
 ## Ground rules
@@ -44,4 +44,4 @@ Display code changes to the horizontal site must land on **`gh-pages`**, which i
 
 ## Current work
 
-Moving the Mac mini jobs to Cloud Run. See `cloudrun/HANDOFF.md` for status and next tasks, and `cloudrun/README.md` for the runbook.
+The Mac mini jobs moved to Cloud Run (cut over 2026-11-11). See `cloudrun/HANDOFF.md` for loose ends, and `cloudrun/README.md` for the runbook.
