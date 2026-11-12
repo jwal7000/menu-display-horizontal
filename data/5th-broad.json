@@ -1,7 +1,7 @@
 {
   "location_id": "L862ACB6EPKVT",
   "location_name": "5th & Broadway",
-  "generated_at": "2026-11-12T23:02:09.200Z",
+  "generated_at": "2026-11-12T23:12:05.517Z",
   "source": "FlavorSchedule+Square",
   "section_count": 8,
   "item_count": 34,
@@ -38,7 +38,7 @@
           "variation_id": "DH7OASIEM3KVR33BVRTJ3CSR",
           "name": "Maple Glaze",
           "price": "$5.35",
-          "sold_out": true,
+          "sold_out": false,
           "preorder_only": false
         },
         {
@@ -115,7 +115,7 @@
           "variation_id": "6AWNWMRW7J5AG4ZUI74KIV6W",
           "name": "Mini Milk Chocolate Sprinkles",
           "price": "$2.75",
-          "sold_out": true,
+          "sold_out": false,
           "preorder_only": false
         },
         {
@@ -168,7 +168,7 @@
           "variation_id": "PPIFB5EWCCUMMZ72RKLSD5CU",
           "name": "Paleo - Chocolate Pumpkin",
           "price": "$4.75",
-          "sold_out": true,
+          "sold_out": false,
           "preorder_only": false
         }
       ]
@@ -213,7 +213,7 @@
           "variation_id": "GUUAMMLNJSMQACNF4DBG3N6P",
           "name": "Yeast Raised - Apple Fritter",
           "price": "$4.00",
-          "sold_out": true,
+          "sold_out": false,
           "preorder_only": false
         }
       ]
@@ -234,7 +234,7 @@
           "variation_id": "4LEYNOOEAQ3YW5LFFT5K63P2",
           "name": "Roll - Cinnamon Glaze",
           "price": "$6.00",
-          "sold_out": true,
+          "sold_out": false,
           "preorder_only": false
         },
         {
