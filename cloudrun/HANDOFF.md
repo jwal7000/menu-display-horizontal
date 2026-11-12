@@ -153,6 +153,21 @@ Two failure cases to know about:
      - The first run after the deploy (14:51 CT, `088c0160e`) committed the four `public/data` files, which had been stale since 2026-10-14. After it, The Gulch's staff list had exactly the same items as the live Gulch menu, Huckleberry Glaze included. The beverages repo got no commit, which is correct: its config copy already matched GCS.
      - `inventory-sync` doesn't patch `public/data`. That's fine: admin.html uses only the item names and sections.
 
+## Display changes
+
+**2026-11-12: horizontal screens bold and 12% larger** (The Gulch, Medley). They were hard to read from a distance.
+- **Where:** `gh-pages:styles.css` (`a351567e8`, live after the Pages build), with the identical copy in `main:public/styles.css` (`7edd3c064`). Only `styles.css` changed.
+- **What:**
+  - every `font-weight` is 700, and `body` defaults to 700, so text without its own weight is bold too;
+  - every font size (the `vh` value and the `rem` clamp bounds) is scaled by 1.12;
+  - layout and spacing are unchanged.
+- **The bold is mostly an outline.** The site only has a Medium cut of Neutraface (`fonts/Neutra2Display-Medium.otf`), and Chrome barely synthesizes bold from it. So `body` also has `-webkit-text-stroke: var(--text-stroke, 0.03em) currentColor`, a thin outline in the text's own color that scales with the font size. 0.02em and 0.03em were compared, and 0.03em reads clearly bold. To change it, set `--text-stroke`. A real Neutraface Bold file would make the outline unnecessary.
+- **Previewed** with live data in headless Chrome at 1920×1080 (the layout is all `vh`/`vw`, so that matches the TV). Not yet seen on a Fire Stick; Android WebView supports `-webkit-text-stroke`.
+- **Watch:**
+  - Medley's first column (Hundred Layer Donuts + Build Your Own Boxes) now ends about 40 px above the footer, down from about 95. That's about one row, and overflow is hidden, so a couple more items there would clip the last rows. If that happens, drop the scale to 1.08.
+  - Portrait screens are unchanged (separate repo).
+- **Preview tip:** if headless Chrome hangs on a Mac and logs `CVDisplayLinkCreateWithCGDisplay failed`, the display is asleep. `caffeinate -u -t 1` wakes it.
+
 ## Known context from 2026-11-05
 
 - Jonathan was getting a flood of GitHub "Run failed" emails. Cause: on every refresh, the main-branch Actions deploy and the gh-pages branch build raced each other for the horizontal Pages site, and the two published different code. Fixed by disabling the "Deploy to GitHub Pages" workflow in menu-display-horizontal.
