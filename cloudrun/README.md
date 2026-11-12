@@ -103,7 +103,7 @@ Rollback reloads only the jobs in the cutover record, so a job that was off befo
 |---|---|
 | Change menu items | AppSheet. No change; picked up within 10 min |
 | Change beverage items/prices | `gcloud storage cp bev-items-config.json gs://analytics-link-370416-menu/` |
-| Deploy a code change | merge to `main`, then `cloudrun/deploy-menu-jobs.sh jobs` |
+| Deploy a code change | merge to `main`, then on the Mac mini `git pull` and `cloudrun/deploy-menu-jobs.sh jobs` (keeps the jobs live; never skip the `git pull`) |
 | Rotate the Square/GitHub token | update the Mac mini secret file, then `cloudrun/deploy-menu-jobs.sh secrets` |
 | Logs | Cloud Console → Cloud Run → Jobs → `menu-build` / `inventory-sync` → Executions |
 
