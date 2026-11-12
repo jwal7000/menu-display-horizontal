@@ -78,6 +78,10 @@ html, body {
   background: var(--bg);
   color: var(--text-primary);
   font-family: var(--font-display);
+  font-weight: 700;   /* everything bold: easier to read from across the store */
+  /* Only a Medium cut of Neutraface is available, and browsers barely embolden it, so the
+     strokes are thickened with an outline in the text's own color. Scales with font size. */
+  -webkit-text-stroke: var(--text-stroke, 0.03em) currentColor;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
 }
@@ -96,15 +100,15 @@ html, body {
   justify-content: center;
   gap: 0.6vw;
   font-family: var(--font-display);
-  font-size: 1.5vh;
-  font-weight: 500;
+  font-size: 1.68vh;
+  font-weight: 700;
   letter-spacing: 0.04em;
   transition: transform 0.35s ease;
 }
 
 .connection-warning.hidden { display: none; }
 
-.warning-icon { font-size: 1.6vh; }
+.warning-icon { font-size: 1.79vh; }
 
 /* Shift layout down when warning is visible */
 body.has-warning .header    { top: var(--warn-h); }
@@ -159,8 +163,8 @@ body.has-warning .menu-root { top: calc(var(--header-h) + var(--warn-h)); }
 
 .header-location {
   font-family: var(--font-display);
-  font-size: clamp(0.8rem, 2vh, 1.4rem);
-  font-weight: 600;
+  font-size: clamp(0.9rem, 2.24vh, 1.57rem);
+  font-weight: 700;
   color: var(--plum);
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -259,8 +263,8 @@ body.has-warning .menu-root { top: calc(var(--header-h) + var(--warn-h)); }
 
 .section-name {
   font-family: var(--font-display);
-  font-size: clamp(1rem, 2.1vh, 1.65rem);
-  font-weight: 600;
+  font-size: clamp(1.12rem, 2.35vh, 1.85rem);
+  font-weight: 700;
   color: var(--plum);
   letter-spacing: 0.04em;
   white-space: nowrap;
@@ -313,8 +317,8 @@ body.has-warning .menu-root { top: calc(var(--header-h) + var(--warn-h)); }
 /* Item name — clamp long names to 2 lines max */
 .item-name {
   font-family: var(--font-display);
-  font-size: clamp(0.9rem, 1.95vh, 1.5rem);
-  font-weight: 400;
+  font-size: clamp(1.01rem, 2.18vh, 1.68rem);
+  font-weight: 700;
   color: var(--text-primary);
   line-height: 1.35;
   /* Allow wrapping but limit to 2 lines */
@@ -337,8 +341,8 @@ body.has-warning .menu-root { top: calc(var(--header-h) + var(--warn-h)); }
 /* Price */
 .item-price {
   font-family: var(--font-display);
-  font-size: clamp(0.9rem, 1.95vh, 1.5rem);
-  font-weight: 600;
+  font-size: clamp(1.01rem, 2.18vh, 1.68rem);
+  font-weight: 700;
   color: var(--pink-dim);
   white-space: nowrap;
 }
@@ -346,8 +350,8 @@ body.has-warning .menu-root { top: calc(var(--header-h) + var(--warn-h)); }
 /* Sold Out label */
 .item-sold-out-label {
   font-family: var(--font-display);
-  font-size: clamp(0.6rem, 1.25vh, 0.95rem);
-  font-weight: 600;
+  font-size: clamp(0.67rem, 1.4vh, 1.06rem);
+  font-weight: 700;
   color: var(--sold-out-text);
   white-space: nowrap;
   letter-spacing: 0.08em;
@@ -389,8 +393,8 @@ body.has-warning .menu-root { top: calc(var(--header-h) + var(--warn-h)); }
 
 .variation-name {
   font-family: var(--font-display);
-  font-size: clamp(0.7rem, 1.45vh, 1.1rem);
-  font-weight: 400;
+  font-size: clamp(0.78rem, 1.62vh, 1.23rem);
+  font-weight: 700;
   color: var(--text-secondary);
   overflow: hidden;
   text-overflow: ellipsis;
@@ -407,16 +411,16 @@ body.has-warning .menu-root { top: calc(var(--header-h) + var(--warn-h)); }
 
 .variation-price {
   font-family: var(--font-display);
-  font-size: clamp(0.7rem, 1.45vh, 1.1rem);
-  font-weight: 500;
+  font-size: clamp(0.78rem, 1.62vh, 1.23rem);
+  font-weight: 700;
   color: var(--pink-dim);
   white-space: nowrap;
 }
 
 .variation-sold-out-label {
   font-family: var(--font-display);
-  font-size: clamp(0.55rem, 1.1vh, 0.85rem);
-  font-weight: 600;
+  font-size: clamp(0.62rem, 1.23vh, 0.95rem);
+  font-weight: 700;
   color: var(--sold-out-text);
   white-space: nowrap;
   letter-spacing: 0.08em;
@@ -428,7 +432,7 @@ body.has-warning .menu-root { top: calc(var(--header-h) + var(--warn-h)); }
   padding: 1.8vh var(--pad-x);
   font-family: var(--font-display);
   font-style: italic;
-  font-size: clamp(0.7rem, 1.4vh, 1rem);
+  font-size: clamp(0.78rem, 1.57vh, 1.12rem);
   color: var(--text-muted);
   text-align: center;
 }
@@ -450,8 +454,8 @@ body.has-warning .menu-root { top: calc(var(--header-h) + var(--warn-h)); }
 
 .footer-location {
   font-family: var(--font-display);
-  font-size: clamp(0.55rem, 1.15vh, 0.9rem);
-  font-weight: 600;
+  font-size: clamp(0.62rem, 1.29vh, 1.01rem);
+  font-weight: 700;
   color: var(--white);
   letter-spacing: 0.1em;
   text-transform: uppercase;
@@ -459,13 +463,13 @@ body.has-warning .menu-root { top: calc(var(--header-h) + var(--warn-h)); }
 
 .footer-sep {
   color: rgba(255,255,255,0.5);
-  font-size: 1.1vh;
+  font-size: 1.23vh;
 }
 
 .footer-updated {
   font-family: var(--font-display);
-  font-size: clamp(0.55rem, 1.15vh, 0.9rem);
-  font-weight: 400;
+  font-size: clamp(0.62rem, 1.29vh, 1.01rem);
+  font-weight: 700;
   color: rgba(255,255,255,0.8);
 }
 
@@ -480,7 +484,7 @@ body.has-warning .menu-root { top: calc(var(--header-h) + var(--warn-h)); }
 .loading-text {
   font-family: var(--font-display);
   font-style: italic;
-  font-size: clamp(1rem, 2.2vh, 1.8rem);
+  font-size: clamp(1.12rem, 2.46vh, 2.02rem);
   color: var(--text-muted);
   letter-spacing: 0.06em;
 }
