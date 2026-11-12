@@ -94,11 +94,18 @@ Two failure cases to know about:
 
 **Cutover (2026-11-11, about 09:10 CT).** ✅ Verified on GitHub: only `[cloud-run]` commits (`menu-build[bot]`, `inventory-sync[bot]`) since 09:16, no `menu-refresh[bot]` commit after 09:06, and all Pages deploys green. If a `menu-refresh[bot]` commit, or a data commit without `[cloud-run]`, ever shows up again, the Mac mini is publishing too: check launchd, or roll back.
 
-**Next deploy.** Every `jobs` deploy now goes straight to the live screens. On the Mac mini: `git pull`, then `cloudrun/deploy-menu-jobs.sh jobs`. It should print `keeping DRY_RUN=0 (LIVE …)`.
+**Incident: no publishing from 2026-11-11 16:01 CT to 2026-11-12 about 09:57 CT.**
+- **What happened:** at about 16:04 CT on 2026-11-11, `jobs` was run from a Mac mini checkout older than the mode fix below. That version deployed in dry-run unless told otherwise, so it put both live jobs back in dry-run. The Mac mini's own job had been stopped at cutover, so nothing published and nothing reported an error. The last data commit before it is `menu-build[bot]` at 16:01 CT. The screens kept showing the 16:01 menus and sold-out flags overnight and into the morning.
+- **Restore:** Jonathan ran `DRY_RUN=0 cloudrun/deploy-menu-jobs.sh jobs` at about 09:57 CT on 2026-11-12, **without `git pull` first**. Publishing resumed right away (first data commit: `inventory-sync[bot]` at 09:58 CT, then `menu-build[bot]` at 10:01 CT, on `main` and `gh-pages`). The jobs are live again, but they run image `9fd491688`: the pre-fix code, with the old deploy settings (110 s `inventory-sync` timeout).
+- **Fix:** the mode fix below, on `main` since 2026-11-12 (`9655984d2`). Longer term, auto-deploy (`cloudrun/AUTO-DEPLOY.md`) removes manual deploys from stale checkouts.
+- **Lesson:** always `git pull` before `jobs`, and check that the deploy prints the mode you expect.
+
+**Next deploy (still to do).** The jobs are live on `9fd491688`. On the Mac mini, as `openclaw-user`: `git pull` (must include `4edb43fb0` or later), then `cloudrun/deploy-menu-jobs.sh jobs`. It should print `keeping DRY_RUN=0 (LIVE …)`. Every `jobs` deploy now goes straight to the live screens.
 
 **Fixed 2026-11-11: `jobs` used to switch live jobs back to dry-run.** It defaulted to `DRY_RUN=1`, so a plain `jobs` after cutover would have stopped all publishing without an error: the Mac mini is off, and the screens would have gone stale. Now `jobs` reads each deployed job's `DRY_RUN` and keeps it: live after cutover, dry-run after rollback, dry-run for a first deploy. If the two jobs disagree, or their mode can't be read, it stops before building and asks for `DRY_RUN=0` or `DRY_RUN=1`. Setting `DRY_RUN` explicitly still forces a mode. **Don't run `jobs` from a checkout older than this fix.**
 
 Waiting on the next deploy:
+- the mode fix itself (the running jobs don't need it, but the deploy script does: it's what keeps them live);
 - the `inventory-sync` 300 s timeout, lighter startup and timing logs (see "Soak" above);
 - Medley inventory tracking (C4). After this, Medley items can show as sold out. Tell Medley staff first.
 
