@@ -165,7 +165,18 @@ Two failure cases to know about:
 - **Previewed** with live data in headless Chrome at 1920×1080 (the layout is all `vh`/`vw`, so that matches the TV). Not yet seen on a Fire Stick; Android WebView supports `-webkit-text-stroke`.
 - **Watch:**
   - Medley's first column (Hundred Layer Donuts + Build Your Own Boxes) now ends about 40 px above the footer, down from about 95. That's about one row, and overflow is hidden, so a couple more items there would clip the last rows. If that happens, drop the scale to 1.08.
-  - Portrait screens are unchanged (separate repo).
+  - Portrait screens got the same change separately (below).
+**2026-11-12: portrait screens bold, with the menu fitting the screen** (The Factory, 5th & Broadway). This is in `menu-display-portrait` `main:public/` (`c8c4189`), deployed by its Pages workflow.
+- **Same type change as horizontal:** everything is weight 700, sizes ×1.12, with the 0.03em outline.
+- **Font fixed:** `styles.css` loaded `url('/fonts/…')`, which on Pages resolves to `jwal7000.github.io/fonts/` and returns 404. So the portrait screens had always fallen back to Playfair Display. It's now `url('fonts/…')`, and Neutraface loads.
+- **Menu was cut off:** the page can't scroll on a TV, and about 460 px of menu sat below the footer at both stores: the last two cinnamon rolls, all of Breakfast, all of Cookies. Two fixes:
+  - **Packed columns:** `.sections-grid` uses `column-count: 2` instead of grid rows, which left big gaps under the shorter column. Sections now read down the left column, then the right.
+  - **Fit-to-screen:** `menu.js` wraps the grid in `.fit-box`. If the menu is still taller than the space above the footer or promo panel, it scales the box down just enough (`transform: scale` with the width widened by the same factor). It re-fits on resize, on promo show/hide and when fonts load. It never goes below 0.6, and the scale used is recorded in `body[data-fit]`.
+- **Result** (1080×1920, live data): fit 0.898 at both stores, nothing hidden. Text ends up about today's size (1.12 × 0.898) but bold. With the grid layout alone, the fit would have been 0.744, smaller than before.
+- **Promo panel:** off at both stores. A simulated promo re-fits the menu to 0.63; everything stays visible, but the text is small.
+- **Verified live:** both live pages render 8 sections with `data-fit="0.898"`. Not yet seen on a Fire Stick; check the bold, the strikethroughs, and that Breakfast/Cookies are visible.
+- **Preview note:** that day, desktop Chrome's headless mode hung after a background update (installed version newer than the running one). The previews used Google's standalone `chrome-headless-shell` (`npx @puppeteer/browsers install chrome-headless-shell@stable`). It renders text slightly lighter and drops `text-decoration` lines, so judge layout with it, not type weight.
+
 - **Preview tip:** if headless Chrome hangs on a Mac and logs `CVDisplayLinkCreateWithCGDisplay failed`, the display is asleep. `caffeinate -u -t 1` wakes it.
 
 ## Known context from 2026-11-05
