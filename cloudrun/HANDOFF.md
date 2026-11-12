@@ -58,7 +58,11 @@ cloudrun/deploy-menu-jobs.sh compare
 cloudrun/deploy-menu-jobs.sh schedule && cloudrun/deploy-menu-jobs.sh resume   # optional 1-day soak, still dry-run
 cloudrun/deploy-menu-jobs.sh cutover
 ```
-Reaching the Mac mini: SSH over Tailscale from the user's Mac, if Remote Login or Tailscale SSH is enabled. Otherwise hand the commands to the user or Jonathan.
+**Reaching the Mac mini (since 2026-11-12):** `ssh openclaw-user@100.111.170.29` over Tailscale works from Gabriel's iMac with his key. Do Mac mini work over SSH yourself instead of writing commands for Jonathan. Rules:
+- Read-only checks (git log/status, logs, `launchctl list`, `preflight`, `compare`) are fine without asking.
+- **Ask Gabriel before any command that deploys, changes GCP or touches launchd.** That includes `git pull` right before a deploy, `jobs`, `secrets`, `bev-config`, `schedule`, `resume`, `pause`, `run`, and any `launchctl load`/`unload`/`bootout`/`bootstrap`.
+- **`cutover` and `rollback` still go through Jonathan,** at the desktop or over Screen Sharing, never over SSH.
+- On 2026-11-12 the Mac mini checkout (`~/.openclaw/workspace/square-digital-menu-poc`) was at `c75b24ae3`, which includes the mode fix. The jobs may still be running image `9fd491688` until the next `jobs` deploy.
 
 **First dry-run deploy (2026-11-06), what we found:**
 - **`jobs` stopped at the image build.** `gcloud builds submit` exited non-zero because `menu-deploy-bot` can't stream logs from the default Cloud Build logs bucket, and `set -e` stopped the script before either job was deployed. `--suppress-logs` didn't help: gcloud still tried to stream and failed the same way. Fixed: `jobs` submits with `--async --format='value(id)'`, prints the build's Cloud Console link, and polls `gcloud builds describe` every 5 s. It continues on `SUCCESS`, stops on `FAILURE` / `TIMEOUT` / `CANCELLED` / `INTERNAL_ERROR` / `EXPIRED`, and gives up after 20 min. Rerun `jobs` after `git pull`.

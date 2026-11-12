@@ -38,6 +38,7 @@ Display code changes to the horizontal site must land on **`gh-pages`**, which i
 ## Ground rules
 
 - Don't change the Mac mini's launchd jobs or scripts by hand. Use `cloudrun/deploy-menu-jobs.sh` (`cutover` / `rollback`).
+- **Mac mini access:** `ssh openclaw-user@100.111.170.29` (Tailscale, from Gabriel's iMac with his key). Do Mac mini work over SSH rather than writing commands for Jonathan. Read-only checks are fine; **ask the user before any command that deploys, changes GCP or touches launchd.** `cutover` and `rollback` still go through Jonathan, at the desktop or over Screen Sharing, never over SSH.
 - Get confirmation from the user before pushing to `main` or `gh-pages`, deploying anything to GCP, or running `cutover`. A bad push is on store screens within 10 minutes.
 - Only the deploy script talks to GCP, using the `menu-deploy-bot` key. Don't use personal gcloud logins.
 - `npm test` must pass before any push.
