@@ -134,10 +134,15 @@ Two failure cases to know about:
    - **Expected effect:** replaying today's history (09:55–13:30 CT), 22 `menu-build` runs → 10 horizontal pushes. Overnight, 6 pushes an hour → 1. Portrait and beverages get a commit only when their own files change, or hourly.
    - `inventory-sync` is unchanged: it already commits only when a `sold_out` flag changes.
 6. **When the Mac mini is retired, stop `com.fivedaughters.menu-display-portrait`.** It's a leftover local server that nothing depends on: the portrait Fire Sticks load from GitHub Pages. It isn't part of cutover, so `deploy-menu-jobs.sh` doesn't manage it. Stop it by hand as `openclaw-user` at retirement.
-7. **`admin.html` (staff override app) shows stale item lists.** Found 2026-11-12 while doing C3. The live app is `menu-display-beverages` `main:public/admin.html`.
+7. **`admin.html` (staff override app) shows stale item lists.** Found 2026-11-12 while doing C3. **Fix built 2026-11-12, takes effect at the next `jobs` deploy** (see "Fix" below). The live app is `menu-display-beverages` `main:public/admin.html`.
    - **Pastry tab, broken now:** it loads the item list from `menu-display-horizontal` `main:public/data/{loc}.json`. Nothing has written that since 2026-10-14 (`menu-refresh[bot]`): the Mac mini, and now the jobs, write `main:output/data/` and `gh-pages:data/`. For The Gulch on 2026-11-12, 6 items on the live menu were missing from the staff list (e.g. Huckleberry Glaze, Cinnamon Cream Cheese), so staff couldn't mark them sold out, and 8 items no longer on the menu still showed.
    - **Bev tab, breaks on the first GCS edit:** it loads the drink list from `menu-display-beverages` `main:output/bev-items-config.json`, last written 2026-09-25. That's identical to the GCS config today, but edits made in GCS won't reach it.
-   - **Fix options:** have `menu-build` also write the files admin.html reads (horizontal `main:public/data/`, beverages `main:output/bev-items-config.json`). That needs no change to the staff app. The other option is changing admin.html to read `gh-pages:data/` and the GCS config, but that's a change to the staff app, served from Pages.
+   - **Fix (no change to the staff app):** `menu-build` now also writes the two files admin.html reads.
+     - All four pastry menus go to horizontal `main:public/data/{slug}.json`, alongside `output/data/`. Bev menus aren't added there.
+     - The bev config the build used goes to beverages `main:output/bev-items-config.json`, byte for byte as it is in GCS (`buildBeverageMenu` leaves a copy in its output folder).
+     - The C5 skip rule covers both. A config with no change never forces a commit, so a GCS edit reaches the staff app within one run (≤ 10 min).
+     - The first run after the deploy will commit the four `public/data` files, which are a month stale.
+     - `inventory-sync` doesn't patch `public/data`. That's fine: admin.html uses only the item names and sections.
 
 ## Known context from 2026-11-05
 

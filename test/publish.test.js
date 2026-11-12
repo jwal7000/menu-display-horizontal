@@ -169,6 +169,62 @@ test('menu-build skips timestamp-only pushes, publishes real changes, and refres
   assert.notEqual(show(P, 'main', 'output/data/the-factory.json').generated_at, factoryTs);
 });
 
+test('admin.html sources: pastry files also go to horizontal main public/data, the bev config to beverages output/', async () => {
+  const out = mkdtempSync(join(tmpdir(), 'out-admin-'));
+  const ts = () => new Date().toISOString();
+  const w = (name, text) => { const p = join(out, name); writeFileSync(p, text); return p; };
+  const configText = (drink) => `{\n  "_note": "curated by hand",\n  "sections": [ { "name": "Espresso", "items": [ { "name": "${drink}", "available": true } ] } ]\n}\n`;
+  const files = (drink) => ({
+    pastryFiles: [w('the-gulch.json', JSON.stringify({ menu: 'gulch-admin', generated_at: ts() })), w('the-factory.json', JSON.stringify({ menu: 'factory-admin', generated_at: ts() }))],
+    bevFiles:    [w('bev-the-gulch.json', JSON.stringify({ menu: 'bev-admin', generated_at: ts() }))],
+    bevConfigFile: w('bev-items-config.json', configText(drink)),
+    portraitSlugs: ['the-factory'],
+  });
+  const run = (opts) => publish.publishTargets(build.menuBuildTargets(opts), 'chore: admin', { name: 'bot', email: 'b@b' });
+
+  assert.deepEqual((await run(files('Latte'))).failed, []);
+  assert.equal(show(H, 'main', 'public/data/the-gulch.json').menu, 'gulch-admin', 'admin pastry list is current');
+  assert.equal(show(H, 'main', 'public/data/the-factory.json').menu, 'factory-admin');
+  assert.throws(() => show(H, 'main', 'public/data/bev-the-gulch.json'), 'bev menus are not added to public/data');
+  const rawConfig = execFileSync('git', ['--git-dir', B, 'show', 'main:output/bev-items-config.json'], { encoding: 'utf8' });
+  assert.equal(rawConfig, configText('Latte'), 'config published byte for byte');
+  assert.throws(() => show(B, 'main', 'public/data/bev-items-config.json'), 'config only goes to output/');
+  assert.throws(() => show(H, 'main', 'output/data/bev-items-config.json'), 'and only to the beverages repo');
+
+  const before = [commits(H, 'main'), commits(B, 'main')];
+  await new Promise(r => setTimeout(r, 5));
+  await run(files('Latte'));                                      // nothing but timestamps changed
+  assert.deepEqual([commits(H, 'main'), commits(B, 'main')], before, 'an unchanged config does not force a commit');
+
+  await run(files('Oat Latte'));                                  // config edited in GCS
+  assert.equal(commits(B, 'main'), before[1] + 1, 'a config edit reaches the beverages repo');
+  assert.equal(show(B, 'main', 'output/bev-items-config.json').sections[0].items[0].name, 'Oat Latte');
+  assert.equal(commits(H, 'main'), before[0], 'horizontal is unaffected by a bev config edit');
+});
+
+test('buildBeverageMenu leaves a byte-for-byte copy of the config it used in outputDir', async () => {
+  const { buildBeverageMenu } = await import('../src/buildBeverageMenu.js');
+  const out = mkdtempSync(join(tmpdir(), 'bev-out-'));
+  // Odd spacing on purpose: the copy must be the GCS bytes, not a re-serialisation.
+  const src = '{ "_note":"hand-curated",\n  "sections": [ {"name":"Espresso","items":[{"name":"Latte","available":true}]} ] }\n';
+  const realFetch = globalThis.fetch;
+  const asked = [];
+  process.env.BEV_CONFIG_URL = 'gs://test-bucket/bev-items-config.json';
+  globalThis.__FAKE_GCS_TOKEN = 'fake-token';
+  globalThis.fetch = async (url) => { asked.push(String(url)); return new Response(src, { status: 200 }); };
+  try {
+    const written = await buildBeverageMenu({ outputDir: out });
+    assert.ok(written.length >= 1);
+    assert.ok(written.every(p => /bev-[^/]+\.json$/.test(p)), 'the config copy is not returned as a menu file');
+    assert.equal(readFileSync(join(out, 'bev-items-config.json'), 'utf8'), src);
+    assert.match(asked[0], /test-bucket\/o\/bev-items-config\.json/);
+  } finally {
+    globalThis.fetch = realFetch;
+    delete globalThis.__FAKE_GCS_TOKEN;
+    delete process.env.BEV_CONFIG_URL;
+  }
+});
+
 test('a push race is retried from a fresh clone and keeps the other writer\'s commit', async () => {
   let attempt = 0;
   const target = {
@@ -262,9 +318,13 @@ test('menu-build commits as menu-build[bot] with a [cloud-run] tag, distinct fro
   };
   const ok = await runMenuBuild({
     buildPastry: writer(['the-gulch.json', 'medley.json', 'the-factory.json', '5th-broad.json']),
-    buildBev:    writer(['bev-the-gulch.json', 'bev-medley.json']),
+    buildBev:    async ({ outputDir }) => {
+      writeFileSync(join(outputDir, 'bev-items-config.json'), '{"sections":[],"_note":"from-menu-build"}');
+      return writer(['bev-the-gulch.json', 'bev-medley.json'])({ outputDir });
+    },
   });
   assert.equal(ok, true);
+  assert.equal(show(B, 'main', 'output/bev-items-config.json')._note, 'from-menu-build', 'menu-build publishes the config the bev build used');
   for (const [bare, branch] of [[H, 'main'], [H, 'gh-pages'], [P, 'main'], [B, 'main']]) {
     const c = lastCommit(bare, branch);
     assert.equal(c.author, 'menu-build[bot]', `${branch} author`);

@@ -22,21 +22,29 @@ const __dirname  = dirname(fileURLToPath(import.meta.url));
 const ROOT_DIR   = resolve(__dirname, '..');
 const DEFAULT_OUTPUT_DIR = resolve(ROOT_DIR, 'output');
 
-async function loadConfig() {
+const LOCAL_CONFIG = resolve(DEFAULT_OUTPUT_DIR, 'bev-items-config.json');
+
+/** Returns the config's raw text and where it came from. */
+async function loadConfigText() {
   const url = process.env.BEV_CONFIG_URL;
   if (url) {
     console.log(`   📥  Loading bev config from ${url}`);
-    return JSON.parse(await readObject(url));
+    return { raw: String(await readObject(url)), from: url };
   }
-  return JSON.parse(readFileSync(resolve(DEFAULT_OUTPUT_DIR, 'bev-items-config.json'), 'utf8'));
+  return { raw: readFileSync(LOCAL_CONFIG, 'utf8'), from: LOCAL_CONFIG };
 }
 
 /**
  * Builds bev-{slug}.json for every beverage location into {outputDir}/data/.
  * Returns the list of files written.
+ *
+ * Also saves the config it used, byte for byte, as {outputDir}/bev-items-config.json
+ * (unless that's the file it was read from). menu-build publishes it to the beverages
+ * repo, where admin.html reads its drink list.
  */
 export async function buildBeverageMenu({ outputDir = DEFAULT_OUTPUT_DIR } = {}) {
-  const config = await loadConfig();
+  const { raw, from } = await loadConfigText();
+  const config = JSON.parse(raw);
   if (!Array.isArray(config.sections)) throw new Error('bev-items-config.json has no sections array');
   console.log(`\n🍵  Building beverage menu from config: ${config.sections.length} sections`);
 
@@ -44,6 +52,8 @@ export async function buildBeverageMenu({ outputDir = DEFAULT_OUTPUT_DIR } = {})
   // overrides-{slug}.json in menu-display-beverages, and bev.js applies it in the browser.
 
   mkdirSync(resolve(outputDir, 'data'), { recursive: true });
+  const configCopy = resolve(outputDir, 'bev-items-config.json');
+  if (configCopy !== from) writeFileSync(configCopy, raw);
   const written = [];
 
   for (const loc of BEV_LOCATIONS) {

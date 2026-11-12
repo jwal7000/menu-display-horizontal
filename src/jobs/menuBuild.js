@@ -10,7 +10,7 @@
  * exits non-zero so the failure shows up in Cloud Run.
  */
 
-import { mkdtempSync, rmSync } from 'fs';
+import { mkdtempSync, rmSync, existsSync } from 'fs';
 import { tmpdir } from 'os';
 import { join }   from 'path';
 import { buildMenuFromDB }   from '../buildMenuFromDB.js';
@@ -35,7 +35,10 @@ export async function runMenuBuild({ buildPastry = buildMenuFromDB, buildBev = b
     catch (err) { errors.push('beverages'); console.error('❌  Beverage build failed:', err.message); }
 
     const portraitSlugs = DISPLAY_LOCATIONS.filter(l => l.layout === 'portrait').map(l => l.slug);
-    const targets = menuBuildTargets({ pastryFiles, bevFiles, portraitSlugs });
+    // The bev build leaves a copy of the config it used; admin.html reads it from the beverages repo.
+    const bevConfig = join(outputDir, 'bev-items-config.json');
+    const bevConfigFile = bevFiles.length && existsSync(bevConfig) ? bevConfig : null;
+    const targets = menuBuildTargets({ pastryFiles, bevFiles, bevConfigFile, portraitSlugs });
 
     const { failed } = await publishTargets(
       targets,

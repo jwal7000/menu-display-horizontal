@@ -34,6 +34,8 @@ export function onlyTimestampsChanged(oldPath, newPath, heartbeatMs, now = Date.
   try {
     const prev = JSON.parse(readFileSync(oldPath, 'utf8'));
     const next = JSON.parse(readFileSync(newPath, 'utf8'));
+    // Files with no timestamp at all (e.g. the bev config) are unchanged when their content is.
+    if (!('generated_at' in prev) && !('generated_at' in next)) return JSON.stringify(prev) === JSON.stringify(next);
     const age  = now - Date.parse(prev.generated_at);
     if (!(age >= 0 && age < heartbeatMs)) return false;
     return withoutTimestamps(prev) === withoutTimestamps(next);
@@ -50,11 +52,21 @@ export function onlyTimestampsChanged(oldPath, newPath, heartbeatMs, now = Date.
  * repo share one timestamp and the heartbeat costs at most one commit per repo.
  */
 export function copyInto(files, destDirs, { heartbeatMs } = {}) {
+  return copyGroups([[files, destDirs]], { heartbeatMs });
+}
+
+/**
+ * Like copyInto, for several [files, destDirs] groups going to the same repo. The skip
+ * decision covers all groups together, so a repo gets at most one commit per run.
+ */
+export function copyGroups(groups, { heartbeatMs } = {}) {
   return async (dir) => {
     const plan = [];
-    for (const destDir of destDirs) {
-      for (const f of files) {
-        if (existsSync(f)) plan.push({ src: f, rel: join(destDir, basename(f)) });
+    for (const [files, destDirs] of groups) {
+      for (const destDir of destDirs) {
+        for (const f of files) {
+          if (existsSync(f)) plan.push({ src: f, rel: join(destDir, basename(f)) });
+        }
       }
     }
     if (heartbeatMs && plan.length && plan.every(({ src, rel }) => onlyTimestampsChanged(join(dir, rel), src, heartbeatMs))) {
@@ -73,17 +85,20 @@ export function copyInto(files, destDirs, { heartbeatMs } = {}) {
  * Publishing plan for a full menu build.
  *   pastryFiles — output/data/{slug}.json for every location
  *   bevFiles    — output/data/bev-{slug}.json
+ *   bevConfigFile — the bev config the build used (published for admin.html), or null
  *   portraitSlugs — slugs served by the portrait repo
  *   heartbeatMs   — skip timestamp-only changes until the published copy is this old (0 = never skip)
  */
-export function menuBuildTargets({ pastryFiles, bevFiles, portraitSlugs, heartbeatMs = HEARTBEAT_MS }) {
+export function menuBuildTargets({ pastryFiles, bevFiles, bevConfigFile = null, portraitSlugs, heartbeatMs = HEARTBEAT_MS }) {
   const skip = { heartbeatMs };
   const all = [...pastryFiles, ...bevFiles];
   const portraitFiles = pastryFiles.filter(f => portraitSlugs.includes(basename(f, '.json')));
   const targets = [];
 
   if (all.length) {
-    targets.push({ repo: REPOS.horizontal, branch: 'main',     label: 'horizontal main',     apply: copyInto(all, ['output/data'], skip) });
+    // admin.html (staff override app) reads its pastry item list from main:public/data/{slug}.json.
+    targets.push({ repo: REPOS.horizontal, branch: 'main',     label: 'horizontal main',
+                   apply: copyGroups([[all, ['output/data']], [pastryFiles, ['public/data']]], skip) });
     targets.push({ repo: REPOS.horizontal, branch: 'gh-pages', label: 'horizontal gh-pages', apply: copyInto(all, ['data'], skip) });
   }
   if (portraitFiles.length) {
@@ -93,7 +108,9 @@ export function menuBuildTargets({ pastryFiles, bevFiles, portraitSlugs, heartbe
     // public/data is what the Mac mini writes today. The repo's deploy-pages workflow
     // copies output/data → public/data, so output/data is kept current too — otherwise
     // an Actions deploy would overwrite fresh data with the stale Sept 25 copy.
-    targets.push({ repo: REPOS.beverages, branch: 'main', label: 'beverages main', apply: copyInto(bevFiles, ['public/data', 'output/data'], skip) });
+    // admin.html reads its drink list from output/bev-items-config.json in this repo.
+    targets.push({ repo: REPOS.beverages, branch: 'main', label: 'beverages main',
+                   apply: copyGroups([[bevFiles, ['public/data', 'output/data']], [bevConfigFile ? [bevConfigFile] : [], ['output']]], skip) });
   }
   return targets;
 }
