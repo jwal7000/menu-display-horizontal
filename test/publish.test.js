@@ -114,6 +114,61 @@ test('menu-build targets: all data to horizontal, portrait slugs to portrait, be
   assert.deepEqual(show(B, 'main', 'public/overrides-the-gulch.json'), { sold_out: ['Latte'] }, 'admin overrides untouched');
 });
 
+test('onlyTimestampsChanged: ignores generated_at / inventory_patched_at, but only within the heartbeat', () => {
+  const dir = mkdtempSync(join(tmpdir(), 'ts-'));
+  const now = Date.parse('2026-11-12T20:00:00Z');
+  const w = (name, body) => { const p = join(dir, name); writeFileSync(p, JSON.stringify(body, null, 2)); return p; };
+  const HOUR = 60 * 60 * 1000;
+  const menu = { location_name: 'The Gulch', sections: [{ items: [{ name: 'Glazed', sold_out: false }] }] };
+  const prev10 = w('prev10.json', { ...menu, generated_at: '2026-11-12T19:50:00Z', inventory_patched_at: '2026-11-12T19:52:00Z' });
+  const prev61 = w('prev61.json', { ...menu, generated_at: '2026-11-12T18:59:00Z' });
+  const prevNoTs = w('prevNoTs.json', { ...menu });
+  const next   = w('next.json',   { ...menu, generated_at: '2026-11-12T20:00:00Z' });
+  const sold   = w('sold.json',   { ...menu, generated_at: '2026-11-12T20:00:00Z', sections: [{ items: [{ name: 'Glazed', sold_out: true }] }] });
+  const broken = w('broken.json', '{not json');
+
+  assert.equal(build.onlyTimestampsChanged(prev10, next, HOUR, now), true, 'timestamps only, 10 min old → skip');
+  assert.equal(build.onlyTimestampsChanged(prev61, next, HOUR, now), false, 'older than the heartbeat → publish');
+  assert.equal(build.onlyTimestampsChanged(prev10, sold, HOUR, now), false, 'a sold_out change → publish');
+  assert.equal(build.onlyTimestampsChanged(prevNoTs, next, HOUR, now), false, 'no published timestamp → publish');
+  assert.equal(build.onlyTimestampsChanged(join(dir, 'missing.json'), next, HOUR, now), false, 'new file → publish');
+  assert.equal(build.onlyTimestampsChanged(broken, next, HOUR, now), false, 'unreadable → publish');
+});
+
+test('menu-build skips timestamp-only pushes, publishes real changes, and refreshes on the heartbeat', async () => {
+  const out = mkdtempSync(join(tmpdir(), 'out-hb-'));
+  const write = (name, body) => { const p = join(out, name); writeFileSync(p, JSON.stringify({ ...body, generated_at: new Date().toISOString() }, null, 2)); return p; };
+  const files = (gulch) => ({
+    pastryFiles: [write('the-gulch.json', gulch), write('the-factory.json', { menu: 'factory' })],
+    bevFiles:    [write('bev-the-gulch.json', { menu: 'bev' })],
+    portraitSlugs: ['the-factory'],
+  });
+  const run = (opts) => publish.publishTargets(build.menuBuildTargets(opts), 'chore: hb', { name: 'bot', email: 'b@b' });
+  const counts = () => [commits(H, 'main'), commits(H, 'gh-pages'), commits(P, 'main'), commits(B, 'main')];
+
+  await run(files({ menu: 'gulch', sold_out: false }));            // first publish of this content
+  const first = counts();
+  const gulchTs = show(H, 'gh-pages', 'data/the-gulch.json').generated_at;
+  const factoryTs = show(P, 'main', 'output/data/the-factory.json').generated_at;
+
+  await new Promise(r => setTimeout(r, 5));
+  await run(files({ menu: 'gulch', sold_out: false }));            // same content, new generated_at
+  assert.deepEqual(counts(), first, 'no commits anywhere for a timestamp-only build');
+
+  await run(files({ menu: 'gulch', sold_out: true }));             // a real change at one store
+  const [hm, hg, p, b] = counts();
+  assert.deepEqual([hm, hg, p, b], [first[0] + 1, first[1] + 1, first[2], first[3]], 'only the horizontal repo gets a commit');
+  assert.equal(show(H, 'gh-pages', 'data/the-gulch.json').sold_out, true);
+  assert.notEqual(show(H, 'gh-pages', 'data/the-gulch.json').generated_at, gulchTs, 'the changed file gets a new timestamp');
+  assert.notEqual(show(H, 'gh-pages', 'data/the-factory.json').generated_at, factoryTs, 'the rest of that repo is refreshed in the same commit');
+  assert.equal(show(P, 'main', 'output/data/the-factory.json').generated_at, factoryTs, 'repos with no real change are left alone');
+
+  await new Promise(r => setTimeout(r, 5));
+  await run({ ...files({ menu: 'gulch', sold_out: true }), heartbeatMs: 1 });   // heartbeat due
+  assert.deepEqual(counts(), [hm + 1, hg + 1, p + 1, b + 1], 'heartbeat refreshes every repo');
+  assert.notEqual(show(P, 'main', 'output/data/the-factory.json').generated_at, factoryTs);
+});
+
 test('a push race is retried from a fresh clone and keeps the other writer\'s commit', async () => {
   let attempt = 0;
   const target = {
