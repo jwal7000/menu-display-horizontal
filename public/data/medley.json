@@ -1,7 +1,7 @@
 {
   "location_id": "LDR9H5M3GQKXF",
   "location_name": "Medley",
-  "generated_at": "2026-11-12T23:12:05.695Z",
+  "generated_at": "2026-11-12T23:22:02.160Z",
   "source": "FlavorSchedule+Square",
   "section_count": 9,
   "item_count": 38,
@@ -22,7 +22,7 @@
           "variation_id": "6W4RPTRTDRXHQ47PS44P37MG",
           "name": "The Purist",
           "price": "$4.75",
-          "sold_out": false,
+          "sold_out": true,
           "preorder_only": false
         },
         {
@@ -222,7 +222,7 @@
           "variation_id": "H55ADAOMVQGRT7R2UYZ5NVBS",
           "name": "Yeast Raised - Milk Chocolate Sprinkles",
           "price": "$3.25",
-          "sold_out": false,
+          "sold_out": true,
           "preorder_only": false
         },
         {
