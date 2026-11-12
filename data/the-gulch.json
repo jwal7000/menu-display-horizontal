@@ -30,7 +30,7 @@
           "variation_id": "VOEJFH6AB2RMRPUNIDAQ5RTR",
           "name": "Chocolate Sea Salt",
           "price": "$5.35",
-          "sold_out": false,
+          "sold_out": true,
           "preorder_only": false
         },
         {
@@ -78,7 +78,7 @@
           "variation_id": "HPSERYWP2A7BMR2W5RI3UVFL",
           "name": "Pumpkin Spice Latte",
           "price": "$5.70",
-          "sold_out": false,
+          "sold_out": true,
           "preorder_only": false
         },
         {
@@ -318,5 +318,6 @@
         }
       ]
     }
-  ]
+  ],
+  "inventory_patched_at": "2026-11-12T16:25:03.699Z"
 }
