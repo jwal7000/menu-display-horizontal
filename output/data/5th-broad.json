@@ -1,7 +1,7 @@
 {
   "location_id": "L862ACB6EPKVT",
   "location_name": "5th & Broadway",
-  "generated_at": "2026-11-11T22:01:02.468Z",
+  "generated_at": "2026-11-12T16:01:41.739Z",
   "source": "FlavorSchedule+Square",
   "section_count": 8,
   "item_count": 34,
@@ -30,7 +30,7 @@
           "variation_id": "VOEJFH6AB2RMRPUNIDAQ5RTR",
           "name": "Chocolate Sea Salt",
           "price": "$5.35",
-          "sold_out": true,
+          "sold_out": false,
           "preorder_only": false
         },
         {
@@ -38,7 +38,7 @@
           "variation_id": "DH7OASIEM3KVR33BVRTJ3CSR",
           "name": "Maple Glaze",
           "price": "$5.35",
-          "sold_out": true,
+          "sold_out": false,
           "preorder_only": false
         },
         {
@@ -70,7 +70,7 @@
           "variation_id": "WZRXPDUQICIRZL7TQXK2OEJA",
           "name": "Cinnamon Cream Cheese",
           "price": "$5.35",
-          "sold_out": true,
+          "sold_out": false,
           "preorder_only": false
         },
         {
@@ -78,7 +78,7 @@
           "variation_id": "HPSERYWP2A7BMR2W5RI3UVFL",
           "name": "Pumpkin Spice Latte",
           "price": "$5.70",
-          "sold_out": true,
+          "sold_out": false,
           "preorder_only": false
         },
         {
@@ -86,7 +86,7 @@
           "variation_id": "LZB6X76AT4PEIU6HJU4HNWMV",
           "name": "S'mores",
           "price": "$5.70",
-          "sold_out": true,
+          "sold_out": false,
           "preorder_only": false
         },
         {
@@ -107,7 +107,7 @@
           "variation_id": "PFDBG6KRN2QBZWGRPXZOMDUC",
           "name": "Mini Purist",
           "price": "$2.75",
-          "sold_out": true,
+          "sold_out": false,
           "preorder_only": false
         },
         {
@@ -115,7 +115,7 @@
           "variation_id": "6AWNWMRW7J5AG4ZUI74KIV6W",
           "name": "Mini Milk Chocolate Sprinkles",
           "price": "$2.75",
-          "sold_out": true,
+          "sold_out": false,
           "preorder_only": false
         },
         {
@@ -123,7 +123,7 @@
           "variation_id": "XBIHTUUQVY7I277OOOHUYZI5",
           "name": "Mini Cinnamon Cream Cheese",
           "price": "$3.00",
-          "sold_out": true,
+          "sold_out": false,
           "preorder_only": false
         },
         {
@@ -131,7 +131,7 @@
           "variation_id": "IACOAEUPYZ3XFBRF7AQBJBP4",
           "name": "Mini Huckleberry Glaze",
           "price": "$2.75",
-          "sold_out": true,
+          "sold_out": false,
           "preorder_only": false
         },
         {
@@ -139,7 +139,7 @@
           "variation_id": "4FN3BDYASE7TCV7GBZ4EFXZJ",
           "name": "Mini Spiced Apple Glaze",
           "price": "$2.75",
-          "sold_out": true,
+          "sold_out": false,
           "preorder_only": false
         },
         {
@@ -147,7 +147,7 @@
           "variation_id": "4C2QFJ7AMGQAUUWCF5OEQOYP",
           "name": "Mini Vanilla Cream",
           "price": "$3.00",
-          "sold_out": true,
+          "sold_out": false,
           "preorder_only": false
         }
       ]
@@ -168,7 +168,7 @@
           "variation_id": "PPIFB5EWCCUMMZ72RKLSD5CU",
           "name": "Paleo - Chocolate Pumpkin",
           "price": "$4.75",
-          "sold_out": true,
+          "sold_out": false,
           "preorder_only": false
         }
       ]
@@ -189,7 +189,7 @@
           "variation_id": "H55ADAOMVQGRT7R2UYZ5NVBS",
           "name": "Yeast Raised - Milk Chocolate Sprinkles",
           "price": "$3.25",
-          "sold_out": true,
+          "sold_out": false,
           "preorder_only": false
         },
         {
@@ -234,7 +234,7 @@
           "variation_id": "4LEYNOOEAQ3YW5LFFT5K63P2",
           "name": "Roll - Cinnamon Glaze",
           "price": "$6.00",
-          "sold_out": false,
+          "sold_out": true,
           "preorder_only": false
         },
         {
@@ -242,7 +242,7 @@
           "variation_id": "JQVCRRRGUN3JGYLJTQZSDH2O",
           "name": "Roll - Apple Pie",
           "price": "$7.00",
-          "sold_out": false,
+          "sold_out": true,
           "preorder_only": false
         },
         {
@@ -250,7 +250,7 @@
           "variation_id": "APZBQTD2756UIQEPG7UFLC3K",
           "name": "Roll - Vanilla Chai",
           "price": "$7.00",
-          "sold_out": false,
+          "sold_out": true,
           "preorder_only": false
         }
       ]
@@ -297,7 +297,7 @@
           "variation_id": "PDJ2W2N6OZ4ZOOU2KXHC63LU",
           "name": "Cookie - Chocolate Chip",
           "price": "$3.50",
-          "sold_out": true,
+          "sold_out": false,
           "preorder_only": false
         },
         {
@@ -313,7 +313,7 @@
           "variation_id": "6DHPUAUHTMX4IEOIN63AX5AX",
           "name": "Cookie - My Sister's Sugar Cookie",
           "price": "$3.50",
-          "sold_out": true,
+          "sold_out": false,
           "preorder_only": false
         }
       ]
