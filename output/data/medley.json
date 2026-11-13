@@ -1,7 +1,7 @@
 {
   "location_id": "LDR9H5M3GQKXF",
   "location_name": "Medley",
-  "generated_at": "2026-11-13T20:22:13.438Z",
+  "generated_at": "2026-11-13T20:32:10.219Z",
   "source": "FlavorSchedule+Square",
   "section_count": 9,
   "item_count": 38,
@@ -62,7 +62,7 @@
           "variation_id": "LLEYQ7TBTYWRJG3WONLOQUZV",
           "name": "Salted Caramel Apple",
           "price": "$5.35",
-          "sold_out": true,
+          "sold_out": false,
           "preorder_only": false
         },
         {
@@ -351,6 +351,5 @@
         }
       ]
     }
-  ],
-  "inventory_patched_at": "2026-11-13T20:25:25.016Z"
+  ]
 }
