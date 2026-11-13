@@ -226,7 +226,7 @@
           "variation_id": "ZNJMLNAU3WGT4YP2PWMLCNXB",
           "name": "Roll - Cinnamon Cream Cheese",
           "price": "$6.00",
-          "sold_out": false,
+          "sold_out": true,
           "preorder_only": false
         },
         {
@@ -318,5 +318,6 @@
         }
       ]
     }
-  ]
+  ],
+  "inventory_patched_at": "2026-11-13T20:20:26.510Z"
 }
