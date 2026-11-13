@@ -160,7 +160,7 @@
           "variation_id": "RYTDUW2CCDR2L6FZLVJGYZOJ",
           "name": "Paleo - Chocolate Chip Sea Salt",
           "price": "$4.75",
-          "sold_out": false,
+          "sold_out": true,
           "preorder_only": false
         },
         {
@@ -318,5 +318,6 @@
         }
       ]
     }
-  ]
+  ],
+  "inventory_patched_at": "2026-11-13T19:43:48.271Z"
 }
