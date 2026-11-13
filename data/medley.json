@@ -346,10 +346,11 @@
           "variation_id": "6DHPUAUHTMX4IEOIN63AX5AX",
           "name": "Cookie - My Sister's Sugar Cookie",
           "price": "$3.50",
-          "sold_out": false,
+          "sold_out": true,
           "preorder_only": false
         }
       ]
     }
-  ]
+  ],
+  "inventory_patched_at": "2026-11-13T19:58:51.403Z"
 }
