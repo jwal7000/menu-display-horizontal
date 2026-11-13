@@ -14,7 +14,7 @@
           "variation_id": "FRQQDQXS4UBO6GIJDFNOILIL",
           "name": "Vanilla Cream",
           "price": "$5.35",
-          "sold_out": false,
+          "sold_out": true,
           "preorder_only": false
         },
         {
@@ -86,7 +86,7 @@
           "variation_id": "LZB6X76AT4PEIU6HJU4HNWMV",
           "name": "S'mores",
           "price": "$5.70",
-          "sold_out": false,
+          "sold_out": true,
           "preorder_only": false
         },
         {
@@ -318,5 +318,6 @@
         }
       ]
     }
-  ]
+  ],
+  "inventory_patched_at": "2026-11-13T22:32:02.436Z"
 }
