@@ -1,7 +1,7 @@
 {
   "location_id": "LDR9H5M3GQKXF",
   "location_name": "Medley",
-  "generated_at": "2026-11-13T21:12:02.492Z",
+  "generated_at": "2026-11-13T21:21:59.048Z",
   "source": "FlavorSchedule+Square",
   "section_count": 9,
   "item_count": 38,
@@ -351,6 +351,5 @@
         }
       ]
     }
-  ],
-  "inventory_patched_at": "2026-11-13T21:16:57.755Z"
+  ]
 }
