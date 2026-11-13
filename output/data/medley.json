@@ -193,7 +193,7 @@
           "variation_id": "RYTDUW2CCDR2L6FZLVJGYZOJ",
           "name": "Paleo - Chocolate Chip Sea Salt",
           "price": "$4.75",
-          "sold_out": false,
+          "sold_out": true,
           "preorder_only": false
         },
         {
@@ -296,7 +296,7 @@
           "variation_id": "54MT7OCBB6OQSIYKIVDNWDOB",
           "name": "Donut Holes (8 ct.)",
           "price": "$4.70",
-          "sold_out": false,
+          "sold_out": true,
           "preorder_only": false
         }
       ]
@@ -351,5 +351,6 @@
         }
       ]
     }
-  ]
+  ],
+  "inventory_patched_at": "2026-11-13T21:16:56.035Z"
 }
