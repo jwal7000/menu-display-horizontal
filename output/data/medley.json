@@ -246,7 +246,7 @@
           "variation_id": "GUUAMMLNJSMQACNF4DBG3N6P",
           "name": "Yeast Raised - Apple Fritter",
           "price": "$4.00",
-          "sold_out": false,
+          "sold_out": true,
           "preorder_only": false
         }
       ]
@@ -351,5 +351,6 @@
         }
       ]
     }
-  ]
+  ],
+  "inventory_patched_at": "2026-11-13T00:37:01.074Z"
 }
