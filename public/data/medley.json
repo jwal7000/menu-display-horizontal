@@ -1,7 +1,7 @@
 {
   "location_id": "LDR9H5M3GQKXF",
   "location_name": "Medley",
-  "generated_at": "2026-11-13T19:52:13.018Z",
+  "generated_at": "2026-11-13T20:02:10.261Z",
   "source": "FlavorSchedule+Square",
   "section_count": 9,
   "item_count": 38,
@@ -346,7 +346,7 @@
           "variation_id": "6DHPUAUHTMX4IEOIN63AX5AX",
           "name": "Cookie - My Sister's Sugar Cookie",
           "price": "$3.50",
-          "sold_out": false,
+          "sold_out": true,
           "preorder_only": false
         }
       ]

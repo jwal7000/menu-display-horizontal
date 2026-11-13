@@ -1,7 +1,7 @@
 {
   "location_id": "L4CQJADFVPZC9",
   "location_name": "The Gulch",
-  "generated_at": "2026-11-13T19:52:12.650Z",
+  "generated_at": "2026-11-13T20:02:09.916Z",
   "source": "FlavorSchedule+Square",
   "section_count": 8,
   "item_count": 34,
@@ -70,7 +70,7 @@
           "variation_id": "WZRXPDUQICIRZL7TQXK2OEJA",
           "name": "Cinnamon Cream Cheese",
           "price": "$5.35",
-          "sold_out": false,
+          "sold_out": true,
           "preorder_only": false
         },
         {
@@ -147,7 +147,7 @@
           "variation_id": "4C2QFJ7AMGQAUUWCF5OEQOYP",
           "name": "Mini Vanilla Cream",
           "price": "$3.00",
-          "sold_out": false,
+          "sold_out": true,
           "preorder_only": false
         }
       ]
@@ -213,7 +213,7 @@
           "variation_id": "GUUAMMLNJSMQACNF4DBG3N6P",
           "name": "Yeast Raised - Apple Fritter",
           "price": "$4.00",
-          "sold_out": false,
+          "sold_out": true,
           "preorder_only": false
         }
       ]
