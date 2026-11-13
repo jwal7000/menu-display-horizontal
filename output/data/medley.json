@@ -214,7 +214,7 @@
           "variation_id": "XGVB3BNK4LODSHONPOW5DO6A",
           "name": "Yeast Raised - Purist",
           "price": "$3.00",
-          "sold_out": false,
+          "sold_out": true,
           "preorder_only": false
         },
         {
@@ -230,7 +230,7 @@
           "variation_id": "E5IFQ5VGYMUCWRTVCC66VYY3",
           "name": "Yeast Raised - Huckleberry Glaze",
           "price": "$3.25",
-          "sold_out": false,
+          "sold_out": true,
           "preorder_only": false
         },
         {
@@ -352,5 +352,5 @@
       ]
     }
   ],
-  "inventory_patched_at": "2026-11-13T00:05:16.701Z"
+  "inventory_patched_at": "2026-11-13T00:08:39.628Z"
 }
