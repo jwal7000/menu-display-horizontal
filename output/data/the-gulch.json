@@ -147,7 +147,7 @@
           "variation_id": "4C2QFJ7AMGQAUUWCF5OEQOYP",
           "name": "Mini Vanilla Cream",
           "price": "$3.00",
-          "sold_out": false,
+          "sold_out": true,
           "preorder_only": false
         }
       ]
@@ -318,5 +318,6 @@
         }
       ]
     }
-  ]
+  ],
+  "inventory_patched_at": "2026-11-13T19:53:44.578Z"
 }
