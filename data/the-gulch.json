@@ -70,7 +70,7 @@
           "variation_id": "WZRXPDUQICIRZL7TQXK2OEJA",
           "name": "Cinnamon Cream Cheese",
           "price": "$5.35",
-          "sold_out": false,
+          "sold_out": true,
           "preorder_only": false
         },
         {
@@ -319,5 +319,5 @@
       ]
     }
   ],
-  "inventory_patched_at": "2026-11-14T17:49:51.451Z"
+  "inventory_patched_at": "2026-11-14T18:01:25.552Z"
 }
