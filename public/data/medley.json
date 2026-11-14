@@ -1,7 +1,7 @@
 {
   "location_id": "LDR9H5M3GQKXF",
   "location_name": "Medley",
-  "generated_at": "2026-11-14T17:11:38.364Z",
+  "generated_at": "2026-11-14T17:31:23.118Z",
   "source": "FlavorSchedule+Square",
   "section_count": 9,
   "item_count": 38,
@@ -259,7 +259,7 @@
           "variation_id": "ZNJMLNAU3WGT4YP2PWMLCNXB",
           "name": "Roll - Cinnamon Cream Cheese",
           "price": "$6.00",
-          "sold_out": false,
+          "sold_out": true,
           "preorder_only": false
         },
         {
