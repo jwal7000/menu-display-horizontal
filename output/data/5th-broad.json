@@ -1,7 +1,7 @@
 {
   "location_id": "L862ACB6EPKVT",
   "location_name": "5th & Broadway",
-  "generated_at": "2026-11-15T19:51:16.729Z",
+  "generated_at": "2026-11-15T20:01:25.315Z",
   "source": "FlavorSchedule+Square",
   "section_count": 8,
   "item_count": 34,
@@ -234,7 +234,7 @@
           "variation_id": "4LEYNOOEAQ3YW5LFFT5K63P2",
           "name": "Roll - Cinnamon Glaze",
           "price": "$6.00",
-          "sold_out": true,
+          "sold_out": false,
           "preorder_only": false
         },
         {
@@ -242,7 +242,7 @@
           "variation_id": "JQVCRRRGUN3JGYLJTQZSDH2O",
           "name": "Roll - Apple Pie",
           "price": "$7.00",
-          "sold_out": true,
+          "sold_out": false,
           "preorder_only": false
         },
         {
@@ -250,7 +250,7 @@
           "variation_id": "APZBQTD2756UIQEPG7UFLC3K",
           "name": "Roll - Vanilla Chai",
           "price": "$7.00",
-          "sold_out": true,
+          "sold_out": false,
           "preorder_only": false
         }
       ]
@@ -313,7 +313,7 @@
           "variation_id": "6DHPUAUHTMX4IEOIN63AX5AX",
           "name": "Cookie - My Sister's Sugar Cookie",
           "price": "$3.50",
-          "sold_out": true,
+          "sold_out": false,
           "preorder_only": false
         }
       ]
