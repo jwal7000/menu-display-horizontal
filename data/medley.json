@@ -14,7 +14,7 @@
           "variation_id": "FRQQDQXS4UBO6GIJDFNOILIL",
           "name": "Vanilla Cream",
           "price": "$5.35",
-          "sold_out": false,
+          "sold_out": true,
           "preorder_only": false
         },
         {
@@ -352,5 +352,5 @@
       ]
     }
   ],
-  "inventory_patched_at": "2026-11-15T20:49:29.640Z"
+  "inventory_patched_at": "2026-11-15T21:07:54.513Z"
 }
