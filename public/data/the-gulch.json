@@ -1,7 +1,7 @@
 {
   "location_id": "L4CQJADFVPZC9",
   "location_name": "The Gulch",
-  "generated_at": "2026-11-15T18:41:14.876Z",
+  "generated_at": "2026-11-15T18:51:15.277Z",
   "source": "FlavorSchedule+Square",
   "section_count": 8,
   "item_count": 34,
@@ -54,7 +54,7 @@
           "variation_id": "5RQH6MW6MYIT2DWUU7DTJ4CJ",
           "name": "Milk Chocolate Sprinkles",
           "price": "$5.10",
-          "sold_out": false,
+          "sold_out": true,
           "preorder_only": false
         },
         {
@@ -313,7 +313,7 @@
           "variation_id": "6DHPUAUHTMX4IEOIN63AX5AX",
           "name": "Cookie - My Sister's Sugar Cookie",
           "price": "$3.50",
-          "sold_out": false,
+          "sold_out": true,
           "preorder_only": false
         }
       ]
