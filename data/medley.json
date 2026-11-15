@@ -140,7 +140,7 @@
           "variation_id": "PFDBG6KRN2QBZWGRPXZOMDUC",
           "name": "Mini Purist",
           "price": "$2.75",
-          "sold_out": false,
+          "sold_out": true,
           "preorder_only": false
         },
         {
@@ -351,5 +351,6 @@
         }
       ]
     }
-  ]
+  ],
+  "inventory_patched_at": "2026-11-15T21:59:49.021Z"
 }
