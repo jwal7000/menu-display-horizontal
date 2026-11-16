@@ -106,7 +106,7 @@ Rollback reloads only the jobs in the cutover record, so a job that was off befo
 | Deploy a code change | merge to `main`, then on the Mac mini `git pull` and `cloudrun/deploy-menu-jobs.sh jobs` (keeps the jobs live; never skip the `git pull`) |
 | Rotate the Square/GitHub token | update the Mac mini secret file, then `cloudrun/deploy-menu-jobs.sh secrets` |
 | Logs | Cloud Console → Cloud Run → Jobs → `menu-build` / `inventory-sync` → Executions |
-| Change a promo slide (portrait v2) | Marketing adds or removes images in Dropbox `/Menu Displays/Promos/<Store name>` or `/All Stores`; picked up within 10 min (see below) |
+| Change a promo slide (portrait v2) | Marketing adds or removes images in Dropbox `/Digital Media/Promos/<Store name>` or `/All Stores`; picked up within 10 min (see below) |
 | Change staff picks (portrait v2) | Staff picks tab in `admin.html`; on screen within about 5 min |
 
 ## Dropbox promos (portrait v2)
@@ -115,7 +115,7 @@ Rollback reloads only the jobs in the cutover record, so a job that was off befo
 the file format is in its header comment). It's optional: with no `dropbox-credentials`
 secret the step logs "skipped" and the screens show their other views.
 
-**Folders** (under `DROPBOX_PROMO_ROOT`, default `/Menu Displays/Promos`, set in the deploy script):
+**Folders** (under `DROPBOX_PROMO_ROOT`, default `/Digital Media/Promos`, set in the deploy script):
 `All Stores/` for every portrait store, and one folder per store named as in `src/lib/locations.js`
 (`The Factory`, `5th & Broadway`). An image on its own is shown as a finished graphic (landscape
 2:1 fills the panel best). Add a `.txt` with the same name for a photo-and-caption card:
@@ -137,7 +137,7 @@ hash, so only real changes commit. A Dropbox error keeps the last published set.
 login is better than a person's, since the token stops working if that user leaves):
 
 1. <https://www.dropbox.com/developers/apps> → Create app → Scoped access → **Full Dropbox**
-   (an "App folder" app can't see team folders). Name it e.g. "FDB Menu Displays".
+   (an "App folder" app can't see team folders). Ours is "promo-display".
 2. Permissions tab: tick `files.metadata.read` and `files.content.read`, then Submit.
 3. Settings tab: note the App key and App secret. Get a refresh token by opening
    `https://www.dropbox.com/oauth2/authorize?client_id=<APP_KEY>&response_type=code&token_access_type=offline`,

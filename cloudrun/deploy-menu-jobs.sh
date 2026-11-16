@@ -54,7 +54,7 @@ DRY_RUN="${DRY_RUN:-}"
 
 # Dropbox folder that holds the promo slides (one subfolder per store, plus "All Stores").
 # Always passed to the jobs, since `jobs` replaces their env vars on every deploy.
-DROPBOX_PROMO_ROOT="${DROPBOX_PROMO_ROOT:-/Menu Displays/Promos}"
+DROPBOX_PROMO_ROOT="${DROPBOX_PROMO_ROOT:-/Digital Media/Promos}"
 
 REPO_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 

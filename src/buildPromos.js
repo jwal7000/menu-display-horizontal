@@ -37,7 +37,7 @@ import { createDropbox } from './lib/dropbox.js';
 import { dropboxCredentials } from './lib/settings.js';
 import { DISPLAY_LOCATIONS } from './lib/locations.js';
 
-export const PROMO_ROOT    = process.env.DROPBOX_PROMO_ROOT || '/Menu Displays/Promos';
+export const PROMO_ROOT    = process.env.DROPBOX_PROMO_ROOT || '/Digital Media/Promos';
 export const ALL_STORES    = 'All Stores';
 const IMAGE_EXT            = /\.(jpe?g|png|gif|webp|heic)$/i;
 const MAX_BYTES            = 20 * 1024 * 1024;   // Dropbox won't thumbnail anything bigger
