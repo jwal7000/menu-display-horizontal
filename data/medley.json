@@ -140,7 +140,7 @@
           "variation_id": "PFDBG6KRN2QBZWGRPXZOMDUC",
           "name": "Mini Purist",
           "price": "$2.75",
-          "sold_out": false,
+          "sold_out": true,
           "preorder_only": false
         },
         {
@@ -156,7 +156,7 @@
           "variation_id": "XBIHTUUQVY7I277OOOHUYZI5",
           "name": "Mini Cinnamon Cream Cheese",
           "price": "$3.00",
-          "sold_out": false,
+          "sold_out": true,
           "preorder_only": false
         },
         {
@@ -352,5 +352,5 @@
       ]
     }
   ],
-  "inventory_patched_at": "2026-11-16T18:32:58.640Z"
+  "inventory_patched_at": "2026-11-16T18:41:23.292Z"
 }
