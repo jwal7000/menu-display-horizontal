@@ -22,7 +22,7 @@
           "variation_id": "6W4RPTRTDRXHQ47PS44P37MG",
           "name": "The Purist",
           "price": "$4.75",
-          "sold_out": false,
+          "sold_out": true,
           "preorder_only": false
         },
         {
@@ -352,5 +352,5 @@
       ]
     }
   ],
-  "inventory_patched_at": "2026-11-16T18:58:07.113Z"
+  "inventory_patched_at": "2026-11-16T19:03:03.926Z"
 }
