@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { buildSections, isExcluded } from '../src/buildMenuFromDB.js';
+import { buildSections, isExcluded, fetchCatalogPrices } from '../src/buildMenuFromDB.js';
 import { patchMenu, menuVariationIds } from '../src/patchMenuInventory.js';
 
 const row = (sku, vid, cat = 'Hundred Layer Donuts', name = sku) =>
@@ -76,4 +76,35 @@ test('patchMenu rolls up multi-variation items', () => {
   patchMenu(menu, { V1: 0, V2: 9 });
   assert.equal(menu.sections[0].items[0].sold_out, false);
   assert.deepEqual(menuVariationIds(menu).sort(), ['V1', 'V2']);
+});
+
+test('catalog lookup adds the item photo and description from related objects', async () => {
+  let asked;
+  const client = { catalog: { batchGet: async req => {
+    asked = req;
+    return {
+      objects: [
+        { type: 'ITEM_VARIATION', id: 'VAR-A', itemVariationData: { itemId: 'ITEM-A', priceMoney: { amount: 535 } } },
+        { type: 'ITEM_VARIATION', id: 'VAR-B', itemVariationData: { itemId: 'ITEM-B', priceMoney: { amount: 300 } } },
+      ],
+      relatedObjects: [
+        { type: 'ITEM', id: 'ITEM-A', itemData: { imageIds: ['IMG-GONE', 'IMG-A'], descriptionPlaintext: '  Vanilla\n buttercream ' } },
+        { type: 'ITEM', id: 'ITEM-B', itemData: {} },
+        { type: 'IMAGE', id: 'IMG-A', imageData: { url: 'https://example.test/a.jpeg' } },
+      ],
+    };
+  } } };
+  const map = await fetchCatalogPrices(client, ['VAR-A', 'VAR-B']);
+  assert.equal(asked.includeRelatedObjects, true);
+  assert.deepEqual(map.get('VAR-A'), { price_cents: 535, parent_item_id: 'ITEM-A', variation_name: null,
+    image_url: 'https://example.test/a.jpeg', description: 'Vanilla buttercream' });
+  assert.equal(map.get('VAR-B').image_url, null);
+  assert.equal(map.get('VAR-B').description, null);
+
+  const [section] = buildSections([row('SKU-A', 'VAR-A'), row('SKU-B', 'VAR-B')], map, new Map());
+  const [a, b] = section.items;
+  assert.equal(a.photo_url, 'https://example.test/a.jpeg');
+  assert.ok(!('image_url' in a));   // v1 displays would draw it as a row thumbnail
+  assert.equal(a.description, 'Vanilla buttercream');
+  assert.ok(!('photo_url' in b) && !('description' in b));   // absent, not null
 });

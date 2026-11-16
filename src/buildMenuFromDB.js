@@ -2,7 +2,7 @@
  * buildMenuFromDB.js
  * Builds per-location digital menu JSON from:
  *   - FlavorSchedule (AppSheet/MySQL) — which items are on the menu this month
- *   - Square Catalog API              — prices for those items
+ *   - Square Catalog API              — prices, photos and descriptions for those items
  *   - Square Inventory API            — sold-out status per location
  *
  * Drop-in replacement for buildMenuFromSheets.js. No Google Sheet needed.
@@ -125,10 +125,12 @@ async function fetchScheduledItems(conn, today) {
 // ── Square: Catalog prices ────────────────────────────────────────────────────
 
 /**
- * Returns a Map of { variation_id → { price_cents, parent_item_id, variation_name } }
- * for the given variation IDs.
+ * Returns a Map of { variation_id → { price_cents, parent_item_id, variation_name,
+ * image_url, description } } for the given variation IDs. The parent ITEM and its IMAGE
+ * objects come back in the same call as related objects; image_url is the item's first
+ * image and description its plain-text description (both null when Square has none).
  */
-async function fetchCatalogPrices(client, variationIds) {
+export async function fetchCatalogPrices(client, variationIds) {
   const priceMap = new Map();
   if (!variationIds.length) return priceMap;
 
@@ -136,17 +138,25 @@ async function fetchCatalogPrices(client, variationIds) {
   for (let i = 0; i < variationIds.length; i += BATCH) {
     const res = await client.catalog.batchGet({
       objectIds: variationIds.slice(i, i + BATCH),
-      includeRelatedObjects: false,
+      includeRelatedObjects: true,
     });
-    // Square SDK: catalog.batchGet puts results directly at res.objects
-    const objects = res.objects || [];
-    for (const obj of objects) {
+    // Square SDK: catalog.batchGet puts results directly at res.objects / res.relatedObjects
+    const related = new Map((res.relatedObjects || []).map(o => [o.id, o]));
+    for (const obj of res.objects || []) {
       if (obj.type !== 'ITEM_VARIATION') continue;
       const vd = obj.itemVariationData || {};
+      const itemData = related.get(vd.itemId)?.itemData || {};
+      const imageUrl = (itemData.imageIds || [])
+        .map(id => related.get(id)?.imageData?.url)
+        .find(Boolean);
+      const description = (itemData.descriptionPlaintext ?? itemData.description ?? '')
+        .replace(/\s+/g, ' ').trim();
       priceMap.set(obj.id, {
         price_cents:    vd.priceMoney?.amount ?? null,
         parent_item_id: vd.itemId            ?? null,
         variation_name: vd.name              ?? null,
+        image_url:      imageUrl             || null,
+        description:    description          || null,
       });
     }
   }
@@ -156,6 +166,17 @@ async function fetchCatalogPrices(client, variationIds) {
 // ── Square: Inventory counts — see ./lib/square.js
 
 // ── Menu assembly ─────────────────────────────────────────────────────────────
+
+/**
+ * photo_url / description from Square, only when present (keeps the JSON lean).
+ * Deliberately not "image_url": the v1 portrait and horizontal displays draw a thumbnail
+ * on every row that has an image_url, which would change all four stores' screens.
+ * Only portrait v2's staff picks read photo_url.
+ */
+const squareExtras = pi => ({
+  ...(pi?.image_url   ? { photo_url:   pi.image_url }   : {}),
+  ...(pi?.description ? { description: pi.description } : {}),
+});
 
 export function buildSections(items, priceMap, inventoryCounts) {
   // Group variations by Square parent item ID so multi-size items are combined
@@ -218,6 +239,7 @@ export function buildSections(items, priceMap, inventoryCounts) {
         price:         formatCents(pi?.price_cents ?? null),
         sold_out:      soldOut,
         preorder_only: !!it.PreOrder_Only,
+        ...squareExtras(pi),
       });
     } else {
       // ── Multi-variation item (e.g. 12 oz / 16 oz) ──────────────────────
@@ -245,6 +267,7 @@ export function buildSections(items, priceMap, inventoryCounts) {
         price:         priceStr,
         sold_out:      variations.every(v => v.sold_out),
         preorder_only: !!rep.PreOrder_Only,
+        ...squareExtras(siblings.find(s => s.priceInfo)?.priceInfo),
         variations,
       });
     }
