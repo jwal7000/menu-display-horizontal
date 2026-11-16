@@ -1,7 +1,7 @@
 {
   "location_id": "LDR9H5M3GQKXF",
   "location_name": "Medley",
-  "generated_at": "2026-11-16T18:41:24.559Z",
+  "generated_at": "2026-11-16T18:51:28.825Z",
   "source": "FlavorSchedule+Square",
   "section_count": 9,
   "item_count": 38,
@@ -46,7 +46,7 @@
           "variation_id": "KRKLCZFYNCPJ3DWU5HCSGKRX",
           "name": "King Kong",
           "price": "$5.70",
-          "sold_out": false,
+          "sold_out": true,
           "preorder_only": false
         },
         {
