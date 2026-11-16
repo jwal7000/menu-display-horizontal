@@ -177,6 +177,16 @@ Two failure cases to know about:
 - **Verified live:** both live pages render 8 sections with `data-fit="0.898"`. Not yet seen on a Fire Stick; check the bold, the strikethroughs, and that Breakfast/Cookies are visible.
 - **Preview note:** that day, desktop Chrome's headless mode hung after a background update (installed version newer than the running one). The previews used Google's standalone `chrome-headless-shell` (`npx @puppeteer/browsers install chrome-headless-shell@stable`). It renders text slightly lighter and drops `text-decoration` lines, so judge layout with it, not type weight.
 
+**2026-11-16: portrait v2 built, pilot at The Factory** (not live until the Fire Stick's start URL changes).
+- **Page:** `menu-display-portrait` `public/v2/` → `https://jwal7000.github.io/menu-display-portrait/v2/?loc=the-factory`. The original page (`public/`) is untouched. v2 has the pastry menu on top (same data, same 30 s refresh, tighter rows, logo and store name on one line) and a panel rotating every 20 s: drinks, seasonal promos, staff picks. A view with nothing to show is skipped; with none, the pastry gets the whole screen.
+- **Fixes portrait v1 lacks:** v2 applies staff pastry overrides (`pastry-overrides-{slug}.json`) and marks Breakfast sold out from noon, like the horizontal display.
+- **Data:**
+  - Drinks: `bev-the-factory.json` (`hasBeverages` on The Factory in `locations.js`), published to the portrait repo as well; staff drink overrides from `menu-display-beverages` `public/overrides-the-factory.json`.
+  - Promos: Dropbox, via `src/buildPromos.js` in `menu-build` (setup in `cloudrun/README.md`, "Dropbox promos"). Off until the `dropbox-credentials` secret exists.
+  - Staff picks: new Staff picks tab in `admin.html` (Factory only), saved to this repo's `main:public/staff-picks-the-factory.json`.
+- **admin.html** lists The Factory now. 5th & Broadway is left out on purpose: its screen is still v1, which ignores overrides, so staff taps there would do nothing.
+- **Pastry text size:** with tighter rows the menu keeps about 98% of v1's text size on a 34-item day (measured from screenshots); with v1 spacing and the panel it would drop to about 70%. Busier days shrink it via fit-to-screen (floor 0.6).
+
 - **Preview tip:** if headless Chrome hangs on a Mac and logs `CVDisplayLinkCreateWithCGDisplay failed`, the display is asleep. `caffeinate -u -t 1` wakes it.
 
 ## Known context from 2026-11-05

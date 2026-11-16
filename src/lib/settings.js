@@ -62,3 +62,17 @@ export function githubToken() {
   if (!token) throw new Error('No GitHub token: set GITHUB_TOKEN');
   return token;
 }
+
+/**
+ * Dropbox app credentials for the promo builder: { app_key, app_secret, refresh_token }.
+ * Optional: returns null when none are configured, and the promo step is skipped.
+ */
+export function dropboxCredentials() {
+  const raw = process.env.DROPBOX_CREDENTIALS || readSecretFile('~/.openclaw/secrets/dropbox.json');
+  if (!raw || !raw.trim()) return null;
+  const creds = JSON.parse(raw);
+  for (const k of ['app_key', 'app_secret', 'refresh_token']) {
+    if (!creds[k]) throw new Error(`Dropbox credentials are missing "${k}"`);
+  }
+  return creds;
+}

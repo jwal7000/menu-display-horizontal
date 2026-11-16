@@ -3,7 +3,7 @@
 import { test, before } from 'node:test';
 import assert from 'node:assert/strict';
 import { execFileSync } from 'node:child_process';
-import { mkdtempSync, mkdirSync, writeFileSync, readFileSync, existsSync } from 'node:fs';
+import { mkdtempSync, mkdirSync, writeFileSync, readFileSync, existsSync, rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 
@@ -322,6 +322,7 @@ test('menu-build commits as menu-build[bot] with a [cloud-run] tag, distinct fro
       writeFileSync(join(outputDir, 'bev-items-config.json'), '{"sections":[],"_note":"from-menu-build"}');
       return writer(['bev-the-gulch.json', 'bev-medley.json'])({ outputDir });
     },
+    buildPromo:  async () => null,   // Dropbox not configured
   });
   assert.equal(ok, true);
   assert.equal(show(B, 'main', 'output/bev-items-config.json')._note, 'from-menu-build', 'menu-build publishes the config the bev build used');
@@ -332,4 +333,41 @@ test('menu-build commits as menu-build[bot] with a [cloud-run] tag, distinct fro
     assert.match(c.subject, /^chore: auto-refresh menu data \[cloud-run\] \[.+\]$/, `${branch} subject`);
   }
   assert.equal(show(H, 'gh-pages', 'data/the-gulch.json').v, 'cloud-run');
+});
+
+test('portrait gets its bev files and promos; promo images are synced (new added, removed deleted)', async () => {
+  const out = mkdtempSync(join(tmpdir(), 'out-'));
+  const f = (name, body) => { const p = join(out, name); writeFileSync(p, JSON.stringify(body)); return p; };
+  const pastryFiles = [f('the-factory.json', { v: 3 }), f('the-gulch.json', { v: 3 })];
+  const bevFiles    = [f('bev-the-factory.json', { v: 3 }), f('bev-the-gulch.json', { v: 3 })];
+  const imagesDir   = join(out, 'promos');
+  mkdirSync(imagesDir);
+  writeFileSync(join(imagesDir, 'aaa.png'), 'A');
+  writeFileSync(join(imagesDir, 'bbb.jpg'), 'B');
+  const promos = { files: [f('promos-the-factory.json', { slides: [{ image: 'aaa.png' }, { image: 'bbb.jpg' }] })], imagesDir };
+  const run = (opts) => publish.publishTargets(build.menuBuildTargets({ portraitSlugs: ['the-factory', '5th-broad'], heartbeatMs: 0, ...opts }),
+                                               'chore: promos', { name: 'bot', email: 'b@b' });
+
+  assert.deepEqual((await run({ pastryFiles, bevFiles, promos })).failed, []);
+  assert.equal(show(P, 'main', 'output/data/bev-the-factory.json').v, 3, 'portrait gets its own bev file');
+  assert.throws(() => show(P, 'main', 'output/data/bev-the-gulch.json'), 'but not other stores\' bev files');
+  assert.equal(show(P, 'main', 'output/data/promos-the-factory.json').slides.length, 2);
+  const file = (p) => execFileSync('git', ['--git-dir', P, 'show', `main:${p}`], { encoding: 'utf8' });
+  assert.equal(file('public/promos/aaa.png'), 'A');
+  assert.equal(file('public/promos/bbb.jpg'), 'B');
+
+  // bbb removed from Dropbox, ccc added
+  rmSync(join(imagesDir, 'bbb.jpg'));
+  writeFileSync(join(imagesDir, 'ccc.jpg'), 'C');
+  writeFileSync(promos.files[0], JSON.stringify({ slides: [{ image: 'aaa.png' }, { image: 'ccc.jpg' }] }));
+  assert.deepEqual((await run({ pastryFiles, bevFiles, promos })).failed, []);
+  assert.equal(file('public/promos/ccc.jpg'), 'C');
+  assert.throws(() => file('public/promos/bbb.jpg'), 'stale image deleted');
+
+  // promos: null (Dropbox not configured or failed) leaves published promos alone
+  const n = commits(P, 'main');
+  rmSync(imagesDir, { recursive: true });
+  assert.deepEqual((await run({ pastryFiles, bevFiles, promos: null })).failed, []);
+  assert.equal(file('public/promos/aaa.png'), 'A');
+  assert.equal(commits(P, 'main'), n, 'nothing changed, nothing committed');
 });

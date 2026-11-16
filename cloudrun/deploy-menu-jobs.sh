@@ -52,6 +52,10 @@ BUILD_TIMEOUT_SECS="${BUILD_TIMEOUT_SECS:-1200}" # give up waiting after 20 min
 # after rollback), and dry-run for a first deploy. DRY_RUN=1 / DRY_RUN=0 forces a mode.
 DRY_RUN="${DRY_RUN:-}"
 
+# Dropbox folder that holds the promo slides (one subfolder per store, plus "All Stores").
+# Always passed to the jobs, since `jobs` replaces their env vars on every deploy.
+DROPBOX_PROMO_ROOT="${DROPBOX_PROMO_ROOT:-/Menu Displays/Promos}"
+
 REPO_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 
 # ── gcloud with the service account, isolated from personal config ───────────
@@ -138,6 +142,13 @@ cmd_secrets() {
   json_field "$SECRETS_DIR/menu-refresh.json" github_token  | put_secret github-menu-token
   grep '^MYSQL_PASSWORD' "$SECRETS_DIR/mysql.env" | head -1 | cut -d= -f2- | tr -d '\r\n' \
     | sed 's/^[[:space:]]*//;s/[[:space:]]*$//'               | put_secret mysql-password
+  # Optional: Dropbox app credentials for the portrait v2 promo slides (src/buildPromos.js).
+  if [[ -f "$SECRETS_DIR/dropbox.json" ]]; then
+    python3 -c "import json,sys; d=json.load(open(sys.argv[1])); print(json.dumps({k: d[k] for k in ('app_key','app_secret','refresh_token')}))" \
+      "$SECRETS_DIR/dropbox.json"                              | put_secret dropbox-credentials
+  else
+    info "no $SECRETS_DIR/dropbox.json — dropbox-credentials not set (promos stay off)"
+  fi
 }
 
 # ── bev config → GCS ──────────────────────────────────────────────────────────
@@ -236,6 +247,15 @@ cmd_jobs() {
 
   local env_vars="MYSQL_SOCKET=/cloudsql/$SQL_INSTANCE,BEV_CONFIG_URL=gs://$BUCKET/bev-items-config.json,DRY_RUN=$DRY_RUN,DRY_RUN_URL=gs://$BUCKET/dry-run"
   local secrets="SQUARE_ACCESS_TOKEN=square-access-token:latest,MYSQL_PASSWORD=mysql-password:latest,GITHUB_TOKEN=github-menu-token:latest"
+  # Promos are optional: wire the Dropbox secret only once `secrets` has created it, so
+  # deploying never fails for want of it. DROPBOX_PROMO_ROOT is the folder in Dropbox.
+  if gcloud secrets describe dropbox-credentials >/dev/null 2>&1; then
+    secrets="$secrets,DROPBOX_CREDENTIALS=dropbox-credentials:latest"
+    info "promos: on (Dropbox folder $DROPBOX_PROMO_ROOT)"
+  else
+    info "promos: off (no dropbox-credentials secret)"
+  fi
+  env_vars="$env_vars,DROPBOX_PROMO_ROOT=$DROPBOX_PROMO_ROOT"
 
   for job in $JOBS; do
     local key="${job//-/_}" timeout_var

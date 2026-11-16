@@ -3,7 +3,7 @@
  * Mirrors what scripts/refresh-menu.sh and refresh-inventory.sh do on the Mac mini.
  */
 
-import { copyFileSync, mkdirSync, existsSync, readFileSync } from 'fs';
+import { copyFileSync, mkdirSync, existsSync, readFileSync, readdirSync, rmSync } from 'fs';
 import { basename, join, dirname } from 'path';
 
 export const REPOS = {
@@ -82,17 +82,50 @@ export function copyGroups(groups, { heartbeatMs } = {}) {
 }
 
 /**
+ * Returns an apply(dir) that makes `destDir` in the clone hold exactly the files in
+ * `srcDir`: new files are copied, files no longer in srcDir are deleted, and files that
+ * already exist are left alone (they're named by content hash, so same name = same file).
+ */
+export function syncDir(srcDir, destDir) {
+  return async (dir) => {
+    const want = new Set(existsSync(srcDir) ? readdirSync(srcDir) : []);
+    const dest = join(dir, destDir);
+    const have = existsSync(dest) ? readdirSync(dest).filter(f => !f.startsWith('.')) : [];
+    const touched = [];
+    for (const f of have) {
+      if (!want.has(f)) { rmSync(join(dest, f)); touched.push(join(destDir, f)); }
+    }
+    for (const f of want) {
+      if (!existsSync(join(dest, f))) {
+        mkdirSync(dest, { recursive: true });
+        copyFileSync(join(srcDir, f), join(dest, f));
+        touched.push(join(destDir, f));
+      }
+    }
+    return touched;
+  };
+}
+
+/** Runs several apply functions on one clone and returns every path they touched. */
+function applyAll(...applies) {
+  return async (dir) => (await Promise.all(applies.map(a => a(dir)))).flat();
+}
+
+/**
  * Publishing plan for a full menu build.
  *   pastryFiles — output/data/{slug}.json for every location
  *   bevFiles    — output/data/bev-{slug}.json
  *   bevConfigFile — the bev config the build used (published for admin.html), or null
  *   portraitSlugs — slugs served by the portrait repo
+ *   promos        — buildPromos() result { files, imagesDir }, or null to leave promos alone
  *   heartbeatMs   — skip timestamp-only changes until the published copy is this old (0 = never skip)
  */
-export function menuBuildTargets({ pastryFiles, bevFiles, bevConfigFile = null, portraitSlugs, heartbeatMs = HEARTBEAT_MS }) {
+export function menuBuildTargets({ pastryFiles, bevFiles, bevConfigFile = null, portraitSlugs, promos = null, heartbeatMs = HEARTBEAT_MS }) {
   const skip = { heartbeatMs };
   const all = [...pastryFiles, ...bevFiles];
   const portraitFiles = pastryFiles.filter(f => portraitSlugs.includes(basename(f, '.json')));
+  // Portrait v2 shows a drinks panel, so its stores' bev files go to the portrait repo too.
+  const portraitBev = bevFiles.filter(f => portraitSlugs.includes(basename(f, '.json').replace(/^bev-/, '')));
   const targets = [];
 
   if (all.length) {
@@ -101,8 +134,13 @@ export function menuBuildTargets({ pastryFiles, bevFiles, bevConfigFile = null, 
                    apply: copyGroups([[all, ['output/data']], [pastryFiles, ['public/data']]], skip) });
     targets.push({ repo: REPOS.horizontal, branch: 'gh-pages', label: 'horizontal gh-pages', apply: copyInto(all, ['data'], skip) });
   }
-  if (portraitFiles.length) {
-    targets.push({ repo: REPOS.portrait, branch: 'main', label: 'portrait main', apply: copyInto(portraitFiles, ['output/data'], skip) });
+  const portraitData = [...portraitFiles, ...portraitBev, ...(promos ? promos.files : [])];
+  if (portraitData.length) {
+    // The repo's deploy-pages workflow copies output/data/*.json → public/data. Promo images
+    // go straight to public/promos (the workflow publishes public/ as is).
+    const data = copyInto(portraitData, ['output/data'], skip);
+    targets.push({ repo: REPOS.portrait, branch: 'main', label: 'portrait main',
+                   apply: promos ? applyAll(data, syncDir(promos.imagesDir, 'public/promos')) : data });
   }
   if (bevFiles.length) {
     // public/data is what the Mac mini writes today. The repo's deploy-pages workflow
