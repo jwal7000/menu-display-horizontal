@@ -78,7 +78,7 @@
           "variation_id": "HPSERYWP2A7BMR2W5RI3UVFL",
           "name": "Pumpkin Spice Latte",
           "price": "$5.70",
-          "sold_out": false,
+          "sold_out": true,
           "preorder_only": false
         },
         {
@@ -319,5 +319,5 @@
       ]
     }
   ],
-  "inventory_patched_at": "2026-11-16T21:02:56.078Z"
+  "inventory_patched_at": "2026-11-16T21:11:17.411Z"
 }
