@@ -44,7 +44,7 @@
           "variation_id": "DH7OASIEM3KVR33BVRTJ3CSR",
           "name": "Maple Glaze",
           "price": "$5.35",
-          "sold_out": false,
+          "sold_out": true,
           "preorder_only": false,
           "photo_url": "https://items-images-production.s3.us-west-2.amazonaws.com/files/239de52076be605e6d416816f9403db3b95ee494/original.jpeg",
           "description": "Rolled in sugar, infused with vanilla buttercream, topped with maple glaze and dusted with cinnamon"
@@ -418,5 +418,5 @@
       ]
     }
   ],
-  "inventory_patched_at": "2026-11-17T22:31:29.560Z"
+  "inventory_patched_at": "2026-11-17T22:55:27.695Z"
 }
