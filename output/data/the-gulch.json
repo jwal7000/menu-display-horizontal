@@ -94,7 +94,7 @@
           "variation_id": "HPSERYWP2A7BMR2W5RI3UVFL",
           "name": "Pumpkin Spice Latte",
           "price": "$5.70",
-          "sold_out": false,
+          "sold_out": true,
           "preorder_only": false,
           "photo_url": "https://items-images-production.s3.us-west-2.amazonaws.com/files/a7cc437a7ee9d010b5af3a0bb7886ee6bb40f2b4/original.jpeg",
           "description": "Rolled in coffee sugar, infused with a pumpkin coffee cream cheese whip, topped with pumpkin spice glaze, a puff of vanilla cream and a dusting of cinnamon"
@@ -384,5 +384,6 @@
         }
       ]
     }
-  ]
+  ],
+  "inventory_patched_at": "2026-11-17T17:26:57.191Z"
 }
