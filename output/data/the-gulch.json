@@ -129,7 +129,7 @@
           "variation_id": "PFDBG6KRN2QBZWGRPXZOMDUC",
           "name": "Mini Purist",
           "price": "$2.75",
-          "sold_out": false,
+          "sold_out": true,
           "preorder_only": false,
           "photo_url": "https://items-images-production.s3.us-west-2.amazonaws.com/files/d3eb6cfc121ad39e2a4447c6165ec59a58b61537/original.jpeg",
           "description": "Dipped in vanilla bean glaze"
@@ -384,5 +384,6 @@
         }
       ]
     }
-  ]
+  ],
+  "inventory_patched_at": "2026-11-17T15:00:51.193Z"
 }
