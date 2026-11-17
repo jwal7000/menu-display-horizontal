@@ -1,0 +1,73 @@
+/*
+ * carousel.css — 1920×1080 carousel screen. Every size is in vw (designed at 1920 px wide,
+ * 1 px = 0.0521vw), so the page looks the same at the Fire Stick's 960×540 CSS pixels.
+ */
+@font-face {
+  font-family: 'Neutraface 2 Display';
+  src: url('../fonts/Neutra2Display-Medium.otf') format('opentype');
+  font-weight: 500;
+  font-style: normal;
+}
+:root { --pink:#f59bbb; --pink-dim:#e07a9e; --pink-pale:#fce8f1; --plum:#5c2946; --plum-mid:#7a3a5e;
+        --white:#fff; --off-white:#fdf6fa; --border:#f0cede; --muted:#a0708a; }
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { width: 100%; height: 100%; overflow: hidden; background: #111; }
+body { font-family: 'Neutraface 2 Display', sans-serif; font-weight: 500; color: var(--plum);
+       -webkit-font-smoothing: antialiased; }
+
+#stage { position: fixed; inset: 0; }
+.slide { position: absolute; inset: 0; opacity: 0; transition: opacity 1.2s ease-in-out; }
+.slide.active { opacity: 1; z-index: 2; }
+.slide.leaving { opacity: 1; z-index: 1; transition: none; }   /* stays put under the incoming slide */
+
+/* Carousel photo: full screen, cropped to fill (as on the old carousel). */
+.photo { background: #111 center / cover no-repeat; }
+
+/* Designed slides share a header and a pink bottom band. */
+.designed { background: var(--off-white); padding: 3.3333vw 5vw 0; }
+.designed::after, .card::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 0.9375vw; background: var(--pink); }
+.hd { display: flex; align-items: center; justify-content: space-between; margin-bottom: 2.2917vw; }
+.hd h1 { font-weight: 500; font-size: 3.3333vw; letter-spacing: .08em; text-transform: uppercase; }
+.hd p { font-size: 1.3542vw; color: var(--muted); margin-top: 0.3125vw; letter-spacing: .02em; }
+.hd img { height: 5.7292vw; }
+
+/* Staff picks */
+.sp-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 2.5vw; }
+.sp-grid.n1 { grid-template-columns: minmax(0, 29.1667vw); justify-content: center; }
+.sp-grid.n2 { grid-template-columns: repeat(2, minmax(0, 29.1667vw)); justify-content: center; }
+.sp-card { background: var(--pink-pale); border-radius: 1.1458vw; padding: 1.875vw 2.0833vw 1.6667vw; display: flex;
+           flex-direction: column; height: 39.5833vw; min-width: 0; }
+.sp-photo { width: 20.8333vw; height: 20.8333vw; align-self: center; border-radius: 0.8333vw; overflow: hidden;
+            background: var(--white); flex: none; margin-bottom: 1.5625vw; }
+.sp-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.sp-photo.none { display: flex; align-items: center; justify-content: center; border: 0.1562vw solid var(--border); }
+.sp-photo.none img { width: 46%; height: auto; opacity: .55; }
+.sp-item  { font-size: 2.0833vw; line-height: 1.1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.sp-desc  { font-size: 1.1458vw; color: var(--muted); margin-top: 0.4167vw; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.sp-price { font-size: 1.5625vw; color: var(--pink-dim); margin-top: 0.5208vw; }
+.sp-note  { flex: 1; font-size: 1.4062vw; line-height: 1.35; color: var(--plum-mid); margin-top: 0.9375vw; overflow: hidden; }
+.sp-note::before { content: "\201C"; }
+.sp-note::after  { content: "\201D"; }
+.sp-spacer { flex: 1; }
+.sp-who   { font-size: 1.4062vw; border-top: 0.1562vw solid var(--border); padding-top: 0.7292vw; }
+.sp-who small { display: block; font-size: 0.9375vw; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); margin-top: 0.1042vw; }
+
+/* Promo with a caption: photo left, text right */
+.card { display: grid; grid-template-columns: 1fr 1fr; background: var(--pink-pale); }
+.card .pic { background: center / cover no-repeat; }
+.card .txt { padding: 0 6.25vw; display: flex; flex-direction: column; justify-content: center; position: relative; min-width: 0; }
+.card .tag { align-self: flex-start; font-size: 1.25vw; letter-spacing: .14em; text-transform: uppercase; background: var(--white);
+             color: var(--pink-dim); padding: 0.5208vw 1.3542vw; border-radius: 52.0312vw; margin-bottom: 1.7708vw; }
+.card h2 { font-weight: 500; font-size: 5vw; line-height: 1.02; }
+.card .price { font-size: 2.3958vw; color: var(--pink-dim); margin-top: 1.1458vw; }
+.card .body { font-size: 1.6667vw; line-height: 1.4; color: var(--plum-mid); margin-top: 1.7708vw; max-width: 33.3333vw; white-space: pre-line; }
+.card .logo { position: absolute; right: 3.3333vw; bottom: 2.9167vw; height: 5vw; }
+
+/* Finished promo graphic: shown whole, letterboxed on pale pink (a blurred backdrop was too
+   heavy for the Fire Stick and failed to draw during the fade in testing). */
+.graphic { background: var(--pink-pale); }
+.graphic img { position: absolute; inset: 0; margin: auto; max-width: 100%; max-height: 100%; }
+
+/* Nothing to show yet */
+.empty { background: var(--off-white); display: flex; align-items: center; justify-content: center; }
+.empty img { height: 13.5417vw; opacity: .8; }
