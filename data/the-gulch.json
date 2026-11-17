@@ -219,7 +219,7 @@
           "variation_id": "XGVB3BNK4LODSHONPOW5DO6A",
           "name": "Yeast Raised - Purist",
           "price": "$3.00",
-          "sold_out": false,
+          "sold_out": true,
           "preorder_only": false,
           "photo_url": "https://items-images-production.s3.us-west-2.amazonaws.com/files/a6092f86b22f9f2912748af2d2505b00ae50bcea/original.jpeg",
           "description": "(Made with vegan ingredients) our yeast-raised donut hand-dipped in a vanilla bean glaze"
@@ -229,7 +229,7 @@
           "variation_id": "H55ADAOMVQGRT7R2UYZ5NVBS",
           "name": "Yeast Raised - Milk Chocolate Sprinkles",
           "price": "$3.25",
-          "sold_out": false,
+          "sold_out": true,
           "preorder_only": false,
           "photo_url": "https://items-images-production.s3.us-west-2.amazonaws.com/files/997825c397ff38891fc901e01ddc57c1f1fac623/original.jpeg",
           "description": "Our yeast-raised donut hand-dipped in creamy milk chocolate and topped with naturally dyed sprinkles"
@@ -239,7 +239,7 @@
           "variation_id": "E5IFQ5VGYMUCWRTVCC66VYY3",
           "name": "Yeast Raised - Huckleberry Glaze",
           "price": "$3.25",
-          "sold_out": false,
+          "sold_out": true,
           "preorder_only": false,
           "photo_url": "https://items-images-production.s3.us-west-2.amazonaws.com/files/4d5b60613a9fabdd22bf71c524db825637201b54/original.jpeg",
           "description": "(Made with vegan ingredients) dipped in a tart and vibrant huckleberry glaze"
@@ -249,7 +249,7 @@
           "variation_id": "SLILL72SLR3ITDIKZFHLIEAS",
           "name": "Yeast Raised - Apple Cider Glaze",
           "price": "$3.25",
-          "sold_out": false,
+          "sold_out": true,
           "preorder_only": false,
           "photo_url": "https://items-images-production.s3.us-west-2.amazonaws.com/files/d982da140fe9fdca3ea5a1cc288a4f68a619cd46/original.jpeg",
           "description": "(Made with vegan ingredients) Our yeast-raised donut topped with a warm, spiced apple glaze"
@@ -385,5 +385,5 @@
       ]
     }
   ],
-  "inventory_patched_at": "2026-11-17T16:23:54.895Z"
+  "inventory_patched_at": "2026-11-17T16:28:50.949Z"
 }
