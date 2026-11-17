@@ -106,19 +106,21 @@ Rollback reloads only the jobs in the cutover record, so a job that was off befo
 | Deploy a code change | merge to `main`, then on the Mac mini `git pull` and `cloudrun/deploy-menu-jobs.sh jobs` (keeps the jobs live; never skip the `git pull`) |
 | Rotate the Square/GitHub token | update the Mac mini secret file, then `cloudrun/deploy-menu-jobs.sh secrets` |
 | Logs | Cloud Console → Cloud Run → Jobs → `menu-build` / `inventory-sync` → Executions |
-| Change a promo slide (portrait v2) | Marketing adds or removes images in Dropbox `/Digital Media/Promos/<Store name>` or `/All Stores`; picked up within 10 min (see below) |
-| Change staff picks (portrait v2) | Staff picks tab in `admin.html`; on screen within about 5 min |
+| Change a promo slide (portrait v2, carousels) | Marketing adds or removes images in Dropbox `/Digital Media/Promos/<Store name>` or `/All Stores`; picked up within 10 min (see below) |
+| Change a carousel photo (the Gulch, Medley) | Add or remove images in Dropbox `/Digital Media/FDB Screen Carousel` (or a subfolder); picked up within 10 min |
+| Change staff picks (Factory v2, carousels) | Staff picks tab in `admin.html`; on screen within about 5 min |
 
-## Dropbox promos (portrait v2)
+## Dropbox promos (portrait v2, carousels)
 
-`menu-build` reads promo slides for the portrait v2 page from Dropbox (`src/buildPromos.js`;
-the file format is in its header comment). It's optional: with no `dropbox-credentials`
-secret the step logs "skipped" and the screens show their other views.
+`menu-build` reads promo slides for the portrait v2 page and the Gulch and Medley carousels, and
+the carousel photos, from Dropbox (`src/buildPromos.js`; the file format is in its header comment).
+It's optional: with no `dropbox-credentials` secret the step logs "skipped" and the screens keep
+what was last published.
 
 **Folders** (under `DROPBOX_PROMO_ROOT`, default `/Digital Media/Promos`, set in the deploy script):
-`All Stores/` for every portrait store, and one folder per store named as in `src/lib/locations.js`
-(`The Factory`, `5th & Broadway`). An image on its own is shown as a finished graphic (landscape
-2:1 fills the panel best). Add a `.txt` with the same name for a photo-and-caption card:
+`All Stores/` for every store with promos, and one folder per store named as in `src/lib/locations.js`
+(`The Factory`, `5th & Broadway`, `The Gulch`, `Medley`). An image on its own is shown as a finished
+graphic (landscape 2:1 fills the portrait panel best; 16:9 fills a carousel). Add a `.txt` with the same name for a photo-and-caption card:
 
 ```
 Title: S'mores Latte
@@ -130,8 +132,14 @@ Double shot espresso, mocha, whip, s'mores drizzle and our in-house marshmallows
 ```
 
 Slides play in file-name order; names starting with `_` are ignored (drafts). Images are resized
-by Dropbox (max 2048 px) and published to `menu-display-portrait` `public/promos/`, named by content
-hash, so only real changes commit. A Dropbox error keeps the last published set.
+by Dropbox (max 2048 px) and published to `menu-display-portrait` `public/promos/` and this repo's
+`gh-pages` `promos/`, named by content hash, so only real changes commit. A Dropbox error keeps the
+last published set.
+
+**Carousel photos** (under `DROPBOX_CAROUSEL_ROOT`, default `/Digital Media/FDB Screen Carousel`):
+the top folder's images in name order, then each subfolder's (e.g. `hw (horizontal)`). They're
+cropped to fill the 16:9 screen, so landscape photos work best. Published to `gh-pages`
+`carousel-photos/` with `data/carousel.json`.
 
 **One-time setup** (needs a Dropbox account that can see the promo folder; a shared marketing
 login is better than a person's, since the token stops working if that user leaves):

@@ -117,7 +117,8 @@ function applyAll(...applies) {
  *   bevFiles    — output/data/bev-{slug}.json
  *   bevConfigFile — the bev config the build used (published for admin.html), or null
  *   portraitSlugs — slugs served by the portrait repo
- *   promos        — buildPromos() result { files, imagesDir }, or null to leave promos alone
+ *   promos        — buildPromos() result { files, imagesDir, carousel }, or null to leave promos
+ *                   (and the carousel photos) alone
  *   heartbeatMs   — skip timestamp-only changes until the published copy is this old (0 = never skip)
  */
 export function menuBuildTargets({ pastryFiles, bevFiles, bevConfigFile = null, portraitSlugs, promos = null, heartbeatMs = HEARTBEAT_MS }) {
@@ -127,14 +128,28 @@ export function menuBuildTargets({ pastryFiles, bevFiles, bevConfigFile = null, 
   // Portrait v2 shows a drinks panel, so its stores' bev files go to the portrait repo too.
   const portraitBev = bevFiles.filter(f => portraitSlugs.includes(basename(f, '.json').replace(/^bev-/, '')));
   const targets = [];
+  const slugOf = f => basename(f, '.json').replace(/^promos-/, '');
+  const promoFiles = promos ? promos.files : [];
+  const portraitPromos   = promoFiles.filter(f => portraitSlugs.includes(slugOf(f)));
+  const horizontalPromos = promoFiles.filter(f => !portraitSlugs.includes(slugOf(f)));
 
   if (all.length) {
     // admin.html (staff override app) reads its pastry item list from main:public/data/{slug}.json.
     targets.push({ repo: REPOS.horizontal, branch: 'main',     label: 'horizontal main',
                    apply: copyGroups([[all, ['output/data']], [pastryFiles, ['public/data']]], skip) });
-    targets.push({ repo: REPOS.horizontal, branch: 'gh-pages', label: 'horizontal gh-pages', apply: copyInto(all, ['data'], skip) });
   }
-  const portraitData = [...portraitFiles, ...portraitBev, ...(promos ? promos.files : [])];
+  if (all.length || promos) {
+    // The carousel page (gh-pages carousel/) reads data/promos-{slug}.json, data/carousel.json,
+    // and the images in promos/ and carousel-photos/.
+    const pages = [copyInto(all, ['data'], skip)];
+    if (promos) {
+      pages.push(copyInto([...horizontalPromos, ...(promos.carousel ? [promos.carousel.file] : [])], ['data'], skip),
+                 syncDir(promos.imagesDir, 'promos'));
+      if (promos.carousel) pages.push(syncDir(promos.carousel.imagesDir, 'carousel-photos'));
+    }
+    targets.push({ repo: REPOS.horizontal, branch: 'gh-pages', label: 'horizontal gh-pages', apply: applyAll(...pages) });
+  }
+  const portraitData = [...portraitFiles, ...portraitBev, ...portraitPromos];
   if (portraitData.length) {
     // The repo's deploy-pages workflow copies output/data/*.json → public/data. Promo images
     // go straight to public/promos (the workflow publishes public/ as is).

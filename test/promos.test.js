@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { mkdtempSync, readFileSync, readdirSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
-import { parseCaption, buildPromos, PROMO_ROOT } from '../src/buildPromos.js';
+import { parseCaption, buildPromos, PROMO_ROOT, CAROUSEL_ROOT } from '../src/buildPromos.js';
 import { createDropbox, headerJson } from '../src/lib/dropbox.js';
 
 test('parseCaption: fields first, everything after is the description; bad dates ignored', () => {
@@ -103,4 +103,23 @@ test('Dropbox client: refreshes the token once, uses the team root, maps a missi
   assert.equal(list.headers.Authorization, 'Bearer AT');
   assert.deepEqual(JSON.parse(list.headers['Dropbox-API-Path-Root']), { '.tag': 'root', root: '111' });
   assert.equal(seen.find(s => s.url.endsWith('/get_current_account')).headers['Dropbox-API-Path-Root'], undefined);
+});
+
+test('buildPromos: carousel photos from the top folder, then subfolders; missing folder → null', async () => {
+  const out = mkdtempSync(join(tmpdir(), 'carousel-'));
+  const dbx = fakeDropbox({
+    [CAROUSEL_ROOT]: [{ name: 'b.jpg' }, { name: 'a.JPG' }, { name: 'hw (horizontal)', folder: true },
+                      { name: '_old', folder: true }, { name: 'readme.pdf' }],
+    [`${CAROUSEL_ROOT}/hw (horizontal)`]: [{ name: 'IMG_2.JPG' }, { name: 'IMG_10.JPG' }],
+    [`${CAROUSEL_ROOT}/_old`]: [{ name: 'gone.jpg' }],
+  });
+  const res = await buildPromos({ outputDir: out, locations: [{ slug: 'the-gulch', name: 'The Gulch' }], dropbox: dbx });
+  const c = JSON.parse(readFileSync(res.carousel.file, 'utf8'));
+  assert.equal(c.folder, CAROUSEL_ROOT);
+  assert.deepEqual(c.photos.map(p => p.source), ['a.JPG', 'b.jpg', 'hw (horizontal)/IMG_2.JPG', 'hw (horizontal)/IMG_10.JPG']);
+  assert.deepEqual(readdirSync(res.carousel.imagesDir).sort(), c.photos.map(p => p.image).sort());
+  assert.ok(!dbx.calls.some(x => x[0] === 'list' && x[1].endsWith('/_old')), 'hidden subfolder not read');
+
+  const none = await buildPromos({ outputDir: mkdtempSync(join(tmpdir(), 'carousel-')), locations: [], dropbox: fakeDropbox({}) });
+  assert.equal(none.carousel, null);
 });

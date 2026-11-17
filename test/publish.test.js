@@ -371,3 +371,24 @@ test('portrait gets its bev files and promos; promo images are synced (new added
   assert.equal(file('public/promos/aaa.png'), 'A');
   assert.equal(commits(P, 'main'), n, 'nothing changed, nothing committed');
 });
+
+test('horizontal gh-pages gets the carousel stores\' promos, the carousel photos and their JSON', async () => {
+  const out = mkdtempSync(join(tmpdir(), 'out-'));
+  const f = (name, body) => { const p = join(out, name); writeFileSync(p, JSON.stringify(body)); return p; };
+  const dir = (name, files) => { const d = join(out, name); mkdirSync(d); for (const [n, b] of Object.entries(files)) writeFileSync(join(d, n), b); return d; };
+  const promos = {
+    files: [f('promos-the-factory.json', { slides: [] }), f('promos-the-gulch.json', { slides: [{ image: 'p1.jpg' }] })],
+    imagesDir: dir('promos', { 'p1.jpg': 'P1' }),
+    carousel: { file: f('carousel.json', { photos: [{ image: 'c1.jpg' }] }), imagesDir: dir('carousel', { 'c1.jpg': 'C1' }) },
+  };
+  const targets = build.menuBuildTargets({ pastryFiles: [f('the-gulch.json', { v: 4 })], bevFiles: [], portraitSlugs: ['the-factory'], heartbeatMs: 0, promos });
+  assert.deepEqual((await publish.publishTargets(targets, 'chore: carousel', { name: 'bot', email: 'b@b' })).failed, []);
+  const file = (repo, branch, p) => execFileSync('git', ['--git-dir', repo, 'show', `${branch}:${p}`], { encoding: 'utf8' });
+  assert.equal(show(H, 'gh-pages', 'data/promos-the-gulch.json').slides.length, 1);
+  assert.equal(show(H, 'gh-pages', 'data/carousel.json').photos[0].image, 'c1.jpg');
+  assert.equal(file(H, 'gh-pages', 'promos/p1.jpg'), 'P1');
+  assert.equal(file(H, 'gh-pages', 'carousel-photos/c1.jpg'), 'C1');
+  assert.throws(() => file(H, 'gh-pages', 'data/promos-the-factory.json'), 'portrait promos stay in the portrait repo');
+  assert.throws(() => file(P, 'main', 'output/data/promos-the-gulch.json'), 'and the Gulch\'s stay out of it');
+  assert.equal(show(P, 'main', 'output/data/promos-the-factory.json').slides.length, 0);
+});

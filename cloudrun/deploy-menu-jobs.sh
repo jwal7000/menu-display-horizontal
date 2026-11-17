@@ -55,6 +55,8 @@ DRY_RUN="${DRY_RUN:-}"
 # Dropbox folder that holds the promo slides (one subfolder per store, plus "All Stores").
 # Always passed to the jobs, since `jobs` replaces their env vars on every deploy.
 DROPBOX_PROMO_ROOT="${DROPBOX_PROMO_ROOT:-/Digital Media/Promos}"
+# Dropbox folder of carousel photos for the Gulch and Medley carousel screens (subfolders included).
+DROPBOX_CAROUSEL_ROOT="${DROPBOX_CAROUSEL_ROOT:-/Digital Media/FDB Screen Carousel}"
 
 REPO_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 
@@ -251,11 +253,11 @@ cmd_jobs() {
   # deploying never fails for want of it. DROPBOX_PROMO_ROOT is the folder in Dropbox.
   if gcloud secrets describe dropbox-credentials >/dev/null 2>&1; then
     secrets="$secrets,DROPBOX_CREDENTIALS=dropbox-credentials:latest"
-    info "promos: on (Dropbox folder $DROPBOX_PROMO_ROOT)"
+    info "promos: on (Dropbox folder $DROPBOX_PROMO_ROOT; carousel photos from $DROPBOX_CAROUSEL_ROOT)"
   else
     info "promos: off (no dropbox-credentials secret)"
   fi
-  env_vars="$env_vars,DROPBOX_PROMO_ROOT=$DROPBOX_PROMO_ROOT"
+  env_vars="$env_vars,DROPBOX_PROMO_ROOT=$DROPBOX_PROMO_ROOT,DROPBOX_CAROUSEL_ROOT=$DROPBOX_CAROUSEL_ROOT"
 
   for job in $JOBS; do
     local key="${job//-/_}" timeout_var

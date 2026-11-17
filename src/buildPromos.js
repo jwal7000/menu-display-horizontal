@@ -1,5 +1,6 @@
 /**
- * buildPromos.js — seasonal promo slides for the portrait v2 screens, from Dropbox.
+ * buildPromos.js — everything the screens take from Dropbox: seasonal promo slides (portrait
+ * v2 pages and the horizontal carousels) and the carousel photos.
  *
  * Marketing drops images into Dropbox; nothing else is needed:
  *
@@ -27,6 +28,15 @@
  *   data/promos-{slug}.json   { location_name, generated_at, slides: [...] }
  *   promos/<content-hash>.<jpg|png>   images, resized by Dropbox to fit 2048×1536
  *
+ *
+ * Carousel photos (the Gulch and Medley carousel screens):
+ *
+ *   <DROPBOX_CAROUSEL_ROOT>/            photos, in file-name order
+ *   <DROPBOX_CAROUSEL_ROOT>/<subfolder>/ more photos, after the top folder's (e.g. "hw (horizontal)")
+ *
+ *   data/carousel.json        { generated_at, folder, photos: [{ image, source }] }
+ *   carousel/<content-hash>.jpg
+ *
  * Images are named by Dropbox's content hash, so an unchanged file keeps its name and
  * publishing only commits when something in the folder actually changed.
  */
@@ -35,10 +45,11 @@ import { mkdirSync, writeFileSync } from 'fs';
 import { join } from 'path';
 import { createDropbox } from './lib/dropbox.js';
 import { dropboxCredentials } from './lib/settings.js';
-import { DISPLAY_LOCATIONS } from './lib/locations.js';
+import { PROMO_LOCATIONS } from './lib/locations.js';
 
 export const PROMO_ROOT    = process.env.DROPBOX_PROMO_ROOT || '/Digital Media/Promos';
 export const ALL_STORES    = 'All Stores';
+export const CAROUSEL_ROOT = process.env.DROPBOX_CAROUSEL_ROOT || '/Digital Media/FDB Screen Carousel';
 const IMAGE_EXT            = /\.(jpe?g|png|gif|webp|heic)$/i;
 const MAX_BYTES            = 20 * 1024 * 1024;   // Dropbox won't thumbnail anything bigger
 const FIELD                = /^(title|price|tag|starts|ends)\s*:\s*(.*)$/i;
@@ -99,12 +110,39 @@ async function folderSlides(dbx, folder, imagesDir) {
 }
 
 /**
- * Builds promos for `locations` (default: the portrait stores).
+ * Carousel photos: the top folder's, then each subfolder's (name order, one level deep).
+ * Writes data/carousel.json and the images; returns its path, or null when the folder is
+ * missing (the published carousel is then left alone rather than emptied).
+ */
+async function buildCarousel(dbx, outputDir) {
+  const top = await dbx.listFolder(CAROUSEL_ROOT);
+  if (!top) {
+    console.warn(`    ⚠️  carousel folder ${CAROUSEL_ROOT} not found — carousel left as published`);
+    return null;
+  }
+  const imagesDir = join(outputDir, 'carousel');
+  mkdirSync(imagesDir, { recursive: true });
+  const subfolders = top.filter(e => e['.tag'] === 'folder' && !hidden(e.name))
+                        .sort((a, b) => a.name.localeCompare(b.name, undefined, { numeric: true, sensitivity: 'base' }));
+  const photos = [];
+  for (const folder of [CAROUSEL_ROOT, ...subfolders.map(f => `${CAROUSEL_ROOT}/${f.name}`)]) {
+    for (const s of await folderSlides(dbx, folder, imagesDir)) {
+      photos.push({ image: s.image, source: folder === CAROUSEL_ROOT ? s.source : `${folder.slice(CAROUSEL_ROOT.length + 1)}/${s.source}` });
+    }
+  }
+  const file = join(outputDir, 'data', 'carousel.json');
+  writeFileSync(file, JSON.stringify({ generated_at: new Date().toISOString(), folder: CAROUSEL_ROOT, photos }, null, 2));
+  console.log(`    🎠 Carousel: ${photos.length} photo(s) from ${CAROUSEL_ROOT}`);
+  return { file, imagesDir };
+}
+
+/**
+ * Builds promos for `locations` (default: PROMO_LOCATIONS) and the carousel photos.
  * Returns null when Dropbox isn't configured (the caller publishes nothing), else
- * { files: [data/promos-{slug}.json …], imagesDir }.
+ * { files: [data/promos-{slug}.json …], imagesDir, carousel: { file, imagesDir } | null }.
  */
 export async function buildPromos({ outputDir, locations, dropbox } = {}) {
-  locations = locations || DISPLAY_LOCATIONS.filter(l => l.layout === 'portrait');
+  locations = locations || PROMO_LOCATIONS;
   let dbx = dropbox;
   if (!dbx) {
     const creds = dropboxCredentials();
@@ -127,5 +165,6 @@ export async function buildPromos({ outputDir, locations, dropbox } = {}) {
     files.push(out);
     console.log(`    📍 ${loc.name}: ${slides.length} slide(s)${slides.length ? ' — ' + slides.map(s => s.source).join(', ') : ''}`);
   }
-  return { files, imagesDir };
+  const carousel = await buildCarousel(dbx, outputDir);
+  return { files, imagesDir, carousel };
 }

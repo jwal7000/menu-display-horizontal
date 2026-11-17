@@ -187,6 +187,13 @@ Two failure cases to know about:
 - **admin.html** lists The Factory now. 5th & Broadway is left out on purpose: its screen is still v1, which ignores overrides, so staff taps there would do nothing.
 - **Pastry text size:** with tighter rows the menu keeps about 98% of v1's text size on a 34-item day (measured from screenshots); with v1 spacing and the panel it would drop to about 70%. Busier days shrink it via fit-to-screen (floor 0.6).
 
+**2026-11-17: carousel page for the Gulch and Medley** (not live until each store's carousel Fire Stick start URL changes).
+- **Page:** `gh-pages` `carousel/` → `https://jwal7000.github.io/menu-display-horizontal/carousel/?loc=the-gulch` (or `medley`). 1920×1080, sized in vw so the Fire Stick's 960×540 CSS pixels look the same. Photos 25 s; after every two, one feature for 20 s, taking turns: each current promo, then the staff picks. The position is kept in localStorage, so Fully Kiosk's 10-minute reload doesn't restart the cycle (21 photos + features ≈ 12 min).
+- **Data:** `menu-build` → `src/buildPromos.js` now also builds promos for `hasCarousel` stores (`locations.js`) and `data/carousel.json` from `/Digital Media/FDB Screen Carousel`, including the `hw (horizontal)` subfolder the old service never showed (it doesn't recurse). Published to `gh-pages` (`data/`, `promos/`, `carousel-photos/`); the portrait repo only gets its own stores' promo JSON.
+- **admin.html:** Staff picks tab for the Gulch and Medley too.
+- **Old carousel:** `fdb-carousel` (Cloud Run service; code only on the Mac mini at `~/.openclaw/workspace/fdb-cloudrun/carousel/`, not in git) is unchanged and stays up for rollback. It reads the same Dropbox folder with its own app and serves Dropbox shared links. Retire it once both sticks have run the new page for a while.
+- **Not done:** Dropbox promo folders `The Gulch` and `Medley` (and `All Stores`) don't exist yet; until someone creates them, the carousels show photos and staff picks only.
+
 - **Preview tip:** if headless Chrome hangs on a Mac and logs `CVDisplayLinkCreateWithCGDisplay failed`, the display is asleep. `caffeinate -u -t 1` wakes it.
 
 ## Known context from 2026-11-05
