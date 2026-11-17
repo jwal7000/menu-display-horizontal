@@ -1,7 +1,7 @@
 {
   "location_id": "L862ACB6EPKVT",
   "location_name": "5th & Broadway",
-  "generated_at": "2026-11-17T20:01:54.211Z",
+  "generated_at": "2026-11-17T20:11:57.462Z",
   "source": "FlavorSchedule+Square",
   "section_count": 8,
   "item_count": 34,
@@ -74,7 +74,7 @@
           "variation_id": "LLEYQ7TBTYWRJG3WONLOQUZV",
           "name": "Salted Caramel Apple",
           "price": "$5.35",
-          "sold_out": false,
+          "sold_out": true,
           "preorder_only": false,
           "photo_url": "https://items-images-production.s3.us-west-2.amazonaws.com/files/ac07564fc227d545c49c2d00f63ba250493238d5/original.jpeg",
           "description": "Rolled in cinnamon sugar, topped with a spiced apple glaze, topped with a dark cinnamon caramel and sprinkled with coarse salt"
@@ -219,7 +219,7 @@
           "variation_id": "XGVB3BNK4LODSHONPOW5DO6A",
           "name": "Yeast Raised - Purist",
           "price": "$3.00",
-          "sold_out": false,
+          "sold_out": true,
           "preorder_only": false,
           "photo_url": "https://items-images-production.s3.us-west-2.amazonaws.com/files/a6092f86b22f9f2912748af2d2505b00ae50bcea/original.jpeg",
           "description": "(Made with vegan ingredients) our yeast-raised donut hand-dipped in a vanilla bean glaze"
@@ -249,7 +249,7 @@
           "variation_id": "SLILL72SLR3ITDIKZFHLIEAS",
           "name": "Yeast Raised - Apple Cider Glaze",
           "price": "$3.25",
-          "sold_out": false,
+          "sold_out": true,
           "preorder_only": false,
           "photo_url": "https://items-images-production.s3.us-west-2.amazonaws.com/files/d982da140fe9fdca3ea5a1cc288a4f68a619cd46/original.jpeg",
           "description": "(Made with vegan ingredients) Our yeast-raised donut topped with a warm, spiced apple glaze"
