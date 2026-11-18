@@ -14,7 +14,7 @@
           "variation_id": "FRQQDQXS4UBO6GIJDFNOILIL",
           "name": "Vanilla Cream",
           "price": "$5.35",
-          "sold_out": false,
+          "sold_out": true,
           "preorder_only": false,
           "photo_url": "https://items-images-production.s3.us-west-2.amazonaws.com/files/9ee3a6fe367ed69268bebeaeb65b341be808131f/original.jpeg",
           "description": "Infused and topped with vanilla buttercream, dusted generously with powdered sugar"
@@ -384,5 +384,6 @@
         }
       ]
     }
-  ]
+  ],
+  "inventory_patched_at": "2026-11-18T20:22:28.187Z"
 }
