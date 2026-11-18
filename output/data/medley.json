@@ -202,7 +202,7 @@
           "variation_id": "4FN3BDYASE7TCV7GBZ4EFXZJ",
           "name": "Mini Spiced Apple Glaze",
           "price": "$2.75",
-          "sold_out": false,
+          "sold_out": true,
           "preorder_only": false,
           "photo_url": "https://items-images-production.s3.us-west-2.amazonaws.com/files/59dfae29cbdf8134a5e4da5c80989ca339d214b1/original.jpeg",
           "description": "Rolled in cinnamon sugar and topped with spiced apple glaze"
@@ -417,5 +417,6 @@
         }
       ]
     }
-  ]
+  ],
+  "inventory_patched_at": "2026-11-18T23:44:37.769Z"
 }
