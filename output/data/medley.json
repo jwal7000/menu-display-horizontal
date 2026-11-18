@@ -262,7 +262,7 @@
           "variation_id": "H55ADAOMVQGRT7R2UYZ5NVBS",
           "name": "Yeast Raised - Milk Chocolate Sprinkles",
           "price": "$3.25",
-          "sold_out": false,
+          "sold_out": true,
           "preorder_only": false,
           "photo_url": "https://items-images-production.s3.us-west-2.amazonaws.com/files/997825c397ff38891fc901e01ddc57c1f1fac623/original.jpeg",
           "description": "Our yeast-raised donut hand-dipped in creamy milk chocolate and topped with naturally dyed sprinkles"
@@ -272,7 +272,7 @@
           "variation_id": "E5IFQ5VGYMUCWRTVCC66VYY3",
           "name": "Yeast Raised - Huckleberry Glaze",
           "price": "$3.25",
-          "sold_out": false,
+          "sold_out": true,
           "preorder_only": false,
           "photo_url": "https://items-images-production.s3.us-west-2.amazonaws.com/files/4d5b60613a9fabdd22bf71c524db825637201b54/original.jpeg",
           "description": "(Made with vegan ingredients) dipped in a tart and vibrant huckleberry glaze"
@@ -418,5 +418,5 @@
       ]
     }
   ],
-  "inventory_patched_at": "2026-11-18T18:17:35.465Z"
+  "inventory_patched_at": "2026-11-18T18:19:13.862Z"
 }
