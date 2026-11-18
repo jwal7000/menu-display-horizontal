@@ -1,7 +1,7 @@
 {
   "location_id": "L4CQJADFVPZC9",
   "location_name": "The Gulch",
-  "generated_at": "2026-11-18T18:22:11.857Z",
+  "generated_at": "2026-11-18T18:31:14.121Z",
   "source": "FlavorSchedule+Square",
   "section_count": 8,
   "item_count": 34,
@@ -44,7 +44,7 @@
           "variation_id": "DH7OASIEM3KVR33BVRTJ3CSR",
           "name": "Maple Glaze",
           "price": "$5.35",
-          "sold_out": false,
+          "sold_out": true,
           "preorder_only": false,
           "photo_url": "https://items-images-production.s3.us-west-2.amazonaws.com/files/239de52076be605e6d416816f9403db3b95ee494/original.jpeg",
           "description": "Rolled in sugar, infused with vanilla buttercream, topped with maple glaze and dusted with cinnamon"
