@@ -1,7 +1,7 @@
 {
   "location_id": "LDR9H5M3GQKXF",
   "location_name": "Medley",
-  "generated_at": "2026-11-19T19:01:54.192Z",
+  "generated_at": "2026-11-19T19:10:45.298Z",
   "source": "FlavorSchedule+Square",
   "section_count": 9,
   "item_count": 38,
@@ -155,7 +155,7 @@
       ]
     },
     {
-      "name": "Mini Donuts",
+      "name": "Mini Hundred Layer Donuts",
       "items": [
         {
           "item_id": "02001",
@@ -245,7 +245,7 @@
       ]
     },
     {
-      "name": "Yeast Raised",
+      "name": "Yeast Raised Donuts",
       "items": [
         {
           "item_id": "03002",

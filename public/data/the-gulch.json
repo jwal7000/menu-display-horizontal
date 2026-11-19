@@ -1,7 +1,7 @@
 {
   "location_id": "L4CQJADFVPZC9",
   "location_name": "The Gulch",
-  "generated_at": "2026-11-19T19:01:53.837Z",
+  "generated_at": "2026-11-19T19:10:44.958Z",
   "source": "FlavorSchedule+Square",
   "section_count": 8,
   "item_count": 34,
@@ -122,7 +122,7 @@
       ]
     },
     {
-      "name": "Mini Donuts",
+      "name": "Mini Hundred Layer Donuts",
       "items": [
         {
           "item_id": "02001",
@@ -212,7 +212,7 @@
       ]
     },
     {
-      "name": "Yeast Raised",
+      "name": "Yeast Raised Donuts",
       "items": [
         {
           "item_id": "03002",
