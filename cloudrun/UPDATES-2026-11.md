@@ -64,8 +64,8 @@ drive the horizontal carousel page later.
 
 | # | Item | Status |
 |---|---|---|
-| 1 | Store names and headers | built, previewed, waiting for OK to push (needs a jobs deploy) |
-| 2 | Picks monthly expiry | not started |
+| 1 | Store names and headers | pushed and deployed 2026-11-19 |
+| 2 | Picks monthly expiry | built, previewed, waiting for OK to push (no jobs deploy) |
 | 3 | Manager PIN | not started |
 | 4 | Four-view panel | not started |
 
@@ -83,3 +83,15 @@ drive the horizontal carousel page later.
   drinks, portrait and portrait v2 screens. The data files keep the bare name; the carousel's
   "Our team's favorites at …" line and admin.html's store picker keep it too.
 - `menu_config.json` (old `buildMenu.js` only) still has the old header names; not used live.
+
+### 2. Staff picks monthly expiry (2026-11-19)
+
+- admin.html stamps each saved pick with `expires_at`: 12:00am Central on the 1st of the next
+  month, as a UTC instant (06:00Z in CST months, 05:00Z in CDT months).
+- Picks saved before this have no `expires_at`; they expire on the 1st after the file's
+  `_updated_at` (the Factory's Nov 16 pick clears Dec 1).
+- admin.html drops expired picks when it loads (shown as empty slots with a "cleared" note); the
+  next save writes the file without them. The v2 panel and the carousel ignore them at once,
+  whether or not the file has been re-saved.
+- Picks whose item isn't on that store's menu today (pastry or drinks) were already left out by
+  both screens; unchanged.
