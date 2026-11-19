@@ -156,6 +156,28 @@ login is better than a person's, since the token stops working if that user leav
 5. `cloudrun/deploy-menu-jobs.sh secrets`, then `git pull` and `cloudrun/deploy-menu-jobs.sh jobs`
    (it prints `promos: on`). Ask Gabriel first: both change GCP.
 
+## Manager PIN (admin.html Staff picks)
+
+The Staff picks tab in `admin.html` (beverages repo) asks for a separate manager PIN, once per
+page load. Staff keep using the regular PIN for the Pastry and Beverages tabs.
+
+- **Change it:** in a checkout of `menu-display-beverages`, run `npm run set-manager-pin` in an
+  ordinary terminal. It makes a random 6-digit PIN, prints it once, and writes only a salted
+  PBKDF2-SHA256 hash (600,000 iterations) to `public/manager-pin.json`. Commit and push that
+  file; the new PIN works once the Pages deploy finishes. The PIN itself is never stored.
+- **What it does and doesn't protect.** `admin.html` is a public static page and the repo is
+  public, so anyone can read the hash. A 6-digit PIN has only a million possibilities, so the
+  hash can be brute-forced offline in minutes on a gaming GPU, however slow the hash is, and the
+  check can also be skipped in the browser's developer tools. The PIN keeps staff out of the tab
+  by default; it is not a security boundary. (The regular staff PIN is weaker still: an unsalted
+  SHA-256 in `admin.html`.) What actually protects the files is the GitHub token each device
+  is set up with: without it, nothing can be written.
+- **A proper check, if it's ever needed:** move the writes server-side. A small service
+  (Cloud Run, next to the jobs) would hold the GitHub token and the PIN hashes in Secret
+  Manager; `admin.html` would send the PIN with each save, and the service would check it,
+  rate-limit failed attempts and make the commit itself. Devices would then hold no token at
+  all, and PINs could be per-person. Roughly a day of work, plus a deploy path for the service.
+
 ## Local testing
 
 ```bash

@@ -65,8 +65,8 @@ drive the horizontal carousel page later.
 | # | Item | Status |
 |---|---|---|
 | 1 | Store names and headers | pushed and deployed 2026-11-19 |
-| 2 | Picks monthly expiry | built, previewed, waiting for OK to push (no jobs deploy) |
-| 3 | Manager PIN | not started |
+| 2 | Picks monthly expiry | pushed 2026-11-19 |
+| 3 | Manager PIN | built, previewed; waiting for the PIN to be set, then push (no jobs deploy) |
 | 4 | Four-view panel | not started |
 
 ## Notes
@@ -95,3 +95,11 @@ drive the horizontal carousel page later.
   whether or not the file has been re-saved.
 - Picks whose item isn't on that store's menu today (pastry or drinks) were already left out by
   both screens; unchanged.
+
+### 3. Manager PIN (2026-11-19)
+
+- Staff picks tab locked behind a manager PIN, checked in the browser with WebCrypto PBKDF2
+  against `public/manager-pin.json` (beverages repo). Once per page load.
+- `npm run set-manager-pin` (beverages repo) makes the PIN; run it yourself in an ordinary
+  terminal so the PIN isn't captured in an assistant transcript or log.
+- Limits, and what a server-side check would take: `cloudrun/README.md` → "Manager PIN".
