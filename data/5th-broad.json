@@ -1,7 +1,7 @@
 {
   "location_id": "L862ACB6EPKVT",
   "location_name": "5th & Broadway",
-  "generated_at": "2026-11-19T19:01:54.022Z",
+  "generated_at": "2026-11-19T19:10:45.121Z",
   "source": "FlavorSchedule+Square",
   "section_count": 8,
   "item_count": 34,
@@ -122,7 +122,7 @@
       ]
     },
     {
-      "name": "Mini Donuts",
+      "name": "Mini Hundred Layer Donuts",
       "items": [
         {
           "item_id": "02001",
@@ -212,7 +212,7 @@
       ]
     },
     {
-      "name": "Yeast Raised",
+      "name": "Yeast Raised Donuts",
       "items": [
         {
           "item_id": "03002",
