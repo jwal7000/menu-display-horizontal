@@ -263,8 +263,9 @@
     // Update header and footer meta
     const locName = data.location_name ?? "";
     const ts      = data.generated_at ?? "";
-    locationNameEl.textContent  = locName ? 'Five Daughters Bakery: ' + locName : '';
-    if (footerLocationEl) footerLocationEl.textContent = locName;
+    const title   = locName ? 'Five Daughters Bakery | ' + locName : '';
+    locationNameEl.textContent  = title;
+    if (footerLocationEl) footerLocationEl.textContent = title;
     if (footerUpdatedEl)  footerUpdatedEl.textContent  = ts ? "Last updated " + formatFullTimestamp(ts) : "";
 
     // Build section grid
