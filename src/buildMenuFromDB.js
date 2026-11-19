@@ -29,6 +29,14 @@ const DEFAULT_OUTPUT_DIR = resolve(ROOT_DIR, 'output');
 
 // Section headers and order: ./lib/sectionHeaders.js (Square reporting category + overrides)
 
+/**
+ * Items in this Square category are "featured" on portrait v2's panel (when on that store's
+ * menu today and not sold out). Matched ignoring case and the kind of dash.
+ */
+export const FEATURED_CATEGORY = 'Menu Screen – Featured';
+const dashless = n => String(n || '').replace(/[\u2010-\u2015-]/g, '-').replace(/\s+/g, ' ').trim().toLowerCase();
+export const isFeaturedCategory = name => !!name && dashless(name) === dashless(FEATURED_CATEGORY);
+
 // Physical display locations live in ./lib/locations.js
 
 // ── Helpers ──────────────────────────────────────────────────────────────────
@@ -121,7 +129,8 @@ async function fetchScheduledItems(conn, today) {
  * IMAGE objects come back in the same call as related objects; image_url is the item's first
  * image and description its plain-text description (both null when Square has none).
  * category is the item's reporting category name, looked up in a second call because Square
- * doesn't return categories as related objects of a variation (null when unset).
+ * doesn't return categories as related objects of a variation (null when unset). featured is
+ * true when the item is in the FEATURED_CATEGORY category (same second call).
  */
 export async function fetchCatalogPrices(client, variationIds) {
   const priceMap = new Map();
@@ -129,6 +138,7 @@ export async function fetchCatalogPrices(client, variationIds) {
 
   const BATCH = 1000;
   const categoryIds = new Map();   // variation id → reporting category id
+  const itemCats    = new Map();   // variation id → all of the item's category ids
   for (let i = 0; i < variationIds.length; i += BATCH) {
     const res = await client.catalog.batchGet({
       objectIds: variationIds.slice(i, i + BATCH),
@@ -152,18 +162,21 @@ export async function fetchCatalogPrices(client, variationIds) {
         image_url:      imageUrl             || null,
         description:    description          || null,
         category:       null,
+        featured:       false,
       });
       if (itemData.reportingCategory?.id) categoryIds.set(obj.id, itemData.reportingCategory.id);
+      itemCats.set(obj.id, (itemData.categories || []).map(c => c.id).filter(Boolean));
     }
   }
 
-  const ids = [...new Set(categoryIds.values())];
+  const ids = [...new Set([...categoryIds.values(), ...[...itemCats.values()].flat()])];
   const names = new Map();
   for (let i = 0; i < ids.length; i += BATCH) {
     const res = await client.catalog.batchGet({ objectIds: ids.slice(i, i + BATCH) });
     for (const o of res.objects || []) if (o.categoryData?.name) names.set(o.id, o.categoryData.name);
   }
   for (const [vid, cid] of categoryIds) priceMap.get(vid).category = names.get(cid) ?? null;
+  for (const [vid, cids] of itemCats) priceMap.get(vid).featured = cids.some(c => isFeaturedCategory(names.get(c)));
   return priceMap;
 }
 
@@ -175,11 +188,12 @@ export async function fetchCatalogPrices(client, variationIds) {
  * photo_url / description from Square, only when present (keeps the JSON lean).
  * Deliberately not "image_url": the v1 portrait and horizontal displays draw a thumbnail
  * on every row that has an image_url, which would change all four stores' screens.
- * Only portrait v2's staff picks read photo_url.
+ * Only portrait v2's panel (staff picks, featured items) reads photo_url and featured.
  */
 const squareExtras = pi => ({
   ...(pi?.image_url   ? { photo_url:   pi.image_url }   : {}),
   ...(pi?.description ? { description: pi.description } : {}),
+  ...(pi?.featured    ? { featured:    true }           : {}),
 });
 
 export function buildSections(items, priceMap, inventoryCounts) {

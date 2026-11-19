@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { buildSections, isExcluded, fetchCatalogPrices } from '../src/buildMenuFromDB.js';
+import { buildSections, isExcluded, fetchCatalogPrices, isFeaturedCategory } from '../src/buildMenuFromDB.js';
 import { patchMenu, menuVariationIds } from '../src/patchMenuInventory.js';
 
 const row = (sku, vid, cat = 'Hundred Layer Donuts', name = sku) =>
@@ -97,7 +97,7 @@ test('catalog lookup adds the item photo and description from related objects', 
   const map = await fetchCatalogPrices(client, ['VAR-A', 'VAR-B']);
   assert.equal(asked.includeRelatedObjects, true);
   assert.deepEqual(map.get('VAR-A'), { price_cents: 535, parent_item_id: 'ITEM-A', variation_name: null,
-    image_url: 'https://example.test/a.jpeg', description: 'Vanilla buttercream', category: null });
+    image_url: 'https://example.test/a.jpeg', description: 'Vanilla buttercream', category: null, featured: false });
   assert.equal(map.get('VAR-B').image_url, null);
   assert.equal(map.get('VAR-B').description, null);
 
@@ -149,4 +149,36 @@ test('section headers come from the Square reporting category, with overrides', 
     ['Breakfast',                 ['NOVID']],
     ['Cookies',                   ['NOCAT']],
   ]);
+});
+
+test('items in the "Menu Screen – Featured" category are marked featured', async () => {
+  const client = { catalog: { batchGet: async req => {
+    if (req.includeRelatedObjects) return {
+      objects: [
+        { type: 'ITEM_VARIATION', id: 'V-F', itemVariationData: { itemId: 'I-F' } },
+        { type: 'ITEM_VARIATION', id: 'V-N', itemVariationData: { itemId: 'I-N' } },
+      ],
+      relatedObjects: [
+        { type: 'ITEM', id: 'I-F', itemData: { reportingCategory: { id: 'C-HL' }, categories: [{ id: 'C-HL' }, { id: 'C-FEAT' }] } },
+        { type: 'ITEM', id: 'I-N', itemData: { reportingCategory: { id: 'C-HL' }, categories: [{ id: 'C-HL' }] } },
+      ],
+    };
+    return { objects: [
+      { type: 'CATEGORY', id: 'C-HL',   categoryData: { name: 'Hundred Layer Donuts' } },
+      { type: 'CATEGORY', id: 'C-FEAT', categoryData: { name: 'Menu Screen – Featured' } },
+    ] };
+  } } };
+  const map = await fetchCatalogPrices(client, ['V-F', 'V-N']);
+  const [section] = buildSections([row('F', 'V-F'), row('N', 'V-N')], map, new Map());
+  assert.equal(section.items[0].featured, true);
+  assert.ok(!('featured' in section.items[1]));   // absent, not false
+  assert.equal(section.name, 'Hundred Layer Donuts');   // the featured category never becomes a header
+});
+
+test('featured category name matches with any dash and case', () => {
+  for (const n of ['Menu Screen – Featured', 'Menu Screen - Featured', 'menu screen — featured', ' Menu  Screen – Featured ']) {
+    assert.equal(isFeaturedCategory(n), true, n);
+  }
+  assert.equal(isFeaturedCategory('Menu Screen'), false);
+  assert.equal(isFeaturedCategory(null), false);
 });

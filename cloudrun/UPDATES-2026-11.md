@@ -66,8 +66,8 @@ drive the horizontal carousel page later.
 |---|---|---|
 | 1 | Store names and headers | pushed and deployed 2026-11-19 |
 | 2 | Picks monthly expiry | pushed 2026-11-19 |
-| 3 | Manager PIN | built, previewed; waiting for the PIN to be set, then push (no jobs deploy) |
-| 4 | Four-view panel | not started |
+| 3 | Manager PIN | pushed 2026-11-19 |
+| 4 | Four-view panel | built, previewed; waiting for OK (Square category, push, jobs deploy) |
 
 ## Notes
 
@@ -103,3 +103,15 @@ drive the horizontal carousel page later.
 - `npm run set-manager-pin` (beverages repo) makes the PIN; run it yourself in an ordinary
   terminal so the PIN isn't captured in an assistant transcript or log.
 - Limits, and what a server-side check would take: `cloudrun/README.md` → "Manager PIN".
+
+### 4. Four-view panel (2026-11-19)
+
+- Order: drinks → promos → featured → staff picks; a view with nothing to show is skipped, and
+  with nothing at all the panel hides. "Seasonal" is now "Promos".
+- Featured: `menu-build` marks `featured: true` on items in the Square category
+  "Menu Screen – Featured" (name matched ignoring case and dash type). The panel shows those
+  that are on today's menu and not sold out (after staff overrides and the noon Breakfast
+  cutoff), three per turn. Pastry only: drinks aren't in the Square catalog.
+- Shared components: portrait `public/v2/panel-views.js` (no fetching, timers or page-specific
+  paths). The carousel can load it from the portrait site later, or take a copy.
+- The Square photo/description/price data the cards use was already live (staff picks work).
