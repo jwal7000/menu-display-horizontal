@@ -1,7 +1,7 @@
 {
   "location_id": "L862ACB6EPKVT",
   "location_name": "5th & Broadway",
-  "generated_at": "2026-11-19T22:12:07.310Z",
+  "generated_at": "2026-11-19T22:40:35.861Z",
   "source": "FlavorSchedule+Square",
   "section_count": 8,
   "item_count": 34,
@@ -303,7 +303,7 @@
           "variation_id": "APZBQTD2756UIQEPG7UFLC3K",
           "name": "Roll - Vanilla Chai",
           "price": "$7.00",
-          "sold_out": false,
+          "sold_out": true,
           "preorder_only": false,
           "photo_url": "https://items-images-production.s3.us-west-2.amazonaws.com/files/138c8e29b2897d30c5df443bb4b7bba8209d3d91/original.png",
           "description": "Our classic brioche cinnamon roll, double coated with Chai glaze, and finished with a swirl of vanilla cream and a sprinkle of chai spice"
