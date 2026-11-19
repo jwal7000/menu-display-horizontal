@@ -19,6 +19,7 @@ import { dirname, resolve }               from 'path';
 import { mysqlOptions }                   from './lib/settings.js';
 import { squareClient, fetchInventoryCounts, SOLD_OUT_THRESHOLD } from './lib/square.js';
 import { DISPLAY_LOCATIONS }              from './lib/locations.js';
+import { sectionHeader, sectionSort }     from './lib/sectionHeaders.js';
 
 const __dirname  = dirname(fileURLToPath(import.meta.url));
 const ROOT_DIR   = resolve(__dirname, '..');
@@ -26,17 +27,7 @@ const DEFAULT_OUTPUT_DIR = resolve(ROOT_DIR, 'output');
 
 // ── Constants ─────────────────────────────────────────────────────────────────
 
-// How Item_Category in FlavorSchedule maps to display section names + sort order
-const SECTION_CONFIG = {
-  'Hundred Layer Donuts':      { displayName: 'Hundred Layer Donuts', sort: 1 },
-  'Mini Hundred Layer Donuts': { displayName: 'Mini Donuts',          sort: 2 },
-  'Paleo':                     { displayName: 'Paleo Donuts',         sort: 3 },
-  'Yeast Raised Donuts':       { displayName: 'Yeast Raised',         sort: 4 },
-  'Rolls':                     { displayName: 'Cinnamon Rolls',       sort: 5 },
-  'Pastries':                  { displayName: 'Pastries',             sort: 6 },
-  'Breakfast':                 { displayName: 'Breakfast',            sort: 7 },
-  'Cookies':                   { displayName: 'Cookies',              sort: 8 },
-};
+// Section headers and order: ./lib/sectionHeaders.js (Square reporting category + overrides)
 
 // Physical display locations live in ./lib/locations.js
 
@@ -126,15 +117,18 @@ async function fetchScheduledItems(conn, today) {
 
 /**
  * Returns a Map of { variation_id → { price_cents, parent_item_id, variation_name,
- * image_url, description } } for the given variation IDs. The parent ITEM and its IMAGE
- * objects come back in the same call as related objects; image_url is the item's first
+ * image_url, description, category } } for the given variation IDs. The parent ITEM and its
+ * IMAGE objects come back in the same call as related objects; image_url is the item's first
  * image and description its plain-text description (both null when Square has none).
+ * category is the item's reporting category name, looked up in a second call because Square
+ * doesn't return categories as related objects of a variation (null when unset).
  */
 export async function fetchCatalogPrices(client, variationIds) {
   const priceMap = new Map();
   if (!variationIds.length) return priceMap;
 
   const BATCH = 1000;
+  const categoryIds = new Map();   // variation id → reporting category id
   for (let i = 0; i < variationIds.length; i += BATCH) {
     const res = await client.catalog.batchGet({
       objectIds: variationIds.slice(i, i + BATCH),
@@ -157,9 +151,19 @@ export async function fetchCatalogPrices(client, variationIds) {
         variation_name: vd.name              ?? null,
         image_url:      imageUrl             || null,
         description:    description          || null,
+        category:       null,
       });
+      if (itemData.reportingCategory?.id) categoryIds.set(obj.id, itemData.reportingCategory.id);
     }
   }
+
+  const ids = [...new Set(categoryIds.values())];
+  const names = new Map();
+  for (let i = 0; i < ids.length; i += BATCH) {
+    const res = await client.catalog.batchGet({ objectIds: ids.slice(i, i + BATCH) });
+    for (const o of res.objects || []) if (o.categoryData?.name) names.set(o.id, o.categoryData.name);
+  }
+  for (const [vid, cid] of categoryIds) priceMap.get(vid).category = names.get(cid) ?? null;
   return priceMap;
 }
 
@@ -198,6 +202,8 @@ export function buildSections(items, priceMap, inventoryCounts) {
   }
 
   const sectionItems = new Map(); // category → [menuItem]
+  // Square reporting category when we have it, else FlavorSchedule's category
+  const categoryOf = (item, pi) => pi?.category || item.Item_Category;
 
   const addItem = (category, menuItem) => {
     if (!sectionItems.has(category)) sectionItems.set(category, []);
@@ -206,7 +212,7 @@ export function buildSections(items, priceMap, inventoryCounts) {
 
   // Items with no Square mapping — show without price/inventory
   for (const item of noVidItems) {
-    addItem(item.Item_Category, {
+    addItem(categoryOf(item, null), {
       item_id:       item.SKU,
       name:          item.Item_Name,
       price:         null,
@@ -232,7 +238,7 @@ export function buildSections(items, priceMap, inventoryCounts) {
       const { item: it, vid: v, priceInfo: pi } = siblings[0];
       const qty     = inventoryCounts.get(v) ?? null;
       const soldOut = qty !== null ? qty <= SOLD_OUT_THRESHOLD : false;
-      addItem(it.Item_Category, {
+      addItem(categoryOf(it, pi), {
         item_id:       it.SKU,
         variation_id:  v,   // lets patchMenuInventory match this item to Square counts
         name:          it.Item_Name,
@@ -261,7 +267,7 @@ export function buildSections(items, priceMap, inventoryCounts) {
       });
 
       const rep = siblings[0].item;
-      addItem(rep.Item_Category, {
+      addItem(categoryOf(rep, siblings.find(s => s.priceInfo)?.priceInfo), {
         item_id:       rep.SKU,
         name:          rep.Item_Name,
         price:         priceStr,
@@ -276,8 +282,8 @@ export function buildSections(items, priceMap, inventoryCounts) {
   // Sort sections by configured order, then sort items within each section
   return [...sectionItems.entries()]
     .map(([cat, catItems]) => ({
-      name:  (SECTION_CONFIG[cat]?.displayName ?? cat),
-      _sort: (SECTION_CONFIG[cat]?.sort        ?? 99),
+      name:  sectionHeader(cat),
+      _sort: sectionSort(cat),
       items: catItems,
     }))
     .sort((a, b) => a._sort - b._sort)

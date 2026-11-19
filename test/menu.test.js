@@ -97,7 +97,7 @@ test('catalog lookup adds the item photo and description from related objects', 
   const map = await fetchCatalogPrices(client, ['VAR-A', 'VAR-B']);
   assert.equal(asked.includeRelatedObjects, true);
   assert.deepEqual(map.get('VAR-A'), { price_cents: 535, parent_item_id: 'ITEM-A', variation_name: null,
-    image_url: 'https://example.test/a.jpeg', description: 'Vanilla buttercream' });
+    image_url: 'https://example.test/a.jpeg', description: 'Vanilla buttercream', category: null });
   assert.equal(map.get('VAR-B').image_url, null);
   assert.equal(map.get('VAR-B').description, null);
 
@@ -107,4 +107,46 @@ test('catalog lookup adds the item photo and description from related objects', 
   assert.ok(!('image_url' in a));   // v1 displays would draw it as a row thumbnail
   assert.equal(a.description, 'Vanilla buttercream');
   assert.ok(!('photo_url' in b) && !('description' in b));   // absent, not null
+});
+
+test('section headers come from the Square reporting category, with overrides', async () => {
+  const calls = [];
+  const client = { catalog: { batchGet: async req => {
+    calls.push(req);
+    if (calls.length === 1) return {
+      objects: [
+        { type: 'ITEM_VARIATION', id: 'V-MINI', itemVariationData: { itemId: 'I-MINI' } },
+        { type: 'ITEM_VARIATION', id: 'V-PALEO', itemVariationData: { itemId: 'I-PALEO' } },
+        { type: 'ITEM_VARIATION', id: 'V-ROLL', itemVariationData: { itemId: 'I-ROLL' } },
+        { type: 'ITEM_VARIATION', id: 'V-NOCAT', itemVariationData: { itemId: 'I-NOCAT' } },
+      ],
+      relatedObjects: [
+        { type: 'ITEM', id: 'I-MINI',  itemData: { reportingCategory: { id: 'C-MINI' } } },
+        { type: 'ITEM', id: 'I-PALEO', itemData: { reportingCategory: { id: 'C-PALEO' } } },
+        { type: 'ITEM', id: 'I-ROLL',  itemData: { reportingCategory: { id: 'C-ROLL' } } },
+        { type: 'ITEM', id: 'I-NOCAT', itemData: {} },
+      ],
+    };
+    return { objects: [
+      { type: 'CATEGORY', id: 'C-MINI',  categoryData: { name: 'Mini Hundred Layer Donuts' } },
+      { type: 'CATEGORY', id: 'C-PALEO', categoryData: { name: 'Paleo' } },
+      { type: 'CATEGORY', id: 'C-ROLL',  categoryData: { name: 'Rolls' } },
+    ] };
+  } } };
+  const map = await fetchCatalogPrices(client, ['V-MINI', 'V-PALEO', 'V-ROLL', 'V-NOCAT']);
+  assert.deepEqual(calls[1].objectIds.sort(), ['C-MINI', 'C-PALEO', 'C-ROLL']);
+
+  // FlavorSchedule says otherwise for the first three; Square wins. No Square category → FlavorSchedule's.
+  const items = [
+    row('ROLL', 'V-ROLL', 'Pastries'), row('NOCAT', 'V-NOCAT', 'Cookies'), row('NOVID', null, 'Breakfast'),
+    row('PALEO', 'V-PALEO', 'Cookies'), row('MINI', 'V-MINI', 'Hundred Layer Donuts'),
+  ];
+  const sections = buildSections(items, map, new Map());
+  assert.deepEqual(sections.map(s => [s.name, s.items.map(i => i.item_id)]), [
+    ['Mini Hundred Layer Donuts', ['MINI']],
+    ['Paleo Donuts',              ['PALEO']],
+    ['Cinnamon Rolls',            ['ROLL']],
+    ['Breakfast',                 ['NOVID']],
+    ['Cookies',                   ['NOCAT']],
+  ]);
 });
