@@ -1,7 +1,7 @@
 {
   "location_id": "LDR9H5M3GQKXF",
   "location_name": "Medley",
-  "generated_at": "2026-11-19T19:10:45.298Z",
+  "generated_at": "2026-11-19T19:21:17.967Z",
   "source": "FlavorSchedule+Square",
   "section_count": 9,
   "item_count": 38,
@@ -104,7 +104,7 @@
           "variation_id": "LZB6X76AT4PEIU6HJU4HNWMV",
           "name": "S'mores",
           "price": "$5.70",
-          "sold_out": false,
+          "sold_out": true,
           "preorder_only": false,
           "photo_url": "https://items-images-production.s3.us-west-2.amazonaws.com/files/e1e83a4e6611aff1d3a79d97f768246633adebf3/original.jpeg",
           "description": "Infused with graham cracker cream, dipped in dark chocolate, topped with a torched house-made marshmallow, and sprinkled with graham cracker crumbs. Contains grass-fed beef gelatin"
