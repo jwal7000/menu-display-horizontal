@@ -11,7 +11,8 @@
  *                                 and /All Stores; images in ../promos/
  *   ../data/{loc}.json            today's pastry menu: prices, Square photos, descriptions
  *   ../data/bev-{loc}.json        drinks, for drink picks
- *   staff-picks-{loc}.json        written by admin.html's Staff picks tab (repo main branch)
+ *   staff-picks-{loc}.json        written by admin.html's Staff picks tab (repo main branch);
+ *                                 picks expire at midnight Central on the 1st of the next month
  *
  * Fully Kiosk reloads the page every 10 minutes, so the position in the rotation is kept in
  * localStorage and the next slide follows on after a reload instead of starting over.
@@ -87,11 +88,33 @@
       getJson(URLS.promos).then(d => { state.promos = Array.isArray(d.slides) ? d.slides : []; }).catch(() => {}),
       getJson(URLS.menu).then(d => { state.menu = d; }).catch(() => {}),
       getJson(URLS.bev).then(d => { state.bev = d; }).catch(() => {}),
-      getJson(URLS.picks).then(d => { state.picks = Array.isArray(d.picks) ? d.picks : []; }).catch(() => {}),
+      getJson(URLS.picks).then(d => {
+        state.picks = Array.isArray(d.picks) ? d.picks : [];
+        state.picksUpdated = d._updated_at || null;
+      }).catch(() => {}),
     ]);
   }
 
   // ── staff picks ────────────────────────────────────────────────────────────
+
+  // Picks expire at midnight Central on the 1st of the month after they're saved (admin.html
+  // stores expires_at). Older picks without it count from the file's _updated_at.
+  const PICKS_TZ = "America/Chicago";
+  function nextMonthStart(now) {
+    const [y, m] = now.toLocaleDateString("en-CA", { timeZone: PICKS_TZ }).split("-").map(Number);
+    const ny = m === 12 ? y + 1 : y, nm = m === 12 ? 1 : m + 1;
+    const day = `${ny}-${String(nm).padStart(2, "0")}-01`;
+    for (const offset of [5, 6]) {   // CDT, CST
+      const t = new Date(Date.UTC(ny, nm - 1, 1, offset));
+      if (t.toLocaleDateString("en-CA", { timeZone: PICKS_TZ }) === day &&
+          t.toLocaleTimeString("en-GB", { timeZone: PICKS_TZ, hour12: false }) === "00:00:00") return t;
+    }
+    return new Date(Date.UTC(ny, nm - 1, 1, 6));
+  }
+  function pickExpired(p, fileUpdatedAt, now = Date.now()) {
+    const at = p.expires_at || (fileUpdatedAt ? nextMonthStart(new Date(fileUpdatedAt)).toISOString() : null);
+    return !at || Date.parse(at) <= now;
+  }
 
   /** { price, image, description } for an item on today's pastry menu or drinks list, else null. */
   function findItem(name) {
@@ -107,10 +130,11 @@
     return null;
   }
 
-  /** Picks whose item is on today's menu (sold out or not), at most three. */
+  /** Unexpired picks whose item is on today's menu (sold out or not), at most three. */
   function currentPicks() {
     return state.picks
-      .map(p => ({ ...p, found: p && p.item ? findItem(p.item) : null }))
+      .filter(p => p && p.item && !pickExpired(p, state.picksUpdated))
+      .map(p => ({ ...p, found: findItem(p.item) }))
       .filter(p => p.found)
       .slice(0, 3);
   }
