@@ -1,7 +1,7 @@
 {
   "location_id": "L862ACB6EPKVT",
   "location_name": "5th & Broadway",
-  "generated_at": "2026-11-20T17:41:57.785Z",
+  "generated_at": "2026-11-20T18:03:28.614Z",
   "source": "FlavorSchedule+Square",
   "section_count": 8,
   "item_count": 34,
@@ -64,7 +64,7 @@
           "variation_id": "5RQH6MW6MYIT2DWUU7DTJ4CJ",
           "name": "Milk Chocolate Sprinkles",
           "price": "$5.10",
-          "sold_out": false,
+          "sold_out": true,
           "preorder_only": false,
           "photo_url": "https://items-images-production.s3.us-west-2.amazonaws.com/files/56a4451ba332e2eaa0c20c844705ed2837a1ea1e/original.jpeg",
           "description": "Dipped in milk chocolate and topped with naturally dyed sprinkles"
@@ -318,7 +318,7 @@
           "variation_id": "54MT7OCBB6OQSIYKIVDNWDOB",
           "name": "Donut Holes (8 ct.)",
           "price": "$4.70",
-          "sold_out": false,
+          "sold_out": true,
           "preorder_only": false,
           "photo_url": "https://items-images-production.s3.us-west-2.amazonaws.com/files/6af6c9ed777174045491a2a7766f217a150a4f33/original.jpeg"
         }
