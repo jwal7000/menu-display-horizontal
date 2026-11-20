@@ -1,7 +1,7 @@
 {
   "location_id": "LDR9H5M3GQKXF",
   "location_name": "Medley",
-  "generated_at": "2026-11-20T01:01:43.476Z",
+  "generated_at": "2026-11-20T01:12:08.879Z",
   "source": "FlavorSchedule+Square",
   "section_count": 9,
   "item_count": 38,
@@ -272,7 +272,7 @@
           "variation_id": "E5IFQ5VGYMUCWRTVCC66VYY3",
           "name": "Yeast Raised - Huckleberry Glaze",
           "price": "$3.25",
-          "sold_out": false,
+          "sold_out": true,
           "preorder_only": false,
           "photo_url": "https://items-images-production.s3.us-west-2.amazonaws.com/files/4d5b60613a9fabdd22bf71c524db825637201b54/original.jpeg",
           "description": "(Made with vegan ingredients) dipped in a tart and vibrant huckleberry glaze"
@@ -282,7 +282,7 @@
           "variation_id": "SLILL72SLR3ITDIKZFHLIEAS",
           "name": "Yeast Raised - Apple Cider Glaze",
           "price": "$3.25",
-          "sold_out": false,
+          "sold_out": true,
           "preorder_only": false,
           "photo_url": "https://items-images-production.s3.us-west-2.amazonaws.com/files/d982da140fe9fdca3ea5a1cc288a4f68a619cd46/original.jpeg",
           "description": "(Made with vegan ingredients) Our yeast-raised donut topped with a warm, spiced apple glaze"
