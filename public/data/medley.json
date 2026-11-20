@@ -1,7 +1,7 @@
 {
   "location_id": "LDR9H5M3GQKXF",
   "location_name": "Medley",
-  "generated_at": "2026-11-20T21:11:47.057Z",
+  "generated_at": "2026-11-20T21:41:43.215Z",
   "source": "FlavorSchedule+Square",
   "section_count": 9,
   "item_count": 38,
@@ -336,7 +336,7 @@
           "variation_id": "APZBQTD2756UIQEPG7UFLC3K",
           "name": "Roll - Vanilla Chai",
           "price": "$7.00",
-          "sold_out": true,
+          "sold_out": false,
           "preorder_only": false,
           "photo_url": "https://items-images-production.s3.us-west-2.amazonaws.com/files/138c8e29b2897d30c5df443bb4b7bba8209d3d91/original.png",
           "description": "Our classic brioche cinnamon roll, double coated with Chai glaze, and finished with a swirl of vanilla cream and a sprinkle of chai spice"
