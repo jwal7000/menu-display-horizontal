@@ -179,7 +179,7 @@
           "variation_id": "4C2QFJ7AMGQAUUWCF5OEQOYP",
           "name": "Mini Vanilla Cream",
           "price": "$3.00",
-          "sold_out": false,
+          "sold_out": true,
           "preorder_only": false,
           "photo_url": "https://items-images-production.s3.us-west-2.amazonaws.com/files/423cac2e0101bdc844189d5ea2f3cc8f9e6bb926/original.jpeg",
           "description": "Topped with vanilla buttercream & dusted generously with powdered sugar"
@@ -384,5 +384,6 @@
         }
       ]
     }
-  ]
+  ],
+  "inventory_patched_at": "2026-11-20T19:44:33.084Z"
 }
