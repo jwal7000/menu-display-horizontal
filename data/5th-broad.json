@@ -1,7 +1,7 @@
 {
   "location_id": "L862ACB6EPKVT",
   "location_name": "5th & Broadway",
-  "generated_at": "2026-11-20T22:31:10.543Z",
+  "generated_at": "2026-11-20T23:01:12.375Z",
   "source": "FlavorSchedule+Square",
   "section_count": 8,
   "item_count": 34,
@@ -74,7 +74,7 @@
           "variation_id": "LLEYQ7TBTYWRJG3WONLOQUZV",
           "name": "Salted Caramel Apple",
           "price": "$5.35",
-          "sold_out": false,
+          "sold_out": true,
           "preorder_only": false,
           "photo_url": "https://items-images-production.s3.us-west-2.amazonaws.com/files/ac07564fc227d545c49c2d00f63ba250493238d5/original.jpeg",
           "description": "Rolled in cinnamon sugar, topped with a spiced apple glaze, topped with a dark cinnamon caramel and sprinkled with coarse salt"
@@ -84,7 +84,7 @@
           "variation_id": "WZRXPDUQICIRZL7TQXK2OEJA",
           "name": "Cinnamon Cream Cheese",
           "price": "$5.35",
-          "sold_out": false,
+          "sold_out": true,
           "preorder_only": false,
           "photo_url": "https://items-images-production.s3.us-west-2.amazonaws.com/files/5867b5d9c43fbe4dce544b23b9cac07673ce0881/original.jpeg",
           "description": "Rolled in cinnamon sugar, generously topped with cinnamon cream cheese frosting, a puff of our original cream cheese frosting and lightly dusted with cinnamon"
