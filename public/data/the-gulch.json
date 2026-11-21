@@ -1,7 +1,7 @@
 {
   "location_id": "L4CQJADFVPZC9",
   "location_name": "The Gulch",
-  "generated_at": "2026-11-21T16:21:39.936Z",
+  "generated_at": "2026-11-21T16:30:40.604Z",
   "source": "FlavorSchedule+Square",
   "section_count": 8,
   "item_count": 34,
@@ -274,7 +274,7 @@
           "variation_id": "ZNJMLNAU3WGT4YP2PWMLCNXB",
           "name": "Roll - Cinnamon Cream Cheese",
           "price": "$6.00",
-          "sold_out": false,
+          "sold_out": true,
           "preorder_only": false,
           "photo_url": "https://items-images-production.s3.us-west-2.amazonaws.com/files/64e5bc2144d2ee4c5ab58d79142dc640f1800b60/original.jpeg",
           "description": "A baked brioche roll swirled with butter & cinnamon sugar and topped with Purist vanilla glaze & warm cream cheese whip"
