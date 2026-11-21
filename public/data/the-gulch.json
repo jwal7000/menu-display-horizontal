@@ -1,7 +1,7 @@
 {
   "location_id": "L4CQJADFVPZC9",
   "location_name": "The Gulch",
-  "generated_at": "2026-11-21T18:21:45.017Z",
+  "generated_at": "2026-11-21T18:41:01.769Z",
   "source": "FlavorSchedule+Square",
   "section_count": 8,
   "item_count": 34,
@@ -377,7 +377,7 @@
           "variation_id": "6DHPUAUHTMX4IEOIN63AX5AX",
           "name": "Cookie - My Sister's Sugar Cookie",
           "price": "$3.50",
-          "sold_out": false,
+          "sold_out": true,
           "preorder_only": false,
           "photo_url": "https://items-images-production.s3.us-west-2.amazonaws.com/files/99dd47d58670c4519df77f96b26af862f5977152/original.jpeg",
           "description": "A soft and sweet sugar cookie, lightly flavored with almond. Dipped in vanilla glaze and topped with crunchy decorating sugar (nut allergen)"
