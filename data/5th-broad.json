@@ -1,7 +1,7 @@
 {
   "location_id": "L862ACB6EPKVT",
   "location_name": "5th & Broadway",
-  "generated_at": "2026-11-21T23:41:11.278Z",
+  "generated_at": "2026-11-21T23:51:37.187Z",
   "source": "FlavorSchedule+Square",
   "section_count": 8,
   "item_count": 34,
@@ -34,7 +34,7 @@
           "variation_id": "VOEJFH6AB2RMRPUNIDAQ5RTR",
           "name": "Chocolate Sea Salt",
           "price": "$5.35",
-          "sold_out": false,
+          "sold_out": true,
           "preorder_only": false,
           "photo_url": "https://items-images-production.s3.us-west-2.amazonaws.com/files/9b699287c55c4c3205e0d2742b23038b4ae274b0/original.jpeg",
           "description": "Rolled in sugar, infused with salted chocolate buttercream, topped with salted chocolate glaze"
@@ -64,7 +64,7 @@
           "variation_id": "5RQH6MW6MYIT2DWUU7DTJ4CJ",
           "name": "Milk Chocolate Sprinkles",
           "price": "$5.10",
-          "sold_out": true,
+          "sold_out": false,
           "preorder_only": false,
           "photo_url": "https://items-images-production.s3.us-west-2.amazonaws.com/files/56a4451ba332e2eaa0c20c844705ed2837a1ea1e/original.jpeg",
           "description": "Dipped in milk chocolate and topped with naturally dyed sprinkles"
@@ -84,7 +84,7 @@
           "variation_id": "WZRXPDUQICIRZL7TQXK2OEJA",
           "name": "Cinnamon Cream Cheese",
           "price": "$5.35",
-          "sold_out": false,
+          "sold_out": true,
           "preorder_only": false,
           "photo_url": "https://items-images-production.s3.us-west-2.amazonaws.com/files/5867b5d9c43fbe4dce544b23b9cac07673ce0881/original.jpeg",
           "description": "Rolled in cinnamon sugar, generously topped with cinnamon cream cheese frosting, a puff of our original cream cheese frosting and lightly dusted with cinnamon"
@@ -274,7 +274,7 @@
           "variation_id": "ZNJMLNAU3WGT4YP2PWMLCNXB",
           "name": "Roll - Cinnamon Cream Cheese",
           "price": "$6.00",
-          "sold_out": true,
+          "sold_out": false,
           "preorder_only": false,
           "photo_url": "https://items-images-production.s3.us-west-2.amazonaws.com/files/64e5bc2144d2ee4c5ab58d79142dc640f1800b60/original.jpeg",
           "description": "A baked brioche roll swirled with butter & cinnamon sugar and topped with Purist vanilla glaze & warm cream cheese whip"
@@ -284,7 +284,7 @@
           "variation_id": "4LEYNOOEAQ3YW5LFFT5K63P2",
           "name": "Roll - Cinnamon Glaze",
           "price": "$6.00",
-          "sold_out": true,
+          "sold_out": false,
           "preorder_only": false,
           "photo_url": "https://items-images-production.s3.us-west-2.amazonaws.com/files/726616e0a3667ad4ba8c279582bef5a40419077a/original.jpeg",
           "description": "A baked brioche roll swirled with butter & cinnamon sugar and topped with Purist vanilla glaze"
