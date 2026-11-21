@@ -1,7 +1,7 @@
 {
   "location_id": "L4CQJADFVPZC9",
   "location_name": "The Gulch",
-  "generated_at": "2026-11-21T15:41:06.514Z",
+  "generated_at": "2026-11-21T15:51:41.080Z",
   "source": "FlavorSchedule+Square",
   "section_count": 8,
   "item_count": 34,
@@ -204,7 +204,7 @@
           "variation_id": "PPIFB5EWCCUMMZ72RKLSD5CU",
           "name": "Paleo - Chocolate Pumpkin",
           "price": "$4.75",
-          "sold_out": false,
+          "sold_out": true,
           "preorder_only": false,
           "photo_url": "https://items-images-production.s3.us-west-2.amazonaws.com/files/e81033a78d683bcc400259efa937dad7827a2b20/original.jpeg",
           "description": "Our pumpkin paleo cake base flavored with fall spices and orange zest, topped with a paleo chocolate drizzle. (Made with gluten-free ingredients)"
@@ -284,7 +284,7 @@
           "variation_id": "4LEYNOOEAQ3YW5LFFT5K63P2",
           "name": "Roll - Cinnamon Glaze",
           "price": "$6.00",
-          "sold_out": false,
+          "sold_out": true,
           "preorder_only": false,
           "photo_url": "https://items-images-production.s3.us-west-2.amazonaws.com/files/726616e0a3667ad4ba8c279582bef5a40419077a/original.jpeg",
           "description": "A baked brioche roll swirled with butter & cinnamon sugar and topped with Purist vanilla glaze"
