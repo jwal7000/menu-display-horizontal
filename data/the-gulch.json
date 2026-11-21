@@ -159,7 +159,7 @@
           "variation_id": "IACOAEUPYZ3XFBRF7AQBJBP4",
           "name": "Mini Huckleberry Glaze",
           "price": "$2.75",
-          "sold_out": false,
+          "sold_out": true,
           "preorder_only": false,
           "photo_url": "https://items-images-production.s3.us-west-2.amazonaws.com/files/29151f02215f80802f3d270c63fcc189db25cf0c/original.jpeg",
           "description": "Topped with huckleberry glaze"
@@ -384,5 +384,6 @@
         }
       ]
     }
-  ]
+  ],
+  "inventory_patched_at": "2026-11-21T20:27:35.189Z"
 }
