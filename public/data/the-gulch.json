@@ -1,7 +1,7 @@
 {
   "location_id": "L4CQJADFVPZC9",
   "location_name": "The Gulch",
-  "generated_at": "2026-11-21T21:51:25.323Z",
+  "generated_at": "2026-11-21T22:00:28.881Z",
   "source": "FlavorSchedule+Square",
   "section_count": 8,
   "item_count": 34,
@@ -114,7 +114,7 @@
           "variation_id": "QFGEIHMMPVJC2KUGKDRJ7HUA",
           "name": "Huckleberry Glaze",
           "price": "$5.35",
-          "sold_out": false,
+          "sold_out": true,
           "preorder_only": false,
           "photo_url": "https://items-images-production.s3.us-west-2.amazonaws.com/files/784607e98dbb4c2abc7239e937a062b7974d4a06/original.jpeg",
           "description": "Dipped in a tart and vibrant huckleberry glaze"
