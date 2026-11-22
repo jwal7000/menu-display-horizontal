@@ -400,7 +400,7 @@
           "variation_id": "7J35GG6BYE4AB44NQMVK6JVH",
           "name": "Cookie - Snowcap (GF)",
           "price": "$3.50",
-          "sold_out": false,
+          "sold_out": true,
           "preorder_only": false,
           "photo_url": "https://items-images-production.s3.us-west-2.amazonaws.com/files/b5d00cbbb4adf92497d70a46604655f187709ed9/original.jpeg",
           "description": "Crispy edges and a fudgey center, brownie meets cookie. Studded with chocolate chunks and dusted with powdered sugar (made with gluten-free ingredients)"
@@ -418,5 +418,5 @@
       ]
     }
   ],
-  "inventory_patched_at": "2026-11-22T18:27:49.286Z"
+  "inventory_patched_at": "2026-11-22T18:30:53.009Z"
 }
