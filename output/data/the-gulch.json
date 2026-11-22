@@ -318,7 +318,7 @@
           "variation_id": "54MT7OCBB6OQSIYKIVDNWDOB",
           "name": "Donut Holes (8 ct.)",
           "price": "$4.70",
-          "sold_out": false,
+          "sold_out": true,
           "preorder_only": false,
           "photo_url": "https://items-images-production.s3.us-west-2.amazonaws.com/files/6af6c9ed777174045491a2a7766f217a150a4f33/original.jpeg"
         }
@@ -384,5 +384,6 @@
         }
       ]
     }
-  ]
+  ],
+  "inventory_patched_at": "2026-11-22T16:41:40.942Z"
 }
