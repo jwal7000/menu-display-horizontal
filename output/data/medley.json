@@ -390,7 +390,7 @@
           "variation_id": "PDJ2W2N6OZ4ZOOU2KXHC63LU",
           "name": "Cookie - Chocolate Chip",
           "price": "$3.50",
-          "sold_out": false,
+          "sold_out": true,
           "preorder_only": false,
           "photo_url": "https://items-images-production.s3.us-west-2.amazonaws.com/files/beb5837fd2b7f3a2dcfc0b293aa13cb3c74930ff/original.jpeg",
           "description": "Oversized chocolate chip cookie studded with chocolate chips and sprinkled with sea salt, soft in the center"
@@ -418,5 +418,5 @@
       ]
     }
   ],
-  "inventory_patched_at": "2026-11-22T22:13:18.937Z"
+  "inventory_patched_at": "2026-11-22T22:17:49.176Z"
 }
