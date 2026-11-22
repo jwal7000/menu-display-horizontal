@@ -365,7 +365,7 @@
           "variation_id": "V7UXL2H4DUYJY253UO2BH4ZM",
           "name": "Biscuit - Bacon Egg & Cheese",
           "price": "$7.00",
-          "sold_out": false,
+          "sold_out": true,
           "preorder_only": false,
           "photo_url": "https://square-production.s3.amazonaws.com/files/fa29b34f51b177f6c478910f3a64f15aa708bde6/original.jpeg",
           "description": "Grab-and-Go Egg & Cheese with Caramelized Peppered Bacon on a Croissant Dough Biscuit"
@@ -417,5 +417,6 @@
         }
       ]
     }
-  ]
+  ],
+  "inventory_patched_at": "2026-11-22T18:27:49.286Z"
 }
