@@ -1,7 +1,7 @@
 {
   "location_id": "L862ACB6EPKVT",
   "location_name": "5th & Broadway",
-  "generated_at": "2026-11-22T21:20:45.386Z",
+  "generated_at": "2026-11-22T21:31:19.024Z",
   "source": "FlavorSchedule+Square",
   "section_count": 8,
   "item_count": 34,
@@ -34,7 +34,7 @@
           "variation_id": "VOEJFH6AB2RMRPUNIDAQ5RTR",
           "name": "Chocolate Sea Salt",
           "price": "$5.35",
-          "sold_out": false,
+          "sold_out": true,
           "preorder_only": false,
           "photo_url": "https://items-images-production.s3.us-west-2.amazonaws.com/files/9b699287c55c4c3205e0d2742b23038b4ae274b0/original.jpeg",
           "description": "Rolled in sugar, infused with salted chocolate buttercream, topped with salted chocolate glaze"
@@ -84,7 +84,7 @@
           "variation_id": "WZRXPDUQICIRZL7TQXK2OEJA",
           "name": "Cinnamon Cream Cheese",
           "price": "$5.35",
-          "sold_out": false,
+          "sold_out": true,
           "preorder_only": false,
           "photo_url": "https://items-images-production.s3.us-west-2.amazonaws.com/files/5867b5d9c43fbe4dce544b23b9cac07673ce0881/original.jpeg",
           "description": "Rolled in cinnamon sugar, generously topped with cinnamon cream cheese frosting, a puff of our original cream cheese frosting and lightly dusted with cinnamon"
