@@ -1,7 +1,7 @@
 {
   "location_id": "L862ACB6EPKVT",
   "location_name": "5th & Broadway",
-  "generated_at": "2026-11-22T02:01:59.841Z",
+  "generated_at": "2026-11-22T02:21:46.243Z",
   "source": "FlavorSchedule+Square",
   "section_count": 8,
   "item_count": 34,
@@ -94,7 +94,7 @@
           "variation_id": "HPSERYWP2A7BMR2W5RI3UVFL",
           "name": "Pumpkin Spice Latte",
           "price": "$5.70",
-          "sold_out": false,
+          "sold_out": true,
           "preorder_only": false,
           "photo_url": "https://items-images-production.s3.us-west-2.amazonaws.com/files/a7cc437a7ee9d010b5af3a0bb7886ee6bb40f2b4/original.jpeg",
           "description": "Rolled in coffee sugar, infused with a pumpkin coffee cream cheese whip, topped with pumpkin spice glaze, a puff of vanilla cream and a dusting of cinnamon"
@@ -274,7 +274,7 @@
           "variation_id": "ZNJMLNAU3WGT4YP2PWMLCNXB",
           "name": "Roll - Cinnamon Cream Cheese",
           "price": "$6.00",
-          "sold_out": false,
+          "sold_out": true,
           "preorder_only": false,
           "photo_url": "https://items-images-production.s3.us-west-2.amazonaws.com/files/64e5bc2144d2ee4c5ab58d79142dc640f1800b60/original.jpeg",
           "description": "A baked brioche roll swirled with butter & cinnamon sugar and topped with Purist vanilla glaze & warm cream cheese whip"
