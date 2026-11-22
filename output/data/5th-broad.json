@@ -1,7 +1,7 @@
 {
   "location_id": "L862ACB6EPKVT",
   "location_name": "5th & Broadway",
-  "generated_at": "2026-11-22T02:51:43.170Z",
+  "generated_at": "2026-11-22T03:02:11.994Z",
   "source": "FlavorSchedule+Square",
   "section_count": 8,
   "item_count": 34,
@@ -64,7 +64,7 @@
           "variation_id": "5RQH6MW6MYIT2DWUU7DTJ4CJ",
           "name": "Milk Chocolate Sprinkles",
           "price": "$5.10",
-          "sold_out": false,
+          "sold_out": true,
           "preorder_only": false,
           "photo_url": "https://items-images-production.s3.us-west-2.amazonaws.com/files/56a4451ba332e2eaa0c20c844705ed2837a1ea1e/original.jpeg",
           "description": "Dipped in milk chocolate and topped with naturally dyed sprinkles"
@@ -104,7 +104,7 @@
           "variation_id": "LZB6X76AT4PEIU6HJU4HNWMV",
           "name": "S'mores",
           "price": "$5.70",
-          "sold_out": false,
+          "sold_out": true,
           "preorder_only": false,
           "photo_url": "https://items-images-production.s3.us-west-2.amazonaws.com/files/e1e83a4e6611aff1d3a79d97f768246633adebf3/original.jpeg",
           "description": "Infused with graham cracker cream, dipped in dark chocolate, topped with a torched house-made marshmallow, and sprinkled with graham cracker crumbs. Contains grass-fed beef gelatin"
@@ -284,7 +284,7 @@
           "variation_id": "4LEYNOOEAQ3YW5LFFT5K63P2",
           "name": "Roll - Cinnamon Glaze",
           "price": "$6.00",
-          "sold_out": false,
+          "sold_out": true,
           "preorder_only": false,
           "photo_url": "https://items-images-production.s3.us-west-2.amazonaws.com/files/726616e0a3667ad4ba8c279582bef5a40419077a/original.jpeg",
           "description": "A baked brioche roll swirled with butter & cinnamon sugar and topped with Purist vanilla glaze"
