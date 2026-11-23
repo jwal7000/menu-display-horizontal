@@ -1,7 +1,7 @@
 {
   "location_id": "L862ACB6EPKVT",
   "location_name": "5th & Broadway",
-  "generated_at": "2026-11-23T00:31:16.257Z",
+  "generated_at": "2026-11-23T01:01:31.471Z",
   "source": "FlavorSchedule+Square",
   "section_count": 8,
   "item_count": 34,
@@ -74,7 +74,7 @@
           "variation_id": "LLEYQ7TBTYWRJG3WONLOQUZV",
           "name": "Salted Caramel Apple",
           "price": "$5.35",
-          "sold_out": false,
+          "sold_out": true,
           "preorder_only": false,
           "photo_url": "https://items-images-production.s3.us-west-2.amazonaws.com/files/ac07564fc227d545c49c2d00f63ba250493238d5/original.jpeg",
           "description": "Rolled in cinnamon sugar, topped with a spiced apple glaze, topped with a dark cinnamon caramel and sprinkled with coarse salt"
@@ -129,7 +129,7 @@
           "variation_id": "PFDBG6KRN2QBZWGRPXZOMDUC",
           "name": "Mini Purist",
           "price": "$2.75",
-          "sold_out": false,
+          "sold_out": true,
           "preorder_only": false,
           "photo_url": "https://items-images-production.s3.us-west-2.amazonaws.com/files/d3eb6cfc121ad39e2a4447c6165ec59a58b61537/original.jpeg",
           "description": "Dipped in vanilla bean glaze"
