@@ -104,7 +104,7 @@
           "variation_id": "LZB6X76AT4PEIU6HJU4HNWMV",
           "name": "S'mores",
           "price": "$5.70",
-          "sold_out": true,
+          "sold_out": false,
           "preorder_only": false,
           "photo_url": "https://items-images-production.s3.us-west-2.amazonaws.com/files/e1e83a4e6611aff1d3a79d97f768246633adebf3/original.jpeg",
           "description": "Infused with graham cracker cream, dipped in dark chocolate, topped with a torched house-made marshmallow, and sprinkled with graham cracker crumbs. Contains grass-fed beef gelatin"
@@ -227,7 +227,7 @@
           "variation_id": "RYTDUW2CCDR2L6FZLVJGYZOJ",
           "name": "Paleo - Chocolate Chip Sea Salt",
           "price": "$4.75",
-          "sold_out": true,
+          "sold_out": false,
           "preorder_only": false,
           "photo_url": "https://items-images-production.s3.us-west-2.amazonaws.com/files/f3a30d8b36bac3f7b4a4e2de631adcf35515a49e/original.jpeg",
           "description": "Our signature chocolate chip paleo base hand-dipped in dark chocolate and sprinkled with coarse sea salt"
@@ -237,7 +237,7 @@
           "variation_id": "PPIFB5EWCCUMMZ72RKLSD5CU",
           "name": "Paleo - Chocolate Pumpkin",
           "price": "$4.75",
-          "sold_out": true,
+          "sold_out": false,
           "preorder_only": false,
           "photo_url": "https://items-images-production.s3.us-west-2.amazonaws.com/files/e81033a78d683bcc400259efa937dad7827a2b20/original.jpeg",
           "description": "Our pumpkin paleo cake base flavored with fall spices and orange zest, topped with a paleo chocolate drizzle. (Made with gluten-free ingredients)"
@@ -262,7 +262,7 @@
           "variation_id": "H55ADAOMVQGRT7R2UYZ5NVBS",
           "name": "Yeast Raised - Milk Chocolate Sprinkles",
           "price": "$3.25",
-          "sold_out": true,
+          "sold_out": false,
           "preorder_only": false,
           "photo_url": "https://items-images-production.s3.us-west-2.amazonaws.com/files/997825c397ff38891fc901e01ddc57c1f1fac623/original.jpeg",
           "description": "Our yeast-raised donut hand-dipped in creamy milk chocolate and topped with naturally dyed sprinkles"
@@ -317,7 +317,7 @@
           "variation_id": "4LEYNOOEAQ3YW5LFFT5K63P2",
           "name": "Roll - Cinnamon Glaze",
           "price": "$6.00",
-          "sold_out": true,
+          "sold_out": false,
           "preorder_only": false,
           "photo_url": "https://items-images-production.s3.us-west-2.amazonaws.com/files/726616e0a3667ad4ba8c279582bef5a40419077a/original.jpeg",
           "description": "A baked brioche roll swirled with butter & cinnamon sugar and topped with Purist vanilla glaze"
@@ -390,7 +390,7 @@
           "variation_id": "PDJ2W2N6OZ4ZOOU2KXHC63LU",
           "name": "Cookie - Chocolate Chip",
           "price": "$3.50",
-          "sold_out": true,
+          "sold_out": false,
           "preorder_only": false,
           "photo_url": "https://items-images-production.s3.us-west-2.amazonaws.com/files/beb5837fd2b7f3a2dcfc0b293aa13cb3c74930ff/original.jpeg",
           "description": "Oversized chocolate chip cookie studded with chocolate chips and sprinkled with sea salt, soft in the center"
@@ -417,5 +417,6 @@
         }
       ]
     }
-  ]
+  ],
+  "inventory_patched_at": "2026-11-23T04:17:46.686Z"
 }
