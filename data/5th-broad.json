@@ -1,7 +1,7 @@
 {
   "location_id": "L862ACB6EPKVT",
   "location_name": "5th & Broadway",
-  "generated_at": "2026-11-23T16:31:21.533Z",
+  "generated_at": "2026-11-23T16:52:11.638Z",
   "source": "FlavorSchedule+Square",
   "section_count": 8,
   "item_count": 38,
@@ -74,7 +74,7 @@
           "variation_id": "LLEYQ7TBTYWRJG3WONLOQUZV",
           "name": "Salted Caramel Apple",
           "price": "$5.35",
-          "sold_out": false,
+          "sold_out": true,
           "preorder_only": false,
           "photo_url": "https://items-images-production.s3.us-west-2.amazonaws.com/files/ac07564fc227d545c49c2d00f63ba250493238d5/original.jpeg",
           "description": "Rolled in cinnamon sugar, topped with a spiced apple glaze, topped with a dark cinnamon caramel and sprinkled with coarse salt"
@@ -265,7 +265,7 @@
           "variation_id": "H55ADAOMVQGRT7R2UYZ5NVBS",
           "name": "Yeast Raised - Milk Chocolate Sprinkles",
           "price": "$3.25",
-          "sold_out": false,
+          "sold_out": true,
           "preorder_only": false,
           "photo_url": "https://items-images-production.s3.us-west-2.amazonaws.com/files/997825c397ff38891fc901e01ddc57c1f1fac623/original.jpeg",
           "description": "Our yeast-raised donut hand-dipped in creamy milk chocolate and topped with naturally dyed sprinkles"
@@ -393,7 +393,7 @@
           "variation_id": "PDJ2W2N6OZ4ZOOU2KXHC63LU",
           "name": "Cookie - Chocolate Chip",
           "price": "$3.50",
-          "sold_out": false,
+          "sold_out": true,
           "preorder_only": false,
           "photo_url": "https://items-images-production.s3.us-west-2.amazonaws.com/files/beb5837fd2b7f3a2dcfc0b293aa13cb3c74930ff/original.jpeg",
           "description": "Oversized chocolate chip cookie studded with chocolate chips and sprinkled with sea salt, soft in the center"
