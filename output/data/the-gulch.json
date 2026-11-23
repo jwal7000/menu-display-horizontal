@@ -54,7 +54,7 @@
           "variation_id": "KRKLCZFYNCPJ3DWU5HCSGKRX",
           "name": "King Kong",
           "price": "$5.70",
-          "sold_out": false,
+          "sold_out": true,
           "preorder_only": false,
           "photo_url": "https://items-images-production.s3.us-west-2.amazonaws.com/files/dab6c83f7b0bf4fe3f7f2be1370f2a00a7b58314/original.jpeg",
           "description": "Rolled in sugar, infused with vanilla buttercream, topped with maple glaze and candied bacon pieces"
@@ -215,7 +215,7 @@
           "variation_id": "4C2QFJ7AMGQAUUWCF5OEQOYP",
           "name": "Mini Vanilla Cream",
           "price": "$3.00",
-          "sold_out": false,
+          "sold_out": true,
           "preorder_only": false,
           "photo_url": "https://items-images-production.s3.us-west-2.amazonaws.com/files/423cac2e0101bdc844189d5ea2f3cc8f9e6bb926/original.jpeg",
           "description": "Topped with vanilla buttercream & dusted generously with powdered sugar"
@@ -420,5 +420,6 @@
         }
       ]
     }
-  ]
+  ],
+  "inventory_patched_at": "2026-11-23T15:47:34.038Z"
 }
