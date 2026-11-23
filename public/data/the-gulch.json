@@ -1,7 +1,7 @@
 {
   "location_id": "L4CQJADFVPZC9",
   "location_name": "The Gulch",
-  "generated_at": "2026-11-23T21:52:07.838Z",
+  "generated_at": "2026-11-23T22:01:20.650Z",
   "source": "FlavorSchedule+Square",
   "section_count": 8,
   "item_count": 38,
@@ -295,7 +295,7 @@
           "variation_id": "GUUAMMLNJSMQACNF4DBG3N6P",
           "name": "Yeast Raised - Apple Fritter",
           "price": "$4.00",
-          "sold_out": false,
+          "sold_out": true,
           "preorder_only": false,
           "photo_url": "https://items-images-production.s3.us-west-2.amazonaws.com/files/df8d41375bcde62d6bb0db108795b176d8582811/original.jpeg",
           "description": "(Made with vegan ingredients) our yeast-raised dough studded with fresh apple pieces, fried and topped with a warm, spiced apple glaze"
