@@ -288,7 +288,7 @@
           "variation_id": "XGVB3BNK4LODSHONPOW5DO6A",
           "name": "Yeast Raised - Purist",
           "price": "$3.00",
-          "sold_out": false,
+          "sold_out": true,
           "preorder_only": false,
           "photo_url": "https://items-images-production.s3.us-west-2.amazonaws.com/files/a6092f86b22f9f2912748af2d2505b00ae50bcea/original.jpeg",
           "description": "(Made with vegan ingredients) our yeast-raised donut hand-dipped in a vanilla bean glaze"
@@ -454,5 +454,5 @@
       ]
     }
   ],
-  "inventory_patched_at": "2026-11-24T00:55:05.862Z"
+  "inventory_patched_at": "2026-11-24T00:59:36.954Z"
 }
