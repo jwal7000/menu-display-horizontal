@@ -124,7 +124,7 @@
           "variation_id": "7JKTARXUWS5TP3I7EPDYB22T",
           "name": "Apple Pie",
           "price": "$6.25",
-          "sold_out": false,
+          "sold_out": true,
           "preorder_only": true,
           "description": "[box exclusive]"
         },
@@ -133,7 +133,7 @@
           "variation_id": "ZKQBJ35OEY6WXEDT23MNOPSN",
           "name": "Chocolate Chiffon Pie",
           "price": "$6.25",
-          "sold_out": false,
+          "sold_out": true,
           "preorder_only": true,
           "description": "[box exclusive]"
         },
@@ -142,7 +142,7 @@
           "variation_id": "NSB6PG4BDJ66JKZ2WAVKBQBF",
           "name": "Maple Pumpkin Pie",
           "price": "$6.25",
-          "sold_out": false,
+          "sold_out": true,
           "preorder_only": true,
           "description": "[box exclusive]"
         },
@@ -151,7 +151,7 @@
           "variation_id": "G4XAHHRPEFYQQ4Q67DIXTD4W",
           "name": "Huckleberry Cheesecake",
           "price": "$6.25",
-          "sold_out": false,
+          "sold_out": true,
           "preorder_only": true,
           "description": "[box exclusive]"
         }
@@ -175,7 +175,7 @@
           "variation_id": "6AWNWMRW7J5AG4ZUI74KIV6W",
           "name": "Mini Milk Chocolate Sprinkles",
           "price": "$2.75",
-          "sold_out": true,
+          "sold_out": false,
           "preorder_only": false,
           "photo_url": "https://items-images-production.s3.us-west-2.amazonaws.com/files/fde8e247bdb0324ce48e514669301112467a149e/original.jpeg",
           "description": "dipped in milk chocolate and topped with naturally-dyed sprinkles"
@@ -185,7 +185,7 @@
           "variation_id": "XBIHTUUQVY7I277OOOHUYZI5",
           "name": "Mini Cinnamon Cream Cheese",
           "price": "$3.00",
-          "sold_out": true,
+          "sold_out": false,
           "preorder_only": false,
           "photo_url": "https://items-images-production.s3.us-west-2.amazonaws.com/files/34043c44f1c98fad443a300765fe606c05e31e60/original.jpeg",
           "description": "Topped with cinnamon cream cheese frosting, a puff of our original cream cheese frosting and dusted with cinnamon"
@@ -195,7 +195,7 @@
           "variation_id": "IACOAEUPYZ3XFBRF7AQBJBP4",
           "name": "Mini Huckleberry Glaze",
           "price": "$2.75",
-          "sold_out": true,
+          "sold_out": false,
           "preorder_only": false,
           "photo_url": "https://items-images-production.s3.us-west-2.amazonaws.com/files/29151f02215f80802f3d270c63fcc189db25cf0c/original.jpeg",
           "description": "Topped with huckleberry glaze"
@@ -205,7 +205,7 @@
           "variation_id": "4FN3BDYASE7TCV7GBZ4EFXZJ",
           "name": "Mini Spiced Apple Glaze",
           "price": "$2.75",
-          "sold_out": true,
+          "sold_out": false,
           "preorder_only": false,
           "photo_url": "https://items-images-production.s3.us-west-2.amazonaws.com/files/59dfae29cbdf8134a5e4da5c80989ca339d214b1/original.jpeg",
           "description": "Rolled in cinnamon sugar and topped with spiced apple glaze"
@@ -215,7 +215,7 @@
           "variation_id": "4C2QFJ7AMGQAUUWCF5OEQOYP",
           "name": "Mini Vanilla Cream",
           "price": "$3.00",
-          "sold_out": true,
+          "sold_out": false,
           "preorder_only": false,
           "photo_url": "https://items-images-production.s3.us-west-2.amazonaws.com/files/423cac2e0101bdc844189d5ea2f3cc8f9e6bb926/original.jpeg",
           "description": "Topped with vanilla buttercream & dusted generously with powdered sugar"
@@ -230,7 +230,7 @@
           "variation_id": "RYTDUW2CCDR2L6FZLVJGYZOJ",
           "name": "Paleo - Chocolate Chip Sea Salt",
           "price": "$4.75",
-          "sold_out": true,
+          "sold_out": false,
           "preorder_only": false,
           "photo_url": "https://items-images-production.s3.us-west-2.amazonaws.com/files/f3a30d8b36bac3f7b4a4e2de631adcf35515a49e/original.jpeg",
           "description": "Our signature chocolate chip paleo base hand-dipped in dark chocolate and sprinkled with coarse sea salt"
@@ -240,7 +240,7 @@
           "variation_id": "PPIFB5EWCCUMMZ72RKLSD5CU",
           "name": "Paleo - Chocolate Pumpkin",
           "price": "$4.75",
-          "sold_out": true,
+          "sold_out": false,
           "preorder_only": false,
           "photo_url": "https://items-images-production.s3.us-west-2.amazonaws.com/files/e81033a78d683bcc400259efa937dad7827a2b20/original.jpeg",
           "description": "Our pumpkin paleo cake base flavored with fall spices and orange zest, topped with a paleo chocolate drizzle. (Made with gluten-free ingredients)"
@@ -255,7 +255,7 @@
           "variation_id": "XGVB3BNK4LODSHONPOW5DO6A",
           "name": "Yeast Raised - Purist",
           "price": "$3.00",
-          "sold_out": true,
+          "sold_out": false,
           "preorder_only": false,
           "photo_url": "https://items-images-production.s3.us-west-2.amazonaws.com/files/a6092f86b22f9f2912748af2d2505b00ae50bcea/original.jpeg",
           "description": "(Made with vegan ingredients) our yeast-raised donut hand-dipped in a vanilla bean glaze"
@@ -265,7 +265,7 @@
           "variation_id": "H55ADAOMVQGRT7R2UYZ5NVBS",
           "name": "Yeast Raised - Milk Chocolate Sprinkles",
           "price": "$3.25",
-          "sold_out": true,
+          "sold_out": false,
           "preorder_only": false,
           "photo_url": "https://items-images-production.s3.us-west-2.amazonaws.com/files/997825c397ff38891fc901e01ddc57c1f1fac623/original.jpeg",
           "description": "Our yeast-raised donut hand-dipped in creamy milk chocolate and topped with naturally dyed sprinkles"
@@ -275,7 +275,7 @@
           "variation_id": "E5IFQ5VGYMUCWRTVCC66VYY3",
           "name": "Yeast Raised - Huckleberry Glaze",
           "price": "$3.25",
-          "sold_out": true,
+          "sold_out": false,
           "preorder_only": false,
           "photo_url": "https://items-images-production.s3.us-west-2.amazonaws.com/files/4d5b60613a9fabdd22bf71c524db825637201b54/original.jpeg",
           "description": "(Made with vegan ingredients) dipped in a tart and vibrant huckleberry glaze"
@@ -295,7 +295,7 @@
           "variation_id": "GUUAMMLNJSMQACNF4DBG3N6P",
           "name": "Yeast Raised - Apple Fritter",
           "price": "$4.00",
-          "sold_out": true,
+          "sold_out": false,
           "preorder_only": false,
           "photo_url": "https://items-images-production.s3.us-west-2.amazonaws.com/files/df8d41375bcde62d6bb0db108795b176d8582811/original.jpeg",
           "description": "(Made with vegan ingredients) our yeast-raised dough studded with fresh apple pieces, fried and topped with a warm, spiced apple glaze"
@@ -354,7 +354,7 @@
           "variation_id": "54MT7OCBB6OQSIYKIVDNWDOB",
           "name": "Donut Holes (8 ct.)",
           "price": "$4.70",
-          "sold_out": true,
+          "sold_out": false,
           "preorder_only": false,
           "photo_url": "https://items-images-production.s3.us-west-2.amazonaws.com/files/6af6c9ed777174045491a2a7766f217a150a4f33/original.jpeg"
         }
@@ -421,5 +421,5 @@
       ]
     }
   ],
-  "inventory_patched_at": "2026-11-24T04:17:18.123Z"
+  "inventory_patched_at": "2026-11-24T04:18:53.546Z"
 }
