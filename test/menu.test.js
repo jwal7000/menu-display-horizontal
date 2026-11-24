@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { buildSections, isExcluded, fetchCatalogPrices, isFeaturedCategory } from '../src/buildMenuFromDB.js';
+import { buildSections, isExcluded, fetchCatalogPrices, isFeaturedCategory, isPreorderOnly } from '../src/buildMenuFromDB.js';
 import { patchMenu, menuVariationIds } from '../src/patchMenuInventory.js';
 
 const row = (sku, vid, cat = 'Hundred Layer Donuts', name = sku) =>
@@ -33,6 +33,36 @@ test('multi-variation items group by parent and price as a range', () => {
   assert.equal(section.items.length, 1);
   assert.equal(section.items[0].price, '$4.00 – $5.00');
   assert.equal(section.items[0].sold_out, false); // 16 oz untracked → still available
+});
+
+test('pre-order-only items are left off the menu, featured or not, mapped or not', () => {
+  const pre = (r) => ({ ...r, PreOrder_Only: 1 });
+  const items = [
+    row('01165', 'V-GLAZE'),
+    pre(row('01170', 'V-APPLE', 'Hundred Layer Donuts', 'Apple Pie')),
+    pre(row('01209', 'V-HUCK',  'Hundred Layer Donuts', 'Huckleberry Cheesecake')),
+    pre(row('PRE-NOVID', null)),                      // no Square mapping
+    row('S12', 'V12', 'Pastries', 'Cold Brew'),       // multi-size: only the 16 oz is pre-order
+    pre(row('S16', 'V16', 'Pastries', 'Cold Brew')),
+  ];
+  const prices = new Map([
+    ['V-GLAZE', { price_cents: 500, parent_item_id: 'I-GLAZE' }],
+    ['V-APPLE', { price_cents: 600, parent_item_id: 'I-APPLE', featured: true }],
+    ['V-HUCK',  { price_cents: 600, parent_item_id: 'I-HUCK' }],
+    ['V12', { price_cents: 400, parent_item_id: 'P', variation_name: '12 oz' }],
+    ['V16', { price_cents: 500, parent_item_id: 'P', variation_name: '16 oz' }],
+  ]);
+  const sections = buildSections(items, prices, new Map([['V-APPLE', 20]]));
+  const all = sections.flatMap(s => s.items);
+  assert.deepEqual(all.map(i => i.item_id).sort(), ['01165', 'S12']);
+  assert.ok(all.every(i => i.preorder_only === false));
+  assert.ok(!all.some(i => i.featured), 'a featured pre-order item is not featured on v2');
+  const coldBrew = all.find(i => i.item_id === 'S12');
+  assert.equal(coldBrew.price, '$4.00');
+  assert.ok(!('variations' in coldBrew), 'the pre-order size is dropped, leaving a single-size item');
+
+  assert.equal(isPreorderOnly({ PreOrder_Only: 1 }), true);
+  for (const v of [0, null, undefined]) assert.equal(isPreorderOnly({ PreOrder_Only: v }), false, String(v));
 });
 
 test('day-scoped exclusions', () => {

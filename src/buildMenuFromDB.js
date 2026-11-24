@@ -196,7 +196,17 @@ const squareExtras = pi => ({
   ...(pi?.featured    ? { featured:    true }           : {}),
 });
 
-export function buildSections(items, priceMap, inventoryCounts) {
+/**
+ * FlavorSchedule rows marked PreOrder_Only can only be ordered ahead, not bought from the
+ * case, so they're left off every screen. Leaving them out of {slug}.json also keeps them out
+ * of the admin app's item lists, portrait v2's featured items and the staff picks (the
+ * displays only show picks and featured items that are on today's menu).
+ */
+export const isPreorderOnly = item => !!item.PreOrder_Only;
+
+export function buildSections(allItems, priceMap, inventoryCounts) {
+  const items = allItems.filter(item => !isPreorderOnly(item));
+
   // Group variations by Square parent item ID so multi-size items are combined
   const parentMap = new Map(); // parentId → [{ item, vid, priceInfo }]
   const noVidItems = [];
@@ -327,6 +337,8 @@ export async function buildMenuFromDB({ outputDir = DEFAULT_OUTPUT_DIR } = {}) {
   const exclusions = await fetchExclusions(conn, parseInt(yr, 10), parseInt(mo, 10));
   await conn.end();
   console.log(`    ${items.length} items on schedule today`);
+  const preorder = items.filter(isPreorderOnly);
+  if (preorder.length) console.log(`    Pre-order only (left off the screens): ${preorder.map(i => `${i.SKU} ${i.Item_Name}`).join(', ')}`);
   console.log(`    ${exclusions.length} exclusion rules for ${mo}/${yr}`);
 
   const variationIds = [...new Set(items.map(i => i.square_variation_id).filter(Boolean))];
