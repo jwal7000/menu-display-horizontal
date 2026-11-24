@@ -7,8 +7,8 @@
  * pushes only when a flag actually changed.
  *
  * Differences from the Mac mini script (all intentional fixes):
- *   - Also patches horizontal gh-pages (the branch the Gulch/Medley screens are
- *     served from), not just main.
+ *   - Also patches the gh-pages branches the screens are served from (horizontal
+ *     since 2026-11-05, portrait since the move off the Actions deploy), not just main.
  *   - Honours skipInventory like the 10-min build does (no store sets it now).
  *   - Fetches counts only for menu items instead of paging the whole catalog.
  */
@@ -78,6 +78,7 @@ export async function runInventorySync({ fetchCounts } = {}) {
     { repo: REPOS.horizontal, branch: 'main',     label: 'horizontal main',     apply: patchInClone(horizontal, 'output/data', getCounts) },
     { repo: REPOS.horizontal, branch: 'gh-pages', label: 'horizontal gh-pages', apply: patchInClone(horizontal, 'data',        getCounts) },
     { repo: REPOS.portrait,   branch: 'main',     label: 'portrait main',       apply: patchInClone(portrait,   'output/data', getCounts) },
+    { repo: REPOS.portrait,   branch: 'gh-pages', label: 'portrait gh-pages',   apply: patchInClone(portrait,   'data',        getCounts) },
   ];
 
   const { failed } = await publishTargets(

@@ -21,10 +21,10 @@ The single source for this table in code is `src/lib/locations.js`.
 | Repo | Serves | Pages source |
 |---|---|---|
 | menu-display-horizontal | `?loc=the-gulch`, `?loc=medley` pastry; also holds all build code | **`gh-pages` branch**. The main-branch "Deploy to GitHub Pages" workflow is disabled on purpose (it collided with the gh-pages deploy). |
-| menu-display-portrait | `?loc=the-factory`, `?loc=5th-broad` | Actions workflow on `main` (copies `output/data` → `public/data`) |
+| menu-display-portrait | `?loc=the-factory`, `?loc=5th-broad` | Actions workflow on `main` (copies `output/data` → `public/data`). **Moving to a `gh-pages` branch** (HANDOFF C8); until the Pages source is switched, the workflow is still what's live. |
 | menu-display-beverages | bev screens + `admin.html` (staff override app) | Actions workflow on `main` |
 
-Display code changes to the horizontal site must land on **`gh-pages`**, which is what's live. `main`'s `public/` is currently behind it.
+Display code changes to the horizontal site must land on **`gh-pages`**, which is what's live. `main`'s `public/` is currently behind it. After C8, the same goes for portrait: display code lands on portrait `gh-pages`, copied to `main:public/` in the same change.
 
 ## Pipeline
 

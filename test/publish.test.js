@@ -52,7 +52,8 @@ before(async () => {
     'gh-pages': { 'data/the-gulch.json': menu('V-GULCH'), 'data/medley.json': menu('V-MED'), 'index.html': '<html>' },
   });
   P = makeRemote('menu-display-portrait', {
-    main: { 'output/data/the-factory.json': menu('V-FAC'), 'output/data/5th-broad.json': menu('V-5TH') },
+    main:       { 'output/data/the-factory.json': menu('V-FAC'), 'output/data/5th-broad.json': menu('V-5TH') },
+    'gh-pages': { 'data/the-factory.json': menu('V-FAC'), 'data/5th-broad.json': menu('V-5TH'), 'index.html': '<html>' },
   });
   B = makeRemote('menu-display-beverages', {
     main: { 'public/data/bev-the-gulch.json': { old: true }, 'output/data/bev-the-gulch.json': { stale: true },
@@ -63,19 +64,21 @@ before(async () => {
   publish = await import('../src/jobs/publish.js');
 });
 
-test('inventory-sync patches main + gh-pages + portrait, including Medley, and only commits on change', async () => {
+test('inventory-sync patches main + gh-pages of both repos, including Medley, and only commits on change', async () => {
   const asked = [];
   const fetchCounts = async (sqId, ids) => {
     asked.push([sqId, ...ids]);
     return new Map(ids.map(id => [id, 0])); // everything sold out
   };
-  const before = { hm: commits(H, 'main'), hg: commits(H, 'gh-pages'), p: commits(P, 'main') };
+  const before = { hm: commits(H, 'main'), hg: commits(H, 'gh-pages'), p: commits(P, 'main'), pg: commits(P, 'gh-pages') };
 
   assert.equal(await inv.runInventorySync({ fetchCounts }), true);
 
   assert.equal(show(H, 'main',     'output/data/the-gulch.json').sections[0].items[0].sold_out, true);
   assert.equal(show(H, 'gh-pages', 'data/the-gulch.json').sections[0].items[0].sold_out, true);
   assert.equal(show(P, 'main',     'output/data/the-factory.json').sections[0].items[0].sold_out, true);
+  assert.equal(show(P, 'gh-pages', 'data/the-factory.json').sections[0].items[0].sold_out, true, 'portrait screens are served from gh-pages');
+  assert.equal(asked.filter(([id]) => id === 'ECE7YC9G73NXK').length, 1, 'Factory counts fetched once for main + gh-pages');
   assert.equal(show(H, 'main',     'output/data/medley.json').sections[0].items[0].sold_out, true, 'Medley inventory is tracked');
   assert.equal(show(H, 'gh-pages', 'data/medley.json').sections[0].items[0].sold_out, true);
   assert.equal(asked.filter(([id]) => id === 'LDR9H5M3GQKXF').length, 1, 'Medley counts fetched once for main + gh-pages');
@@ -84,6 +87,7 @@ test('inventory-sync patches main + gh-pages + portrait, including Medley, and o
   assert.equal(commits(H, 'main'), before.hm + 1);
   assert.equal(commits(H, 'gh-pages'), before.hg + 1);
   assert.equal(commits(P, 'main'), before.p + 1);
+  assert.equal(commits(P, 'gh-pages'), before.pg + 1);
   const c = lastCommit(H, 'main');
   assert.equal(c.author, 'inventory-sync[bot]');
   assert.match(c.subject, /^chore: update sold_out flags \[cloud-run\] \[.+\]$/, 'Cloud Run commits are tagged');
@@ -92,6 +96,7 @@ test('inventory-sync patches main + gh-pages + portrait, including Medley, and o
   await inv.runInventorySync({ fetchCounts });
   assert.equal(commits(H, 'main'), before.hm + 1);
   assert.equal(commits(P, 'main'), before.p + 1);
+  assert.equal(commits(P, 'gh-pages'), before.pg + 1);
 });
 
 test('menu-build targets: all data to horizontal, portrait slugs to portrait, bev to public/ and output/', async () => {
@@ -108,6 +113,8 @@ test('menu-build targets: all data to horizontal, portrait slugs to portrait, be
   assert.equal(show(H, 'gh-pages', 'data/the-factory.json').v, 2);
   assert.deepEqual(show(H, 'main', 'output/data/12th-south.json'), { keep: true }, 'unrelated files preserved');
   assert.equal(show(P, 'main', 'output/data/5th-broad.json').v, 2);
+  assert.equal(show(P, 'gh-pages', 'data/5th-broad.json').v, 2, 'portrait gh-pages gets the same data');
+  assert.throws(() => show(P, 'gh-pages', 'data/the-gulch.json'), 'horizontal-only slugs stay out of portrait gh-pages');
   assert.throws(() => show(P, 'main', 'output/data/the-gulch.json'), 'horizontal-only slugs stay out of portrait');
   assert.equal(show(B, 'main', 'public/data/bev-the-gulch.json').v, 2);
   assert.equal(show(B, 'main', 'output/data/bev-the-gulch.json').v, 2, 'stale output/ copy refreshed');
@@ -355,6 +362,10 @@ test('portrait gets its bev files and promos; promo images are synced (new added
   const file = (p) => execFileSync('git', ['--git-dir', P, 'show', `main:${p}`], { encoding: 'utf8' });
   assert.equal(file('public/promos/aaa.png'), 'A');
   assert.equal(file('public/promos/bbb.jpg'), 'B');
+  const page = (p) => execFileSync('git', ['--git-dir', P, 'show', `gh-pages:${p}`], { encoding: 'utf8' });
+  assert.equal(show(P, 'gh-pages', 'data/bev-the-factory.json').v, 3);
+  assert.equal(show(P, 'gh-pages', 'data/promos-the-factory.json').slides.length, 2);
+  assert.equal(page('promos/aaa.png'), 'A', 'gh-pages promo images at the site root, where v2 looks (../promos/)');
 
   // bbb removed from Dropbox, ccc added
   rmSync(join(imagesDir, 'bbb.jpg'));
@@ -363,13 +374,17 @@ test('portrait gets its bev files and promos; promo images are synced (new added
   assert.deepEqual((await run({ pastryFiles, bevFiles, promos })).failed, []);
   assert.equal(file('public/promos/ccc.jpg'), 'C');
   assert.throws(() => file('public/promos/bbb.jpg'), 'stale image deleted');
+  assert.equal(page('promos/ccc.jpg'), 'C');
+  assert.throws(() => page('promos/bbb.jpg'), 'stale image deleted on gh-pages too');
 
   // promos: null (Dropbox not configured or failed) leaves published promos alone
-  const n = commits(P, 'main');
+  const n = commits(P, 'main'), ng = commits(P, 'gh-pages');
   rmSync(imagesDir, { recursive: true });
   assert.deepEqual((await run({ pastryFiles, bevFiles, promos: null })).failed, []);
   assert.equal(file('public/promos/aaa.png'), 'A');
   assert.equal(commits(P, 'main'), n, 'nothing changed, nothing committed');
+  assert.equal(page('promos/aaa.png'), 'A');
+  assert.equal(commits(P, 'gh-pages'), ng);
 });
 
 test('horizontal gh-pages gets the carousel stores\' promos, the carousel photos and their JSON', async () => {
