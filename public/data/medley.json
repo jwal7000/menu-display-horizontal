@@ -1,7 +1,7 @@
 {
   "location_id": "LDR9H5M3GQKXF",
   "location_name": "Medley",
-  "generated_at": "2026-11-24T00:50:44.078Z",
+  "generated_at": "2026-11-24T01:01:37.388Z",
   "source": "FlavorSchedule+Square",
   "section_count": 9,
   "item_count": 42,
@@ -104,7 +104,7 @@
           "variation_id": "LZB6X76AT4PEIU6HJU4HNWMV",
           "name": "S'mores",
           "price": "$5.70",
-          "sold_out": false,
+          "sold_out": true,
           "preorder_only": false,
           "photo_url": "https://items-images-production.s3.us-west-2.amazonaws.com/files/e1e83a4e6611aff1d3a79d97f768246633adebf3/original.jpeg",
           "description": "Infused with graham cracker cream, dipped in dark chocolate, topped with a torched house-made marshmallow, and sprinkled with graham cracker crumbs. Contains grass-fed beef gelatin"
@@ -288,7 +288,7 @@
           "variation_id": "XGVB3BNK4LODSHONPOW5DO6A",
           "name": "Yeast Raised - Purist",
           "price": "$3.00",
-          "sold_out": false,
+          "sold_out": true,
           "preorder_only": false,
           "photo_url": "https://items-images-production.s3.us-west-2.amazonaws.com/files/a6092f86b22f9f2912748af2d2505b00ae50bcea/original.jpeg",
           "description": "(Made with vegan ingredients) our yeast-raised donut hand-dipped in a vanilla bean glaze"
