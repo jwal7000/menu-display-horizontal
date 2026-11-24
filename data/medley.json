@@ -1,10 +1,10 @@
 {
   "location_id": "LDR9H5M3GQKXF",
   "location_name": "Medley",
-  "generated_at": "2026-11-24T15:51:37.322Z",
+  "generated_at": "2026-11-24T16:02:00.324Z",
   "source": "FlavorSchedule+Square",
   "section_count": 9,
-  "item_count": 42,
+  "item_count": 38,
   "sections": [
     {
       "name": "Hundred Layer Donuts",
@@ -118,42 +118,6 @@
           "preorder_only": false,
           "photo_url": "https://items-images-production.s3.us-west-2.amazonaws.com/files/784607e98dbb4c2abc7239e937a062b7974d4a06/original.jpeg",
           "description": "Dipped in a tart and vibrant huckleberry glaze"
-        },
-        {
-          "item_id": "01170",
-          "variation_id": "7JKTARXUWS5TP3I7EPDYB22T",
-          "name": "Apple Pie",
-          "price": "$6.25",
-          "sold_out": true,
-          "preorder_only": true,
-          "description": "[box exclusive]"
-        },
-        {
-          "item_id": "01177",
-          "variation_id": "ZKQBJ35OEY6WXEDT23MNOPSN",
-          "name": "Chocolate Chiffon Pie",
-          "price": "$6.25",
-          "sold_out": true,
-          "preorder_only": true,
-          "description": "[box exclusive]"
-        },
-        {
-          "item_id": "01193",
-          "variation_id": "NSB6PG4BDJ66JKZ2WAVKBQBF",
-          "name": "Maple Pumpkin Pie",
-          "price": "$6.25",
-          "sold_out": true,
-          "preorder_only": true,
-          "description": "[box exclusive]"
-        },
-        {
-          "item_id": "01209",
-          "variation_id": "G4XAHHRPEFYQQ4Q67DIXTD4W",
-          "name": "Huckleberry Cheesecake",
-          "price": "$6.25",
-          "sold_out": true,
-          "preorder_only": true,
-          "description": "[box exclusive]"
         }
       ]
     },
