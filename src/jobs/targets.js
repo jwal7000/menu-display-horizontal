@@ -151,11 +151,15 @@ export function menuBuildTargets({ pastryFiles, bevFiles, bevConfigFile = null, 
   }
   const portraitData = [...portraitFiles, ...portraitBev, ...portraitPromos];
   if (portraitData.length) {
-    // The repo's deploy-pages workflow copies output/data/*.json → public/data. Promo images
-    // go straight to public/promos (the workflow publishes public/ as is).
-    const data = copyInto(portraitData, ['output/data'], skip);
+    // The portrait screens are served from gh-pages (data/ and promos/ at the site root).
+    // main keeps output/data and public/promos current too, so pointing Pages back at the
+    // repo's deploy-pages workflow (which copies output/data → public/data) is the rollback.
+    const main = copyInto(portraitData, ['output/data'], skip);
     targets.push({ repo: REPOS.portrait, branch: 'main', label: 'portrait main',
-                   apply: promos ? applyAll(data, syncDir(promos.imagesDir, 'public/promos')) : data });
+                   apply: promos ? applyAll(main, syncDir(promos.imagesDir, 'public/promos')) : main });
+    const pages = copyInto(portraitData, ['data'], skip);
+    targets.push({ repo: REPOS.portrait, branch: 'gh-pages', label: 'portrait gh-pages',
+                   apply: promos ? applyAll(pages, syncDir(promos.imagesDir, 'promos')) : pages });
   }
   if (bevFiles.length) {
     // public/data is what the Mac mini writes today. The repo's deploy-pages workflow

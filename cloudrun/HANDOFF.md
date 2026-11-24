@@ -153,6 +153,20 @@ Two failure cases to know about:
      - The first run after the deploy (14:51 CT, `088c0160e`) committed the four `public/data` files, which had been stale since 2026-10-14. After it, The Gulch's staff list had exactly the same items as the live Gulch menu, Huckleberry Glaze included. The beverages repo got no commit, which is correct: its config copy already matched GCS.
      - `inventory-sync` doesn't patch `public/data`. That's fine: admin.html uses only the item names and sections.
 
+8. **Portrait Pages deploys fail a few times a day → move portrait to a `gh-pages` branch.** Prepared 2026-11-24, **not deployed**.
+   - **Symptom:** Jonathan gets "Run failed" emails for `menu-display-portrait` → Deploy to GitHub Pages (e.g. `41efcaf`, inventory-sync, 12:05 CT 11/23). The failing step is `actions/deploy-pages`: `Fetching artifact metadata failed ... Please re-run the deployment at a later time` / `No artifacts named "github-pages" were found for this workflow run`. The upload step succeeded; GitHub's artifact API didn't return the artifact to the deploy step. Nothing is wrong with the data, and the next push redeploys within minutes, so screens weren't affected.
+   - **Why so many:** since the cutover, every `inventory-sync` change starts a deploy: 91 pushes to portrait `main` on 11/22–23 (66 inventory-sync, 25 menu-build), 1–3 min apart in the afternoon. A rare GitHub-side failure becomes a few emails a day. The actions were also bumped to `upload-pages-artifact@v5` / `deploy-pages@v5` on 11-16 (`31d90f7`); not ruled out as a factor, but (a) removes the artifact step either way.
+   - **Why a branch:** horizontal takes the same push rate on `gh-pages` with GitHub's own branch build: 59 of 60 builds green on 11/23, the other one superseded (cancelled, no email). Considered instead: having the display read sold-out flags from raw.githubusercontent. Rejected: menu-build would still deploy ~25×/day with the same failure, raw has a ~5-min cache, and it means display code changes in v1 and v2.
+   - **Code (this repo):** `menu-build` and `inventory-sync` publish portrait data to `gh-pages:data/` (promo images to `gh-pages:promos/`) **as well as** `main:output/data` and `main:public/promos`. Keeping `main` current is what makes the rollback a settings change. `npm test` covers both branches.
+   - **The branch:** `cloudrun/seed-portrait-gh-pages.sh <portrait clone>` builds it locally from `main`: `public/` at the root, `output/data/*.json` → `data/`, plus `.nojekyll`. Built and rendered 2026-11-24 from `main@bfab487` (v1 at both stores and v2 Factory load all data, fonts and promo images; no 404s). Rebuild it right before pushing so the data is current.
+   - **Rollout, in this order (each step needs the go-ahead):**
+     1. Seed and push portrait `gh-pages` (`git push origin gh-pages`). Harmless: Pages still serves the Actions deploy.
+     2. Push this change to horizontal `main`, then `cloudrun/deploy-menu-jobs.sh jobs` on the Mac mini. Don't deploy before step 1: without the branch, the `portrait gh-pages` target fails every run.
+     3. Check that `inventory-sync[bot]` / `menu-build[bot]` commits appear on portrait `gh-pages`.
+     4. Portrait repo → Settings → Pages → Source: **Deploy from a branch**, `gh-pages` / root. Then disable the "Deploy to GitHub Pages" workflow (Actions → workflow → Disable), like horizontal. Check that both stores' pages and `v2/?loc=the-factory` load and that a "pages build and deployment" run goes green.
+   - **Rollback:** set the Pages source back to GitHub Actions and re-enable the workflow; `main` has the same data.
+   - **Afterwards:** display code for portrait lands on `gh-pages` (copy to `main:public/` in the same change). The hand-made `{slug}-promo.json` files (v1 promo panel) are read from `gh-pages:data/` too.
+
 ## Display changes
 
 **2026-11-12: horizontal screens bold and 12% larger** (The Gulch, Medley). They were hard to read from a distance.
