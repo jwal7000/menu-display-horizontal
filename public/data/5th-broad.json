@@ -1,7 +1,7 @@
 {
   "location_id": "L862ACB6EPKVT",
   "location_name": "5th & Broadway",
-  "generated_at": "2026-11-25T18:41:46.513Z",
+  "generated_at": "2026-11-25T18:50:47.312Z",
   "source": "FlavorSchedule+Square",
   "section_count": 8,
   "item_count": 34,
@@ -114,7 +114,7 @@
           "variation_id": "QFGEIHMMPVJC2KUGKDRJ7HUA",
           "name": "Huckleberry Glaze",
           "price": "$5.35",
-          "sold_out": false,
+          "sold_out": true,
           "preorder_only": false,
           "photo_url": "https://items-images-production.s3.us-west-2.amazonaws.com/files/784607e98dbb4c2abc7239e937a062b7974d4a06/original.jpeg",
           "description": "Dipped in a tart and vibrant huckleberry glaze"
@@ -159,7 +159,7 @@
           "variation_id": "IACOAEUPYZ3XFBRF7AQBJBP4",
           "name": "Mini Huckleberry Glaze",
           "price": "$2.75",
-          "sold_out": false,
+          "sold_out": true,
           "preorder_only": false,
           "photo_url": "https://items-images-production.s3.us-west-2.amazonaws.com/files/29151f02215f80802f3d270c63fcc189db25cf0c/original.jpeg",
           "description": "Topped with huckleberry glaze"
@@ -179,7 +179,7 @@
           "variation_id": "4C2QFJ7AMGQAUUWCF5OEQOYP",
           "name": "Mini Vanilla Cream",
           "price": "$3.00",
-          "sold_out": false,
+          "sold_out": true,
           "preorder_only": false,
           "photo_url": "https://items-images-production.s3.us-west-2.amazonaws.com/files/423cac2e0101bdc844189d5ea2f3cc8f9e6bb926/original.jpeg",
           "description": "Topped with vanilla buttercream & dusted generously with powdered sugar"
@@ -204,7 +204,7 @@
           "variation_id": "PPIFB5EWCCUMMZ72RKLSD5CU",
           "name": "Paleo - Chocolate Pumpkin",
           "price": "$4.75",
-          "sold_out": false,
+          "sold_out": true,
           "preorder_only": false,
           "photo_url": "https://items-images-production.s3.us-west-2.amazonaws.com/files/e81033a78d683bcc400259efa937dad7827a2b20/original.jpeg",
           "description": "Our pumpkin paleo cake base flavored with fall spices and orange zest, topped with a paleo chocolate drizzle. (Made with gluten-free ingredients)"
