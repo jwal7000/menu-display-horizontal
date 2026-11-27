@@ -1,7 +1,7 @@
 {
   "location_id": "LDR9H5M3GQKXF",
   "location_name": "Medley",
-  "generated_at": "2026-11-27T04:11:53.852Z",
+  "generated_at": "2026-11-27T04:20:48.698Z",
   "source": "FlavorSchedule+Square",
   "section_count": 9,
   "item_count": 38,
@@ -64,7 +64,7 @@
           "variation_id": "5RQH6MW6MYIT2DWUU7DTJ4CJ",
           "name": "Milk Chocolate Sprinkles",
           "price": "$5.10",
-          "sold_out": true,
+          "sold_out": false,
           "preorder_only": false,
           "photo_url": "https://items-images-production.s3.us-west-2.amazonaws.com/files/56a4451ba332e2eaa0c20c844705ed2837a1ea1e/original.jpeg",
           "description": "Dipped in milk chocolate and topped with naturally dyed sprinkles"
@@ -307,7 +307,7 @@
           "variation_id": "ZNJMLNAU3WGT4YP2PWMLCNXB",
           "name": "Roll - Cinnamon Cream Cheese",
           "price": "$6.00",
-          "sold_out": true,
+          "sold_out": false,
           "preorder_only": false,
           "photo_url": "https://items-images-production.s3.us-west-2.amazonaws.com/files/64e5bc2144d2ee4c5ab58d79142dc640f1800b60/original.jpeg",
           "description": "A baked brioche roll swirled with butter & cinnamon sugar and topped with Purist vanilla glaze & warm cream cheese whip"
@@ -317,7 +317,7 @@
           "variation_id": "4LEYNOOEAQ3YW5LFFT5K63P2",
           "name": "Roll - Cinnamon Glaze",
           "price": "$6.00",
-          "sold_out": true,
+          "sold_out": false,
           "preorder_only": false,
           "photo_url": "https://items-images-production.s3.us-west-2.amazonaws.com/files/726616e0a3667ad4ba8c279582bef5a40419077a/original.jpeg",
           "description": "A baked brioche roll swirled with butter & cinnamon sugar and topped with Purist vanilla glaze"
@@ -327,7 +327,7 @@
           "variation_id": "JQVCRRRGUN3JGYLJTQZSDH2O",
           "name": "Roll - Apple Pie",
           "price": "$7.00",
-          "sold_out": true,
+          "sold_out": false,
           "preorder_only": false,
           "photo_url": "https://items-images-production.s3.us-west-2.amazonaws.com/files/ad421ba1145855952d7303efe712fe303fd1429f/original.jpeg"
         },
