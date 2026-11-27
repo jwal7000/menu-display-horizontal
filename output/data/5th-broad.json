@@ -1,7 +1,7 @@
 {
   "location_id": "L862ACB6EPKVT",
   "location_name": "5th & Broadway",
-  "generated_at": "2026-11-27T20:10:50.876Z",
+  "generated_at": "2026-11-27T20:31:58.278Z",
   "source": "FlavorSchedule+Square",
   "section_count": 8,
   "item_count": 34,
@@ -84,7 +84,7 @@
           "variation_id": "WZRXPDUQICIRZL7TQXK2OEJA",
           "name": "Cinnamon Cream Cheese",
           "price": "$5.35",
-          "sold_out": false,
+          "sold_out": true,
           "preorder_only": false,
           "photo_url": "https://items-images-production.s3.us-west-2.amazonaws.com/files/5867b5d9c43fbe4dce544b23b9cac07673ce0881/original.jpeg",
           "description": "Rolled in cinnamon sugar, generously topped with cinnamon cream cheese frosting, a puff of our original cream cheese frosting and lightly dusted with cinnamon"
@@ -357,7 +357,7 @@
           "variation_id": "PDJ2W2N6OZ4ZOOU2KXHC63LU",
           "name": "Cookie - Chocolate Chip",
           "price": "$3.50",
-          "sold_out": false,
+          "sold_out": true,
           "preorder_only": false,
           "photo_url": "https://items-images-production.s3.us-west-2.amazonaws.com/files/beb5837fd2b7f3a2dcfc0b293aa13cb3c74930ff/original.jpeg",
           "description": "Oversized chocolate chip cookie studded with chocolate chips and sprinkled with sea salt, soft in the center"
