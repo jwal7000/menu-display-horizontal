@@ -1,7 +1,7 @@
 {
   "location_id": "LDR9H5M3GQKXF",
   "location_name": "Medley",
-  "generated_at": "2026-11-27T21:01:53.574Z",
+  "generated_at": "2026-11-27T21:10:54.661Z",
   "source": "FlavorSchedule+Square",
   "section_count": 9,
   "item_count": 38,
@@ -292,7 +292,7 @@
           "variation_id": "GUUAMMLNJSMQACNF4DBG3N6P",
           "name": "Yeast Raised - Apple Fritter",
           "price": "$4.00",
-          "sold_out": false,
+          "sold_out": true,
           "preorder_only": false,
           "photo_url": "https://items-images-production.s3.us-west-2.amazonaws.com/files/df8d41375bcde62d6bb0db108795b176d8582811/original.jpeg",
           "description": "(Made with vegan ingredients) our yeast-raised dough studded with fresh apple pieces, fried and topped with a warm, spiced apple glaze"
